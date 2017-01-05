@@ -5,6 +5,27 @@
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
         </h3>
+        <form class="form-inline" method="POST" action="{{ asset('document') }}" onsubmit="return searchDocument();" id="searchForm">
+            {{ csrf_field() }}
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Quick Search" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+                <div class="btn-group">
+                    <div class="input-group input-daterange" style="z-index: 9999 !important;">
+                        <span class="input-group-addon">From</span>
+                        <input type="text" class="form-control" name="from" value="2012-04-05">
+                        <span class="input-group-addon">To</span>
+                        <input type="text" class="form-control" name="to" value="2012-04-19">
+                        <span class="input-group-addon"></span>
+                        <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="clearfix"></div>
+        <div class="page-divider"></div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -15,38 +36,29 @@
                                 <tr>
                                     <th>Userid</th>
                                     <th>Name</th>
+                                    <th>Department</th>
                                     <th>Transaction date</th>
+                                    <th>Transaction time</th>
+                                    <th>Event Type</th>
+                                    <th>Terminal</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $list)
-                                    <?php $section = \App\Section::where('id', $user->section)->pluck('description')->first(); ?>
-                                    <?php $division = \App\Division::where('id', $user->division)->pluck('description')->first(); ?>
-                                    <?php $designation = \App\Designation::where('id', $user->designation)->pluck('description')->first(); ?>
-
                                     <tr>
-                                        <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="title-info">{{ $user->username }}</a></td>
-                                        <td><a href="#user" data-id="{{ $user->id }}" data-link="{{ asset('user/edit') }}" class="text-bold">{{ $user->fname ." ". $user->mname." ".$user->lname }}</a></td>
-                                        <td>{{ $designation }}</td>
-                                        <td>
-                                            {{ $section }}<br>
-                                            <em>({{ $division }})</em>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <a href="#user" class="btn btn-sm btn-info" data-toggle="modal" data-link="{{ asset('user/edit') }}" data-id="{{ $user->id }}">
-                                                    <i class="fa fa-pencil"></i>  Update
-                                                </a>
-                                            </div>
-                                            <button type="button" data-id="{{ $user->id }}" data-link="{{ asset('user/remove') }}" class="btn btn-danger" id="delete_user" onclick="del_user(this);" name="delete" value="delete" ><i class="fa fa-trash"></i> Delete</button>
-                                        </td>
+                                        <td>{{ $list->userid }}</td>
+                                        <td>{{ $list->lastname .", " .$list->lastname }}</td>
+                                        <td>{{ $list->department }}</td>
+                                        <td>{{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}</td></td>
+                                        <td>{{date("h:i A", strtotime($list->time)) }}</td>
+                                        <td>{{ $list->event }}</td>
+                                        <td>{{ $list->terminal }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         </div>
-                        {{ $users->links() }}
-                        @endforeach
+                        {{ $lists->links() }}
                     @else
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                     @endif
@@ -59,9 +71,11 @@
 @endsection
 
 @section('js')
-<script src="{{ asset('resources/plugin/Chart.js/Chart.min.js') }}"></script>
+@@parent
+
 <script>
-
+    $('.input-daterange input').each(function() {
+        $(this).datepicker("clearDates");
+    });
 </script>
-
 @endsection

@@ -26,11 +26,14 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $lists = DB::table('dtr_file')
-            ->where('userid','<>', NULL)
-            ->orderBy('lastname', 'ASC')
-            ->groupBy('userid')
-            ->paginate(20);
+        $listQuery = DtrDetails::query();
+        $lists = $listQuery->where('userid','<>' ,'')
+                    ->where('firstname', '<>', NULL)
+                    ->where('lastname', '<>', NULL)
+                    ->where('userid', '<>', NULL)
+                    ->orderBy('lastname', 'ASC')
+                    ->groupBy('userid')
+                    ->paginate(20);
         return view('home')->with('lists',$lists);
     }
 }

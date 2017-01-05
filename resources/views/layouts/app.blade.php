@@ -23,16 +23,15 @@
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('resources/assetes/css/upload.css') }}" rel="stylesheet" >
     <!-- bootstrap datepicker -->
-    <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
+
     <script src="{{ asset('resources/angular/angular.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
     <title>
         @yield('title','Home')
     </title>
 
     <!--DATE RANGE-->
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-    <!--CHOOSEN SELECT -->
-    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
 
     @yield('css')
     <style>
@@ -52,15 +51,7 @@
         }
 
     </style>
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="{{ asset('resources/assets/js/ie-emulation-modes-warning.js') }}"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 
 <body  class="ng-cloak">
@@ -105,9 +96,9 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
+                        <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Employee attendance</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
+                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Calendar</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>
@@ -160,17 +151,15 @@
 <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/jquery-validate.js') }}"></script>
 <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('resources/assets/datepicer/js/bootstrap-datepicker.js') }}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="{{ asset('resources/assets/js/ie10-viewport-bug-workaround.js') }}"></script>
 <script>var loadingState = '<center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center>'; </script>
 <!-- bootstrap datepicker -->
-<script src="{{ asset('resources/plugin/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
 @yield('plugin')
-<script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-<!-- DATE RANGE SELECT -->
-<script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
 
