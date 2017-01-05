@@ -84,14 +84,13 @@ class DtrController extends Controller
                                 $user->usertype = 0;
                                 $user->save();
                             }
-
                         }
                     } catch (Exception $ex) {
                         Log::info("Exception at for loop :" . $ex->getMessage());
                         continue;
                     }
                 }
-                return redirect('list');
+                return redirect('home');
             }
         }
     }
@@ -104,24 +103,47 @@ class DtrController extends Controller
         return view('dashboard.dtrlist')->with('lists',$lists);
     }
     public function search(Request $request){
-        $search = null;
-        ini_set('max_execution_time',1000);
-        if($request->has('search')){
-            Session::put('search', $request->input('search'));
-            $search = Input::get('search');
-        }
-        if(Session::has('search')){
-            $search = Session::get('search');
-        }
-        $dtr = DtrDetails::where('firstname', 'LIKE', '%'. $search .'%')
-            ->orWhere('lastname', 'LIKE', '%'. $search . '%')
-            ->orWhere('userid', '=', $search)
-            ->orWhere('firstname', 'LIKE', '%' . $search . '%')
-            ->orderBy('firstname','ASC')
-            ->orderby('lastname', 'ASC')
-            ->groupBy('userid')
-            ->paginate(20);
 
-        return view('dashboard.dtrlist')->with('lists', $dtr);
+        if($request->has('filter') or $request->has('search')){
+            if($request->has('from') and $request->has('to')){
+                $_from = explode('/', $request->input('from'));
+                $_to = explode('/', $request->input('to'));
+                $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
+                $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
+                Session::put('f_from',$f_from);
+                Session::put('f_to',$f_to);
+                if(count($_from) > 0 and count($_to) > 0){
+                    if($request->has('keyword')){
+                        $keyword = $request->input('keyword');
+                        if(isset($keyword)){
+                            $lists = DB::table('dtr_file')
+                                ->where('datein' ,'>=', $f_from)
+                                ->where('datein', '<=', $f_to)
+                                ->Where('userid', 'LIKE', '%'.$keyword .'%')
+                                ->Where('firstname', 'LIKE', '%'. $keyword .'%')
+                                ->Where('lastname', 'LIKE', '%'. $keyword .'%')
+                                ->paginate(20);
+                            if(isset($lists) and count($lists) > 0){
+                                Session::put('lists',$lists);
+                                return redirect('home');
+                            } else
+                                return redirect('home')->with('msg', 'No result set is found.');
+                        }
+                    } else {
+                        $lists = DB::table('dtr_file')
+                            ->where('datein' ,'>=', $f_from)
+                            ->where('datein', '<=', $f_to)
+                            ->paginate(20);
+                        if(isset($lists) and count($lists) > 0){
+                            Session::put('lists',$lists);
+                            return redirect('home');
+                        } else
+                            return redirect('home')->with('msg', 'No result set is found.');
+                    }
+                }
+            } else
+                return redirect('home');
+        }
+
     }
 }

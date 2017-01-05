@@ -91,14 +91,16 @@
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
                 <li><a href="{{ URL::to('upload') }}"><i class="fa fa-plus"></i> Upload File</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Employee attendance</a></li>
+                        <li><a href="{{ asset('/employee-attendance')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Employee attendance</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Calendar</a></li>
+                        <li><a href="{{ asset('/manage-flixe-hours')  }}"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Flixe Hours</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>

@@ -13,7 +13,6 @@
                         </div>
 
                         <div class="alert alert-warning alert-dismissible col-lg-12" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <strong>Warning!</strong>You selected an invalid file. Select a file that ends with .txt file extension.
                         </div>
                         <div class="row upload-section">
