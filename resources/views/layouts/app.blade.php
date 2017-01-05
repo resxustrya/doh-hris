@@ -1,5 +1,5 @@
 <?php
-use App\Section;
+
 ?>
         <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@ use App\Section;
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('resources/img/favicon.png') }}">
     <meta http-equiv="cache-control" content="max-age=0" />
-    <title>Document Tracking System</title>
+    <title>HRIS</title>
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('resources/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('resources/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
@@ -21,9 +21,10 @@ use App\Section;
     <link href="{{ asset('resources/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('resources/assetes/css/upload.css') }}" rel="stylesheet" >
     <!-- bootstrap datepicker -->
     <link href="{{ asset('resources/plugin/datepicker/datepicker3.css') }}" rel="stylesheet">
-
+    <script src="{{ asset('resources/angular/angular.js') }}"></script>
     <title>
         @yield('title','Home')
     </title>
@@ -62,7 +63,7 @@ use App\Section;
     <![endif]-->
 </head>
 
-<body>
+<body  class="ng-cloak">
 
 <!-- Fixed navbar -->
 
@@ -74,7 +75,6 @@ use App\Section;
         <div class="col-md-4">
             <span class="title-info">Section:</span>
             <span class="title-desc">
-                {{ Section::find(Auth::user()->section)->description }}
             </span>
         </div>
         <div class="col-md-4">
@@ -101,8 +101,15 @@ use App\Section;
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Dashboard</a></li>
-                <li><a href="{{ URL::to('document/accept') }}"><i class="fa fa-plus"></i> Accept Document</a></li>
-                <li><a href="{{ URL::to('document') }}"><i class="fa fa-file"></i> Create Document</a></li>
+                <li><a href="{{ URL::to('upload') }}"><i class="fa fa-plus"></i> Upload File</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ asset('/change/password')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
+                    </ul>
+                </li>
                 <li><a href="{{ URL::to('document/logs') }}"><i class="fa fa-print"></i> Print</a></li>
                 @if(Auth::user()->user_priv==1)
                     <li class="dropdown">
@@ -137,7 +144,7 @@ use App\Section;
 
 <div class="container">
     <div class="loading"></div>
-    @yield('content')
+        @yield('content')
     <div class="clearfix"></div>
 </div> <!-- /container -->
 <footer class="footer">
@@ -145,7 +152,7 @@ use App\Section;
         <p>Copyright &copy; 2016 DOH-RO7 All rights reserved</p>
     </div>
 </footer>
-@include('modal')
+
 
         <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -166,25 +173,6 @@ use App\Section;
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
-<script>
-    $('#reservation').daterangepicker();
-    $('.chosen-select').chosen();
-
-    function checkDocTye(){
-        var doc = $('select[name="doc_type"]').val();
-        if(doc.length == 0){
-            $('.error').removeClass('hide');
-        }
-    }
-</script>
-<script>
-    function searchDocument(){
-        $('.loading').show();
-        setTimeout(function(){
-            return true;
-        },2000);
-    }
-</script>
 
 @section('js')
 
