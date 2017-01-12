@@ -19,7 +19,7 @@
                             <div class="alert-success alert col-md-6 col-lg-offset-3">
                                 <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
                                 <form id="form_upload" data-link="<?php echo e(asset('upload')); ?>" action="<?php echo e(asset('upload')); ?>" method="POST" enctype="multipart/form-data">
-                                    <input type="file" class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
+                                    <input id="file" type="file" class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
                                     <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
                                     <p class="text-center" id="file_select" style="border: dashed;padding:20px;">
                                         Click here to select a file
@@ -38,6 +38,7 @@
 <?php $__env->startSection('js'); ?>
     @parent
     <script>
+
         function readFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -71,6 +72,28 @@
                 }
             });
         })($);
+
+        function check_file() {
+            $('#file').change(function(event){
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onload = function(progress){
+                    var lines = this.result.split('\n');
+                    setTimeout(function(){
+                        for (var line = 0; line < 1;line++) {
+                            if(line == 0 ){
+                                console.log(lines[line]);
+                                var data = lines[line].split(',');
+                                if(data[0].length < 9){
+                                    $("#upload").prop("disabled",true);
+                                }
+                            }
+                        }
+                    },600);
+                };
+                reader.readAsText(file);
+            });
+        }
     </script>
 
 <?php $__env->stopSection(); ?>

@@ -18,7 +18,7 @@
                 <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="<?php echo e(Session::get('keyword')); ?>" autofocus>
                 <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
-                    <div class="input-group input-daterange" style="z-index: 9999 !important;">
+                    <div class="input-group input-daterange">
                         <span class="input-group-addon">From</span>
                         <input type="text" class="form-control" name="from" value="2012-04-05">
                         <span class="input-group-addon">To</span>

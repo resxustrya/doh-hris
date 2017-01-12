@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use App\User;
 use Illuminate\Http\Request;
@@ -18,9 +19,10 @@ class DtrController extends Controller
 {
     public function __construct()
     {
-
+        $this->middleware('auth');
     }
-    public function upload(Request $request) {
+    public function upload(Request $request)
+    {
         //GET Request
         if($request->isMethod('get')){
             return view('dtr.upload');
@@ -69,9 +71,15 @@ class DtrController extends Controller
                             $details->event = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;
                             $details->terminal = array_key_exists(7, $employee) == true ? trim($employee[7], "\" ") : null;
                             $details->remark = array_key_exists(8, $employee) == true ? trim($employee[8], "\" ") : null;
-                            $details->save();
+                            try{
+                                $details->save();
+                            } catch(QueryException $ex){
+                                break;
+                                return redirect('errorupload');
+                            }
 
                             //FOR INSERTING DATA TO THE USERS TABLE ONLY. IF THE USERS TABLE HAS NO DATA, JUST UNCOMMENT THIS COMMENT.
+                           /*
                             $user = User::where('userid',$details->userid)->first();
                             //checking for duplicate userid
                             if( !isset($user) and !count($user) > 0){
@@ -83,7 +91,7 @@ class DtrController extends Controller
                                 $user->password = Hash::make($details->userid);
                                 $user->usertype = 0;
                                 $user->save();
-                            }
+                            }*/
                         }
                     } catch (Exception $ex) {
                         Log::info("Exception at for loop :" . $ex->getMessage());
@@ -94,7 +102,8 @@ class DtrController extends Controller
             }
         }
     }
-    public function dtr_list(Request $request){
+    public function dtr_list(Request $request)
+    {
         $lists = DB::table('dtr_file')
             ->where('userid','<>', NULL)
             ->orderBy('lastname', 'ASC')
@@ -102,8 +111,8 @@ class DtrController extends Controller
             ->paginate(30);
         return view('dashboard.dtrlist')->with('lists',$lists);
     }
-    public function search(Request $request){
-
+    public function search(Request $request)
+    {
         if($request->has('filter') or $request->has('search')){
             if($request->has('from') and $request->has('to')){
                 $_from = explode('/', $request->input('from'));

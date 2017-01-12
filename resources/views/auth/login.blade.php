@@ -31,7 +31,7 @@
       <div class="login-logo">
         <img src="{{ asset('resources/img/logo.png') }}" />
         <br />
-        <a href="#"><b>DOHROH7</b> DTS</a>
+        <a href="#"><b>DOHROH7</b>DTR</a>
       </div><!-- /.login-logo -->
         
       <form role="form" method="POST" action="{{ url('/login') }}">

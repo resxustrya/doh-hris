@@ -1,7 +1,5 @@
-<?php
 
-?>
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -24,14 +22,14 @@
     <link href="<?php echo e(asset('resources/assetes/css/upload.css')); ?>" rel="stylesheet" >
     <!-- bootstrap datepicker -->
 
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css')); ?>" />
+    <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/bootstrap-clockpicker.min.css')); ?>" />
     <script src="<?php echo e(asset('resources/angular/angular.js')); ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/assets/datepicer/css/bootstrap-datepicker3.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/assets/datepicer/css/bootstrap-datepicker3.standalone.css')); ?>" />
     <title>
         <?php echo $__env->yieldContent('title','Home'); ?>
     </title>
-
-    <!--DATE RANGE-->
 
     <?php echo $__env->yieldContent('css'); ?>
     <style>
@@ -53,7 +51,10 @@
     </style>
 
 </head>
-
+<script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
+<?php $__env->startSection('head-js'); ?>
+        <!--DATE RANGE-->
+<?php echo $__env->yieldSection(); ?>
 <body  class="ng-cloak">
 
 <!-- Fixed navbar -->
@@ -90,47 +91,11 @@
         </div>
 
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="<?php echo e(url('dashboard')); ?>"><i class="fa fa-home"></i> Dashboard</a></li>
-                <li><a href="<?php echo e(URL::to('upload')); ?>"><i class="fa fa-plus"></i> Upload File</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="<?php echo e(asset('/employee-attendance')); ?>"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Employee attendance</a></li>
-                        <li class="divider"></li>
-                        <li><a href="<?php echo e(asset('/manage-flixe-hours')); ?>"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Flixe Hours</a></li>
-                        <li class="divider"></li>
-                        <li><a href="<?php echo e(url('calendar')); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
-                    </ul>
-                </li>
-                <li><a href="<?php echo e(URL::to('document/logs')); ?>"><i class="fa fa-print"></i> Print</a></li>
-                <?php if(Auth::user()->user_priv==1): ?>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gear"></i> Settings<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<?php echo e(asset('/users')); ?>"><i class="fa fa-users"></i>&nbsp;&nbsp; Users</a></li>
-                            <li class="divider"></li>
-                            <li><a href="<?php echo e(asset('/designation')); ?>"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Designation</a></li>
-                            <li><a href="<?php echo e(asset('/section')); ?>"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Section</a></li>
-                            <li><a href="<?php echo e(asset('/division')); ?>"><i class="fa fa-arrow-right"></i>&nbsp;&nbsp; Division</a></li>
-                            <li class="divider"></li>
-                            <li><a href="<?php echo e(asset('document/filter')); ?>"><i class="fa fa-filter"></i>&nbsp;&nbsp; Filter Documents</a></li>
-                        </ul>
-                    </li>
-                <?php endif; ?>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="<?php echo e(asset('/change/password')); ?>"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
-                        <li class="divider"></li>
-                        <li><a href="<?php echo e(url('/logout')); ?>"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#trackDoc" data-toggle="modal"><i class="fa fa-search"></i> Track Document</a></li>
-            </ul>
+            <?php if(Auth::user()->usertype == "1"): ?>
+                <?php echo $__env->make('layouts.admin-menu', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php elseif(Auth::user()->usertype == "0"): ?>
+                <?php echo $__env->make('layouts.personal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+            <?php endif; ?>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
@@ -145,15 +110,16 @@
         <p>Copyright &copy; 2016 DOH-RO7 All rights reserved</p>
     </div>
 </footer>
-
-
+<?php echo $__env->make('modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/js/jquery-validate.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/js/bootstrap.min.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/datepicer/js/bootstrap-datepicker.js')); ?>"></script>
+<!-- CLOCK PICKER -->
+<script src="<?php echo e(asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.js')); ?>"></script>
+<script src="<?php echo e(asset('resources/plugin/clockpicker/dist/bootstrap-clockpicker.min.js')); ?>"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="<?php echo e(asset('resources/assets/js/ie10-viewport-bug-workaround.js')); ?>"></script>
 <script>var loadingState = '<center><img src="<?php echo e(asset('resources/img/spin.gif')); ?>" width="150" style="padding:20px;"></center>'; </script>
