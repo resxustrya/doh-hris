@@ -1,9 +1,12 @@
 <?php
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\PersonalController as personal;
 if(Session::has('filter_list')) {
     $lists = Session::get('filter_list');
 }
-
+if(isset($lists) and count($lists) > 0) {
+    $startday = $lists[0]->date_d;
+}
 ?>
 @extends('layouts.app')
 
@@ -38,15 +41,31 @@ if(Session::has('filter_list')) {
                             <div class="table-responsive">
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
-                                        <tr class="text-center">
-                                            <th>DAYS</th>
-                                            <th>AM</th>
-                                            <th>PM</th>
-                                            <th>UNDERTIME</th>
+                                        <tr>
+                                            <th class="col-sm-2" style="text-align: center;">AM</th>
+                                            <th class="col-sm-2" style="text-align: center;">PM</th>
+                                            <th class="col-sm-2" style="text-align: center;">UNDERTIME<br />Late | UT</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <table class="table table-list table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <td class="col-sm-1">DAY</td>
+                                            <td class="col-sm-2">IN</td>
+                                            <td class="col-sm-2">OUT</td>
+                                            <td class="col-sm-2">IN</td>
+                                            <td class="col-sm-2">OUT</td>
+                                            <td class="col-sm-2">LATE | UT</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        @foreach($lists as $list)
+                                            <tr>
+                                                <td>{{ $startday ." " .personal::day_name($startday, $list) }}</td>
+                                            </tr>
+                                           <?php $startday = $startday + 1; ?>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

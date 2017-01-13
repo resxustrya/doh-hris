@@ -36,6 +36,7 @@ class AdminController extends Controller
 
     public function upload(Request $request)
     {
+
         if($request->isMethod('get')){
             return view('dtr.upload');
         }

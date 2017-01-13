@@ -23,7 +23,6 @@ class DtrController extends Controller
     }
     public function upload(Request $request)
     {
-
         //GET Request
         if($request->isMethod('get')){
             return view('dtr.upload');

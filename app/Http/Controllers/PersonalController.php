@@ -36,6 +36,7 @@ class PersonalController extends Controller
     }
     public function filter(Request $request)
     {
+
         if($request->input('from') == "" and $request->input('to') == "") {
             return redirect('personal/print/monthly');
         }
@@ -61,5 +62,11 @@ class PersonalController extends Controller
         } else {
             return redirect('personal/print/monthly');
         }
+    }
+
+    public static function day_name($day,$list)
+    {
+        $date = $list->date_y.'-'.$list->date_m.'-'.$day;
+        return date('D', strtotime($date));
     }
 }

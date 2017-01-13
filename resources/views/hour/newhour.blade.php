@@ -17,6 +17,23 @@
         <div class="clearfix"></div>
         <div class="page-divider"></div>
         @if(isset($flixetimes) and count($flixetimes))
+            <div class="table-responsive">
+                <table class="table table-list table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Time From</th>
+                            <th>Time To</th>
+                        </tr>
+                    </thead>
+                    @foreach($flixetimes as $flixetime)
+                        <tr>
+                            <td>{{ $flixetime->from }}</td>
+                            <td>{{ $flixetime->to }}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            {{ $flixetimes->links() }}
         @else
             <div class="alert alert-danger">
                 <strong><i class="fa fa-times fa-lg"></i>No flixe time records.</strong>
