@@ -18,7 +18,7 @@
                         <div class="row upload-section">
                             <div class="alert-success alert col-md-6 col-lg-offset-3">
                                 <h3 style="font-weight: bold;" class="text-center">Upload a file</h3>
-                                <form id="form_upload" data-link="<?php echo e(asset('upload')); ?>" action="<?php echo e(asset('upload')); ?>" method="POST" enctype="multipart/form-data">
+                                <form id="form_upload" data-link="<?php echo e(asset('admin/upload')); ?>" action="<?php echo e(asset('admin/upload')); ?>" method="POST" enctype="multipart/form-data">
                                     <input id="file" type="file" class="hidden" value="" name="dtr_file" onchange="readFile(this);"/>
                                     <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
                                     <p class="text-center" id="file_select" style="border: dashed;padding:20px;">

@@ -26,14 +26,11 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $listQuery = DtrDetails::query();
-        $lists = $listQuery->where('userid','<>' ,'')
-                    ->where('firstname', '<>', NULL)
-                    ->where('lastname', '<>', NULL)
-                    ->where('userid', '<>', NULL)
-                    ->orderBy('lastname', 'ASC')
-                    ->groupBy('userid')
-                    ->paginate(20);
-        return view('home')->with('lists',$lists);
+       if($request->user()->usertype == "1") {
+           return redirect('home');
+       }
+       if($request->user()->usertype == "0") {
+           return redirect('personal/home');
+       }
     }
 }

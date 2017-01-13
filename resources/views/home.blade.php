@@ -53,10 +53,10 @@
                                 @foreach($lists as $list)
                                     <tr>
                                         <td>{{ $list->userid }}</td>
-                                        <td>{{ $list->lastname .", " .$list->lastname }}</td>
-                                        <td>{{ $list->department }}</td>
+                                        <td>{{ $list->firstname .", " .$list->lastname }}</td>
+                                        <td>{{ date('l', strtotime($list->datein)) }}</td>
                                         <td>{{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}</td></td>
-                                        <td>{{date("h:i A", strtotime($list->time)) }}</td>
+                                        <td>{{ date("h:i A", strtotime($list->time)) }}</td>
                                         <td>{{ $list->event }}</td>
                                         <td>{{ $list->terminal }}</td>
                                     </tr>
@@ -65,6 +65,7 @@
                             </table>
                         </div>
                         {{ $lists->links() }}
+
                     @else
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                     @endif

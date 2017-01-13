@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav">
-    <li><a href="{{ url('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
-    <li><a href="{{ URL::to('upload') }}"><i class="fa fa-plus"></i> Upload File</a></li>
+    <li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+    <li><a href="{{ URL::to('admin/upload') }}"><i class="fa fa-plus"></i> Upload File</a></li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
         <ul class="dropdown-menu">

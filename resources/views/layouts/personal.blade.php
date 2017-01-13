@@ -19,7 +19,7 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-print"></i> Print<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="{{ asset('dtr/print-monthly')  }}"><i class="fa fa-check"></i>&nbsp;&nbsp; Monthly Attendance</a></li>
+            <li><a href="{{ asset('personal/monthly')  }}"><i class="fa fa-print"></i>&nbsp;&nbsp; Monthly Attendance</a></li>
         </ul>
     </li>
     <li class="dropdown">

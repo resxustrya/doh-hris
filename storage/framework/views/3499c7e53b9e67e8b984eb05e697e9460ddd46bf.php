@@ -1,14 +1,15 @@
-<span id="calendar_event" data-link=" {{ asset('calendar_event') }} "></span>
-<span id="save" data-link=" {{ asset('calendar_save') }} "></span>
-<span id="token" data-token="{{ csrf_token() }}"></span>
+<span id="calendar_event" data-link=" <?php echo e(asset('calendar_event')); ?> "></span>
+<span id="save" data-link=" <?php echo e(asset('calendar_save')); ?> "></span>
+<span id="token" data-token="<?php echo e(csrf_token()); ?>"></span>
 <!-- fullCalendar 2.2.5-->
-<link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.css') }}" rel="stylesheet">
-<link href="{{ asset('resources/plugin/fullcalendar/fullcalendar.print.css') }}" media="print">
+<link href="<?php echo e(asset('resources/plugin/fullcalendar/fullcalendar.min.css')); ?>" rel="stylesheet">
+<link href="<?php echo e(asset('resources/plugin/fullcalendar/fullcalendar.print.css')); ?>" media="print">
 <!-- Theme style -->
-<link href="{{ asset('resources/plugin/dist/css/AdminLTE.min.css') }}" rel="stylesheet">
-@extends('layouts.app')
-@section('content')
-    {{ csrf_field() }}
+<link href="<?php echo e(asset('resources/plugin/dist/css/AdminLTE.min.css')); ?>" rel="stylesheet">
+
+<?php $__env->startSection('content'); ?>
+    <?php echo e(csrf_field()); ?>
+
     <div class="col-md-9 wrapper">
         <div class="alert alert-jim">
 
@@ -30,7 +31,7 @@
             <div class="box-body">
                 <!-- the events -->
                 <div id="external-events">
-                    {{--<div class="external-event bg-green">Lunch</div>
+                    <?php /*<div class="external-event bg-green">Lunch</div>
                     <div class="external-event bg-yellow">Go home</div>
                     <div class="external-event bg-aqua">Do homework</div>
                     <div class="external-event bg-light-blue">Work on UI design</div>
@@ -40,7 +41,7 @@
                             <input type="checkbox" id="drop-remove">
                             remove after drop
                         </label>
-                    </div>--}}
+                    </div>*/ ?>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -82,11 +83,11 @@
         </div>
     </div>
     <p id="tayong"></p>
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-    <script src="{{ asset('resources/plugin/fullcalendar/moment.js') }}"></script>
-    <script src="{{ asset('resources/plugin/fullcalendar/fullcalendar.min.js') }}"></script>
+    <script src="<?php echo e(asset('resources/plugin/fullcalendar/moment.js')); ?>"></script>
+    <script src="<?php echo e(asset('resources/plugin/fullcalendar/fullcalendar.min.js')); ?>"></script>
 
     <script>
         $(function () {
@@ -220,4 +221,5 @@
             },1000);
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

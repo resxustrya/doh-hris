@@ -54,8 +54,8 @@
                                 <?php foreach($lists as $list): ?>
                                     <tr>
                                         <td><?php echo e($list->userid); ?></td>
-                                        <td><?php echo e($list->lastname .", " .$list->lastname); ?></td>
-                                        <td><?php echo e($list->department); ?></td>
+                                        <td><?php echo e($list->firstname .", " .$list->lastname); ?></td>
+                                        <td><?php echo e(date('l', strtotime($list->datein))); ?></td>
                                         <td><?php echo e(date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y); ?></td></td>
                                         <td><?php echo e(date("h:i A", strtotime($list->time))); ?></td>
                                         <td><?php echo e($list->event); ?></td>
@@ -66,6 +66,7 @@
                             </table>
                         </div>
                         <?php echo e($lists->links()); ?>
+
 
                     <?php else: ?>
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>

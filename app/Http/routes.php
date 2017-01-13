@@ -1,18 +1,18 @@
 <?php
-Use App\Tracking;
 Route::auth();
-
-//jimzky
 Route::get('/','HomeController@index');
-Route::get('dashboard', function(){
+//FOR ADMIN ROUTE GROUP
+
+
+Route::get('home', function(){
     Session::forget('f_from');
     Session::forget('f_to');
     Session::forget('lists');
-    return redirect('home');
+    return redirect('index');
 });
 
-Route::get('home', 'HomeController@index');
-Route::match(['get','post'], 'upload', 'DtrController@upload');
+Route::get('index', 'AdminController@index');
+Route::match(['get','post'], 'admin/upload', 'DtrController@upload');
 Route::match(['get', 'post'],'search', 'DtrController@search');
 
 Route::get('dtr/print-monthly',function(){
@@ -29,9 +29,30 @@ Route::get('new/flixetime' ,'HoursController@create');
 Route::match(['get','post'], 'create/flixe', 'HoursController@create_flixe');
 
 
+//FOR PERSONAL ROUTE GROUP
+
+Route::get('personal/home', function() {
+    Session::forget('f_from');
+    Session::forget('f_to');
+    Session::forget('lists');
+    return redirect('personal/index');
+});
+Route::get('personal/monthly',function() {
+   Session::forget('filter_list');
+   return redirect('personal/print/monthly');
+});
+
+Route::get('personal/index', 'PersonalController@index');
+Route::get('personal/print/monthly', 'PersonalController@print_monthly');
+Route::post('personal/print/filter' ,'PersonalController@filter');
+
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');
+});
+
+Route::get('calendar', function() {
+    return view('calendar.calendar');
 });
 
 Route::get('modal',function(){
