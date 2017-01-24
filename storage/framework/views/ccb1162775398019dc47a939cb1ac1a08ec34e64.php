@@ -1,7 +1,4 @@
-@extends('layouts.app')
-
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Application for Leave
@@ -9,7 +6,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('form/leave') }}" method="POST">
+                        <form action="<?php echo e(asset('form/leave')); ?>" method="POST">
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
@@ -356,7 +353,7 @@
                                         <div class="col-md-3">
                                             <p class="text-center" style="border-top: solid 2px black; width: 100%;">Date</p>
                                         </div>
-
+                                       
                                         <div class="col-md-6">
                                             <p class="text-center" style="border-top: solid 2px black; width: 100%;">Authorized Official</p>
                                         </div>
@@ -370,4 +367,6 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
