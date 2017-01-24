@@ -363,7 +363,13 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <hr />
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12 center-block">
+                                    <button type="submit" name="submit" class="btn btn-primary btn-lg col-md-5">Submit</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

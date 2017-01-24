@@ -353,14 +353,20 @@
                                         <div class="col-md-3">
                                             <p class="text-center" style="border-top: solid 2px black; width: 100%;">Date</p>
                                         </div>
-                                       
+
                                         <div class="col-md-6">
                                             <p class="text-center" style="border-top: solid 2px black; width: 100%;">Authorized Official</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
+                            <hr />
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12 center-block">
+                                    <button type="submit" name="submit" class="btn btn-primary btn-lg col-md-5">Submit</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
