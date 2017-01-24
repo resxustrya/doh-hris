@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hris.iml" filepath="$PROJECT_DIR$/.idea/hris.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/doh-hris.iml" filepath="$PROJECT_DIR$/.idea/doh-hris.iml" />
     </modules>
   </component>
 </project>

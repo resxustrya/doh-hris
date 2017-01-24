@@ -46,6 +46,11 @@ Route::get('personal/index', 'PersonalController@index');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
 
+
+
+
+//DOCUMENTS
+Route::match(['get','post'],'form/leave','DocumentController@leave');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');

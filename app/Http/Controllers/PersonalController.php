@@ -69,4 +69,8 @@ class PersonalController extends Controller
         $date = $list->date_y.'-'.$list->date_m.'-'.$day;
         return date('D', strtotime($date));
     }
+    public static function get_time($date)
+    {
+
+    }
 }
