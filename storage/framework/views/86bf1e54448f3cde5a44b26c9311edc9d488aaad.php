@@ -6,6 +6,7 @@ if(Session::has('filter_list')) {
 }
 if(isset($lists) and count($lists) > 0) {
     $startday = $lists[0]->date_d;
+    $endday = $lists[count($lists) -1 ]->date_d;
 }
 ?>
 
@@ -62,9 +63,12 @@ if(isset($lists) and count($lists) > 0) {
                                     </thead>
                                     <tbody>
                                         <?php foreach($lists as $list): ?>
-                                            <tr>
-                                                <td><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
-                                            </tr>
+                                            <?php if($startday <= $endday): ?>
+                                                <tr>
+                                                    <td><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein)); ?></td>
+                                                </tr>
+                                            <?php endif; ?>
                                            <?php $startday = $startday + 1; ?>
                                         <?php endforeach; ?>
                                     </tbody>
