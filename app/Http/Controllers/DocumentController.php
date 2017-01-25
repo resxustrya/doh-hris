@@ -21,5 +21,8 @@ class DocumentController extends Controller
         if($request->isMethod('get')){
             return view('form.leave');
         }
+        if($request->isMethod('post')){
+            return $request->all();
+        }
     }
 }

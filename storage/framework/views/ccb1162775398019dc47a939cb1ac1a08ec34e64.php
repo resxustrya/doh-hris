@@ -7,6 +7,8 @@
                 <div class="row">
                     <div class="col-md-11">
                         <form action="<?php echo e(asset('form/leave')); ?>" method="POST">
+                            <?php echo e(csrf_field()); ?>
+
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">

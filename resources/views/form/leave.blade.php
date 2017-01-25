@@ -10,6 +10,7 @@
                 <div class="row">
                     <div class="col-md-11">
                         <form action="{{ asset('form/leave') }}" method="POST">
+                            {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
