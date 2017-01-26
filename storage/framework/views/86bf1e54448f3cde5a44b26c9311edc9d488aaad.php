@@ -53,6 +53,7 @@ if(isset($lists) and count($lists) > 0) {
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
+                                            <td class="col-sm-1">Date</td>
                                             <td class="col-sm-1">DAY</td>
                                             <td class="col-sm-2">IN</td>
                                             <td class="col-sm-2">OUT</td>
@@ -65,12 +66,13 @@ if(isset($lists) and count($lists) > 0) {
                                         <?php foreach($lists as $list): ?>
                                             <?php if($startday <= $endday): ?>
                                                 <tr>
+                                                    <td><?php echo e($list->datein); ?></td>
                                                     <td><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
-                                                    <td><?php echo e(date("h:i A", strtotime(personal::get_time($list->datein, 'IN')))); ?></td>
-                                                    <td><?php echo e(date("h:i A", strtotime(personal::get_time($list->datein, 'OUT')))); ?></td>
-                                                    <td><?php echo e(date("h:i A", strtotime(personal::get_time($list->datein, 'IN')))); ?></td>
-                                                    <td><?php echo e(date("h:i A", strtotime(personal::get_time($list->datein, 'OUT')))); ?></td>
-                                                    <td><?php echo e(date("h:i A", strtotime(personal::get_time($list->datein, 'OUT')))); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
                                                 </tr>
                                             <?php endif; ?>
                                            <?php $startday = $startday + 1; ?>

@@ -10,6 +10,7 @@
                 <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Flixetime</a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ asset('new/flixetime') }}">Add New Flixetime</a></li>
+                    <li><a href="{{ asset('new/flixe/group') }}">Employee Flixe Group</a></li>
                 </ul>
             </li>
             <li class="divider"></li>
