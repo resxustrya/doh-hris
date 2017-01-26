@@ -20,6 +20,7 @@
     <!-- Custom styles for this template -->
     <link href="{{ asset('resources/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('resources/assetes/css/upload.css') }}" rel="stylesheet" >
+    <link href="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
     <!-- bootstrap datepicker -->
 
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css') }}" />
@@ -27,6 +28,7 @@
     <script src="{{ asset('resources/angular/angular.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
+    <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
     <title>
         @yield('title','Home')
     </title>
@@ -51,7 +53,6 @@
     </style>
 
 </head>
-<script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
 @section('head-js')
         <!--DATE RANGE-->
 @show
@@ -126,6 +127,7 @@
 <!-- bootstrap datepicker -->
 <script src="{{ asset('resources/assets/js/script.js') }}?v=1"></script>
 <script src="{{ asset('resources/assets/js/form-justification.js') }}"></script>
+<script src="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
 @yield('plugin')
 
 <!-- SELECT CHOOSEN -->

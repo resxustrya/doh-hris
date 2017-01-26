@@ -20,7 +20,6 @@
     <!-- Custom styles for this template -->
     <link href="<?php echo e(asset('resources/assets/css/style.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('resources/assetes/css/upload.css')); ?>" rel="stylesheet" >
-    <link href="<?php echo e(asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')); ?>" rel="stylesheet">
     <!-- bootstrap datepicker -->
 
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css')); ?>" />
@@ -28,7 +27,6 @@
     <script src="<?php echo e(asset('resources/angular/angular.js')); ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/assets/datepicer/css/bootstrap-datepicker3.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/assets/datepicer/css/bootstrap-datepicker3.standalone.css')); ?>" />
-    <script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
     <title>
         <?php echo $__env->yieldContent('title','Home'); ?>
     </title>
@@ -53,6 +51,7 @@
     </style>
 
 </head>
+<script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
 <?php $__env->startSection('head-js'); ?>
         <!--DATE RANGE-->
 <?php echo $__env->yieldSection(); ?>
@@ -127,7 +126,6 @@
 <!-- bootstrap datepicker -->
 <script src="<?php echo e(asset('resources/assets/js/script.js')); ?>?v=1"></script>
 <script src="<?php echo e(asset('resources/assets/js/form-justification.js')); ?>"></script>
-<script src="<?php echo e(asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')); ?>"></script>
 <?php echo $__env->yieldContent('plugin'); ?>
 
 <!-- SELECT CHOOSEN -->

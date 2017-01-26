@@ -1,16 +1,14 @@
-@extends('layouts.app')
-
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Application for Leave
             </h3>
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('form/leave') }}" method="POST">
-                            {{ csrf_field() }}
+                        <form action="<?php echo e(asset('form/leave')); ?>" method="POST">
+                            <?php echo e(csrf_field()); ?>
+
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
@@ -40,9 +38,9 @@
                             <hr />
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group has-success  input-daterange">
+                                    <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                        <input type="text" class="form-control" name="from" value="2012-04-05">
+                                        <input type="text" class="form-control" id="inputSuccess1">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -139,15 +137,9 @@
                                         </div>
                                         <strong>(6c.)Number of working days applied <br />For :</strong>
                                         <input type="text" name="num_days" />
-                                        <div class="form-group">
+                                        <div class="form-group has-success">
                                             <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                            <div class="input-group input-daterange">
-                                                <span class="input-group-addon">From</span>
-                                                <input type="text" class="form-control" name="from" value="2012-04-05">
-                                                <span class="input-group-addon">To</span>
-                                                <input type="text" class="form-control" name="to" value="2012-04-19">
-                                                <span class="input-group-addon"></span>
-                                            </div>
+                                            <input type="text" class="form-control" id="inputSuccess1">
                                         </div>
                                     </div>
                                 </div>
@@ -383,13 +375,6 @@
             </div>
         </div>
     </div>
-@endsection
-@section('js')
-    @@parent
-    <script>
-        $('.input-daterange input').each(function() {
-            $(this).datepicker("clearDates");
-        });
+<?php $__env->stopSection(); ?>
 
-    </script>
-@endsection
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

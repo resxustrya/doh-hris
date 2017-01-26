@@ -10,9 +10,9 @@
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Leave/CDO/SO</a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ asset('form/leave') }}"  data-toggle="modal">Leave</a></li>
+                    <li><a href="{{ asset('form/leave') }}" >Leave</a></li>
                     <li class="divider"></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('form/so') }}">Office Order</a></li>
+                    <li><a href="{{ asset('form/so') }}">Office Order</a></li>
                     <li class="divider"></li>
                     <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="{{ asset('form/cdo') }}">CDO</a></li>
                     <li class="divider"></li>

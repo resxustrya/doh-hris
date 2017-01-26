@@ -9,15 +9,16 @@ if(isset($lists) and count($lists) > 0) {
     $endday = $lists[count($lists) -1 ]->date_d;
 }
 ?>
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Print Monthly Attendance
             </h3>
-            <form class="form-inline" method="POST" action="{{ asset('personal/print/filter') }}" id="searchForm">
-                {{ csrf_field() }}
+            <form class="form-inline" method="POST" action="<?php echo e(asset('personal/print/filter')); ?>" id="searchForm">
+                <?php echo e(csrf_field()); ?>
+
                 <div class="form-group">
                     <div class="btn-group">
                         <div class="input-group input-daterange">
@@ -38,7 +39,7 @@ if(isset($lists) and count($lists) > 0) {
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        @if(isset($lists) and count($lists) >0)
+                        <?php if(isset($lists) and count($lists) >0): ?>
                             <div class="table-responsive">
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
@@ -61,40 +62,43 @@ if(isset($lists) and count($lists) > 0) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($lists as $list)
-                                            @if($startday <= $endday)
+                                        <?php foreach($lists as $list): ?>
+                                            <?php if($startday <= $endday): ?>
                                                 <tr>
-                                                    <td>{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'IN'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'IN'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
+                                                    <td><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
+                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+
                                                 </tr>
-                                            @endif
+                                            <?php endif; ?>
                                            <?php $startday = $startday + 1; ?>
-                                        @endforeach
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
-                            {{ $lists->links() }}
-                        @else
+                            <?php echo e($lists->links()); ?>
+
+                        <?php else: ?>
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('js')
-    @@parent
+<?php $__env->startSection('js'); ?>
+    @parent
+
     <script>
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
 
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

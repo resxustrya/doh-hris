@@ -21,5 +21,18 @@ class DocumentController extends Controller
         if($request->isMethod('get')){
             return view('form.leave');
         }
+        if($request->isMethod('post')){
+            return $request->all();
+        }
+    }
+    public function so(Request $request)
+    {
+
+        if($request->isMethod('get')){
+            return view('form.office_order');
+        }
+        if($request->isMethod('post')){
+            return $request->all();
+        }
     }
 }
