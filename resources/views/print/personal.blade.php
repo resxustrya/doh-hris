@@ -52,6 +52,7 @@ if(isset($lists) and count($lists) > 0) {
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
+                                            <td class="col-sm-1">Date</td>
                                             <td class="col-sm-1">DAY</td>
                                             <td class="col-sm-2">IN</td>
                                             <td class="col-sm-2">OUT</td>
@@ -64,12 +65,13 @@ if(isset($lists) and count($lists) > 0) {
                                         @foreach($lists as $list)
                                             @if($startday <= $endday)
                                                 <tr>
+                                                    <td>{{ $list->datein }}</td>
                                                     <td>{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'IN'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'IN'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
-                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
+                                                    <td>{{  personal::get_time($list->datein, 'IN') }}</td>
+                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <td>{{  personal::get_time($list->datein, 'IN') }}</td>
+                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>
