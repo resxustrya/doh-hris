@@ -65,11 +65,11 @@ if(isset($lists) and count($lists) > 0) {
                                             @if($startday <= $endday)
                                                 <tr>
                                                     <td>{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td>{{ personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td>{{ personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td>{{ personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td>{{ personal::get_time($list->datein, 'OUT') }}</td>
-
+                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'IN'))) }}</td>
+                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
+                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'IN'))) }}</td>
+                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
+                                                    <td>{{  date("h:i A", strtotime(personal::get_time($list->datein, 'OUT'))) }}</td>
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>
@@ -91,7 +91,6 @@ if(isset($lists) and count($lists) > 0) {
 
 @section('js')
     @@parent
-
     <script>
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");

@@ -69,8 +69,19 @@ class PersonalController extends Controller
         $date = $list->date_y.'-'.$list->date_m.'-'.$day;
         return date('D', strtotime($date));
     }
-    public static function get_time($date)
+    public static function get_time($date,$event)
     {
+        $order = "";
+        if($event == 'IN')
+            $order = 'ASC';
+        if($event == 'OUT')
+            $order = 'DESC';
 
+        $time = DtrDetails::where('datein',$date)
+                            ->where('event', $event)
+                            ->orderBy('created_at', $order)
+                            ->pluck('time')
+                            ->first();
+        return $time;
     }
 }

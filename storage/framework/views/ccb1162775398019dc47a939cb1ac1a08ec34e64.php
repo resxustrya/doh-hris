@@ -3,7 +3,7 @@
         <div class="alert alert-jim">
             <h3 class="page-header">Application for Leave
             </h3>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-11">
                         <form action="<?php echo e(asset('form/leave')); ?>" method="POST">
@@ -38,9 +38,9 @@
                             <hr />
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="form-group has-success">
+                                    <div class="form-group has-success  input-daterange">
                                         <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" name="from" value="2012-04-05">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -137,9 +137,15 @@
                                         </div>
                                         <strong>(6c.)Number of working days applied <br />For :</strong>
                                         <input type="text" name="num_days" />
-                                        <div class="form-group has-success">
+                                        <div class="form-group">
                                             <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                            <input type="text" class="form-control" id="inputSuccess1">
+                                            <div class="input-group input-daterange">
+                                                <span class="input-group-addon">From</span>
+                                                <input type="text" class="form-control" name="from" value="2012-04-05">
+                                                <span class="input-group-addon">To</span>
+                                                <input type="text" class="form-control" name="to" value="2012-04-19">
+                                                <span class="input-group-addon"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -376,5 +382,13 @@
         </div>
     </div>
 <?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    @parent
+    <script>
+        $('.input-daterange input').each(function() {
+            $(this).datepicker("clearDates");
+        });
 
+    </script>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
