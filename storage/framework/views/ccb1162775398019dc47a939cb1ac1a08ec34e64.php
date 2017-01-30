@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
-            <h3 class="page-header">Application for Leave
+            <h3 class="page-header">Create application for Leave
             </h3>
             <div class="container-fluid">
                 <div class="row">

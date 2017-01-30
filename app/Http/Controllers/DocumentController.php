@@ -26,6 +26,11 @@ class DocumentController extends Controller
             return $request->all();
         }
     }
+
+    public function all_leave()
+    {
+        return view('form.all_leave');
+    }
     public function so(Request $request)
     {
 
@@ -36,4 +41,5 @@ class DocumentController extends Controller
             return $request->all();
         }
     }
+
 }
