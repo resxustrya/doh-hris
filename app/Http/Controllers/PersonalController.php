@@ -79,6 +79,7 @@ class PersonalController extends Controller
 
         $time = DtrDetails::where('datein',$date)
                             ->where('event', $event)
+                            //->where('date', $op ,12)
                             ->orderBy('created_at', $order)
                             ->pluck('time')
                             ->first();

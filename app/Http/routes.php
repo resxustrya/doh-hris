@@ -69,3 +69,18 @@ Route::get('modal',function(){
 Route::get('errorupload', function(){
     return view('errorupload');
 });
+
+Route::get('test/form', function(){
+    return view('test.form');
+});
+Route::post('test/form',function(\Illuminate\Http\Request $request){
+    return $request->all();
+});
+
+Route::get('pdf/leave',function() {
+
+    $display = view("pdf.leave");
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display);
+    return $pdf->stream();
+});

@@ -15,25 +15,25 @@
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(1.) Office/Agency</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="office_agency">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="lastname">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">First Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="firstname">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="middlename">
                                     </div>
                                 </div>
                             </div>
@@ -42,19 +42,19 @@
                                 <div class="col-md-4">
                                     <div class="form-group has-success  input-daterange">
                                         <label class="control-label" for="inputSuccess1">(3.) Date of Filling</label>
-                                        <input type="text" class="form-control" name="from" value="2012-04-05">
+                                        <input type="text" class="form-control" name="date_filling" value="2012-04-05">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(4.)  Position</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="position">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(5.)Salary (Monthly)</label>
-                                        <input type="text" class="form-control" id="inputSuccess1">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="month_salary">
                                     </div>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="Vication" name="vication_leave_type">
                                                                 Vacation
                                                             </label>
                                                         </div>
@@ -81,7 +81,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="To sake employement" name="vication_leave_type">
                                                                 To seek employement
                                                             </label>
                                                         </div>
@@ -89,14 +89,14 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="radio_others" value="Others" name="vication_leave_type" />
                                                                 Others(Specify)
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="has-success">
                                                         <div class="form-group has-success">
-                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1"></textarea>
+                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="vacation_others"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -108,7 +108,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="Sick" name="sick_leave_type" />
                                                                 Sick
                                                             </label>
                                                         </div>
@@ -116,7 +116,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="Maternity" name="sick_leave_type" />
                                                                 Maternity
                                                             </label>
                                                         </div>
@@ -124,28 +124,28 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="Others" name="sick_leave_type">
                                                                 Others(Specify)
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="has-success">
                                                         <div class="form-group has-success">
-                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1"></textarea>
+                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="sick_others"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <strong>(6c.)Number of working days applied <br />For :</strong>
-                                        <input type="text" name="num_days" />
+                                        <input type="text" name="applied_num_days" />
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
                                             <div class="input-group input-daterange">
                                                 <span class="input-group-addon">From</span>
-                                                <input type="text" class="form-control" name="from" value="2012-04-05">
+                                                <input type="text" class="form-control" name="inc_from" value="2012-04-05">
                                                 <span class="input-group-addon">To</span>
-                                                <input type="text" class="form-control" name="to" value="2012-04-19">
+                                                <input type="text" class="form-control" name="inc_to" value="2012-04-19">
                                                 <span class="input-group-addon"></span>
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="local" name="vacation_loc">
                                                                 Within the Philippines
                                                             </label>
                                                         </div>
@@ -173,14 +173,14 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="abroad" name="vacation_loc">
                                                                 Abroad (specify)
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="has-success">
                                                         <div class="form-group has-success">
-                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1"></textarea>
+                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="abroad_others"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,15 +197,19 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="option1">
+                                                                <input type="radio" id="checkboxSuccess" value="in_hostpital" name="med_loc">
                                                                 In Hospital (sepecify)
-                                                                <input type="text" name="a" />
+                                                                <input type="text"  name="in_hospital_others"/>
                                                             </label>
                                                         </div>
                                                     </div>
                                                     <div class="has-success">
-                                                        <div class="form-group has-success">
-                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1"></textarea>
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                <input type="radio" id="checkboxSuccess" value="out_patient" name="med_loc">
+                                                                Out-patient (sepecify)
+                                                                <input type="text" name="out_patient_others" />
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -215,11 +219,11 @@
                                         <div class="has-success">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="radio" id="checkboxSuccess" value="option1">
+                                                    <input type="radio" id="checkboxSuccess" value="yes" name="requested">
                                                     Requested
                                                 </label>
                                                 <label>
-                                                    <input type="radio" id="checkboxSuccess" value="option1">
+                                                    <input type="radio" id="checkboxSuccess" value="no" name="requested">
                                                     Not Requested
                                                 </label>
                                             </div>
@@ -390,6 +394,5 @@
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
-
     </script>
 @endsection
