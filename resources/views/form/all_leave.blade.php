@@ -29,7 +29,36 @@
             <div class="clearfix"></div>
             <div class="page-divider"></div>
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if(isset($leaves) and count($leaves) >0)
+                            <div class="table-responsive">
+                                <table class="table table-list table-hover table-striped">
+                                    <thead>
+                                     <tr>
+                                        <td>Date Created</td>
+                                        <td>Application for Leave</td>
+                                        <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($leaves as $leave)
+                                        <tr>
+                                            <td>{{ $leave->date_filling }}</td>
+                                            <td>{{ $leave->vication_leave_type }}</td>
+                                            <td><a class="btn btn-success" href="{{ asset('leave/update') }}">Update</a> </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            {{ $leaves->links() }}
 
+                        @else
+                            <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>

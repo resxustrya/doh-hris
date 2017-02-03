@@ -55,7 +55,9 @@ class DocumentController extends Controller
 
     public function all_leave()
     {
-        return view('form.all_leave');
+        $leaves = Leave::paginate(10);
+
+        return view('form.all_leave')->with('leaves', $leaves);
     }
     public function so(Request $request)
     {

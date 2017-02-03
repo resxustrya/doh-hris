@@ -27,7 +27,37 @@
             <div class="clearfix"></div>
             <div class="page-divider"></div>
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php if(isset($leaves) and count($leaves) >0): ?>
+                            <div class="table-responsive">
+                                <table class="table table-list table-hover table-striped">
+                                    <thead>
+                                     <tr>
+                                        <td>Date Created</td>
+                                        <td>Application for Leave</td>
+                                        <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($leaves as $leave): ?>
+                                        <tr>
+                                            <td><?php echo e($leave->date_filling); ?></td>
+                                            <td><?php echo e($leave->vication_leave_type); ?></td>
+                                            <td><a class="btn btn-success" href="<?php echo e(asset('leave/update')); ?>">Update</a> </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php echo e($leaves->links()); ?>
 
+
+                        <?php else: ?>
+                            <div class="alert alert-danger" role="alert">Documents records are empty.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
