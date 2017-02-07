@@ -32,9 +32,9 @@
     <title>
         @yield('title','Home')
     </title>
-
     @yield('css')
     <style>
+
         body {
             background: url('{{ asset('resources/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
@@ -132,7 +132,9 @@
 
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
+<script>
 
+</script>
 @section('js')
 
 @show

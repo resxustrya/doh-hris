@@ -35,18 +35,25 @@
                             <div class="table-responsive">
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
-                                     <tr>
-                                        <td>Date Created</td>
-                                        <td>Application for Leave</td>
-                                        <td><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></td>
-                                    </tr>
+                                         <tr style="background-color:grey;">
+                                            <td><b>Date Created</b></td>
+                                            <td><b>Application for Leave</b></td>
+                                            <td width="30%"><b><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><b/></td>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($leaves as $leave)
                                         <tr>
-                                            <td>{{ $leave->date_filling }}</td>
-                                            <td>{{ $leave->vication_leave_type }}</td>
-                                            <td><a class="btn btn-success" href="{{ asset('leave/update') }}">Update</a> </td>
+                                            <td style="color: #c87f0a;">
+                                                <a href="#leave" data-toggle="modal" data-link="{{ asset('leave/get') }}" data-id="{{ $leave->id }}"><b>{{ $leave->date_filling }}</b></a>
+                                            </td>
+                                            <td>{{ $leave->leave_type }}</td>
+                                            <td>
+                                                <b>
+                                                    <a class="btn btn-info" href="{{ asset('leave/update/' . $leave->id) }}">Update</a>
+                                                    <a class="btn btn-warning" href="{{ asset('leave/delete/' .$leave->id) }}">Delete</a>
+                                                </b>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -69,6 +76,13 @@
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
-
+        $('a[href="#leave').click(function(){
+            var id = $(this).data('id');
+            var url = $(this).data('link');
+            $.get(url +'/' +id , function(data){
+                $('#document_form').modal('show');
+                $('.modal-body').html(data);
+            });
+        });
     </script>
 @endsection

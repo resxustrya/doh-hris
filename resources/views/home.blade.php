@@ -54,8 +54,11 @@
                                     <tr>
                                         <td>{{ $list->userid }}</td>
                                         <td>{{ $list->firstname .", " .$list->lastname }}</td>
-                                        <td>{{ date('l', strtotime($list->datein)) }}</td>
-                                        <td>{{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}</td></td>
+                                        <td>{{ $list->department }} </td>
+                                        <td>
+                                            {{ date('l', strtotime($list->datein)) }}
+                                            {{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}
+                                        </td>
                                         <td>{{ date("h:i A", strtotime($list->time)) }}</td>
                                         <td>{{ $list->event }}</td>
                                         <td>{{ $list->terminal }}</td>

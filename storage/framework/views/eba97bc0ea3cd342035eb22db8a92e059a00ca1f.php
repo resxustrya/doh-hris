@@ -32,9 +32,9 @@
     <title>
         <?php echo $__env->yieldContent('title','Home'); ?>
     </title>
-
     <?php echo $__env->yieldContent('css'); ?>
     <style>
+
         body {
             background: url('<?php echo e(asset('resources/img/backdrop.png')); ?>'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
@@ -132,7 +132,9 @@
 
 <!-- SELECT CHOOSEN -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
+<script>
 
+</script>
 <?php $__env->startSection('js'); ?>
 
 <?php echo $__env->yieldSection(); ?>
