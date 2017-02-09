@@ -353,9 +353,9 @@
                                                 <td height="60"></td>
                                             </tr>
                                             <tr>
-                                                <td class="col-md-1">Days</td>
-                                                <td class="col-md-1">Days</td>
-                                                <td class="col-md-1">Days</td>
+                                                <td class="col-md-1"><b>{{ (isset($leave->vication_total) ? $leave->vication_total : 0) }}</b> Days</td>
+                                                <td class="col-md-1"><b>{{ (isset($leave->sick_total) ? $leave->sick_total : 0) }}</b> Days</td>
+                                                <td class="col-md-1"><b>{{ (isset($leave->over_total) ? $leave->over_total : 0) }}</b> Days</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -406,9 +406,11 @@
                                     <tr>
                                         <td>&nbsp;</td>
                                         <td>
-                                            @if(isset($leave->disaprove_due_to))
-                                                <em>{{ $leave->disaprove_due_to }}</em>
-                                            @endif
+                                            <span class="tab2">
+                                                @if(isset($leave->disaprove_due_to))
+                                                    <em>{{ $leave->disaprove_due_to }}</em>
+                                                @endif
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -425,6 +427,8 @@
                     <td style="width: 50%;">
                         <div style="padding: 10px;width:100%;">
                             <strong>(7c) APPROVE FOR :</strong>
+                            <br />
+                            <br />
                             <table style="width: 60%;">
                                 <tr>
                                     <td><strong style="text-decoration: underline;">{{ (isset($leave->a_days_w_pay) ? $leave->a_days_w_pay : 0) }}</strong></td>
@@ -443,14 +447,40 @@
                     </td>
                     <td style="width: 50%;">
                         <div style="padding: 10px; width: 100%;">
-
+                            <strong>DISAPPROVED DUE TO :</strong>
+                            <br />
+                            <br />
+                            @if(isset($leave->disaprove_due_to))
+                                <em>{{ $leave->disaprove_due_to }}</em>
+                            @endif
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
             <table border="2" style="width: 100%;" >
-
+                <tr>
+                    <td>
+                        <div class="row" style="padding: 10px; text-align: center;">
+                            <strong><em><b>By Authority of the Secretary of Health</b></em></strong>
+                        </div>
+                        <table style="width: 100%;">
+                            <thead></thead>
+                            <tbody>
+                            <tr>
+                                <td style="padding: 10px;">
+                                    <br /><br />
+                                    <p class="text-center" style="border-top: solid 2px black; width: 50%;">Date</p>
+                                </td>
+                                <td style="padding: 10px;">
+                                    <br /><br />
+                                    <p class="text-center" style="border-top: solid 2px black; width: 70%;">Authorized Official</p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
