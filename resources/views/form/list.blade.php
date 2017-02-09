@@ -52,6 +52,7 @@
                                                 <b>
                                                     <a class="btn btn-info" href="{{ asset('leave/update/' . $leave->id) }}">Update</a>
                                                     <a class="btn btn-warning" href="{{ asset('leave/delete/' .$leave->id) }}">Delete</a>
+                                                    <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}">Print</a>
                                                 </b>
                                             </td>
                                         </tr>

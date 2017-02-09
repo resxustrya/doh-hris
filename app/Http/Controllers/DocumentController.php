@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 use App\Leave;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\App;
 class DocumentController extends Controller
 {
     public function __construct()
@@ -90,6 +90,16 @@ class DocumentController extends Controller
     {
         $leave = Leave::find($id);
         return view('form.leave')->with('leave', $leave);
+    }
+
+    public function print_leave(Request $request, $id)
+    {
+        $leave = Leave::find($id);
+        $display = view('pdf.leave')->with('leave', $leave);
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->setPaper('LEGAL', 'portrait');
+        $pdf->loadHTML($display);
+        return $pdf->stream();
     }
 
 }

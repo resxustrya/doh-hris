@@ -66,13 +66,13 @@ if(isset($lists) and count($lists) > 0) {
                                         <?php foreach($lists as $list): ?>
                                             <?php if($startday <= $endday): ?>
                                                 <tr>
-                                                    <td><?php echo e($list->datein); ?></td>
-                                                    <td><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
-                                                    <td><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
-                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
-                                                    <td><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
-                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
-                                                    <td><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+                                                    <td class="col-sm-2"><?php echo e($list->datein); ?></td>
+                                                    <td class="col-sm-2"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
+                                                    <td class="col-sm-2"><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
+                                                    <td class="col-sm-2"><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+                                                    <td class="col-sm-2"><?php echo e(personal::get_time($list->datein, 'IN')); ?></td>
+                                                    <td class="col-sm-2"><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
+                                                    <td class="col-sm-2"><?php echo e(personal::get_time($list->datein, 'OUT')); ?></td>
                                                 </tr>
                                             <?php endif; ?>
                                            <?php $startday = $startday + 1; ?>
