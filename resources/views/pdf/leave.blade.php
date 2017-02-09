@@ -374,11 +374,43 @@
                     </td>
                     <td style="width: 50%;">
                         <div style="padding: 10px;width:100%;">
+                            <strong>(7b) RECOMMENDATION</strong>
                             <br />
                             <table style="width:100%;">
                                 <thead></thead>
                                 <tbody>
-                                    
+                                    <tr>
+                                        <td>
+                                            @if($leave->reco_approval == "approve")
+                                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            @else
+                                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                            @endif
+                                        </td>
+                                        <td> <strong>Approval</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if($leave->reco_approval == "disapprove")
+                                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            @else
+                                                <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
+                                            @endif
+                                        </td>
+                                        <td><strong class="col-sm-6">Disapproval</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>Due to:</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            @if(isset($leave->disaprove_due_to))
+                                                <em>{{ $leave->disaprove_due_to }}</em>
+                                            @endif
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
