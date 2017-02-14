@@ -19,9 +19,9 @@ Route::match(['get','post'], 'admin/upload', 'DtrController@upload');
 Route::match(['get', 'post'],'search', 'DtrController@search');
 
 Route::get('dtr/print-monthly',function(){
-    Session::forget('f_from');
-    Session::forget('f_to');
-    Session::forget('lists');
+   Session::forget('f_from');
+   Session::forget('f_to');
+   Session::forget('lists');
     return redirect('print');
 });
 Route::get('print','PrintController@home');
@@ -48,7 +48,6 @@ Route::get('personal/monthly',function() {
 Route::get('personal/index', 'PersonalController@index');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
-
 
 
 

@@ -46,6 +46,19 @@
                                         <td><textarea class="form-control" name="description" rows="20" style="resize:none;" required></textarea></td>
                                     </tr>
                                     <tr>
+                                        <td class="col-sm-3"><label>Inclusive Dates :</label></td>
+                                        <td class="col-sm-1">:</td>
+                                        <td class="col-sm-8">
+                                            <div class="input-group input-daterange">
+                                                <span class="input-group-addon">From</span>
+                                                <input type="text" class="form-control" name="inc_from" value="2012-04-05">
+                                                <span class="input-group-addon">To</span>
+                                                <input type="text" class="form-control" name="inc_to" value="2012-04-19">
+                                                <span class="input-group-addon"></span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td class="col-sm-3"><label>To be approve by:</label></td>
                                         <td class="col-sm-1">:</td>
                                         <td class="col-sm-8"><input type="text" name="approve_by" class="form-control" required /></td>
@@ -81,5 +94,8 @@
     @@parent
     <script>
         $("textarea").wysihtml5();
+        $('.input-daterange input').each(function() {
+            $(this).datepicker("clearDates");
+        });
     </script>
 @endsection

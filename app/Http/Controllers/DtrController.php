@@ -65,7 +65,7 @@ class DtrController extends Controller
                                     $details->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
                                 }
                             } catch(Exception $ex){
-                                Log::info("Exception at time array in line 66 : " .$ex->getMessage());
+                                Log::info("Exception at time array in line 68 : " .$ex->getMessage());
                             }
 
                             $details->event = array_key_exists(6, $employee) == true ? trim($employee[6], "\" ") : null;

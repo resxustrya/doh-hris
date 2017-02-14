@@ -34,6 +34,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-
+        \Illuminate\Support\Facades\Schema::drop('users');
     }
 }

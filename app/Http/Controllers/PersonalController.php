@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 use App\DtrDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 class PersonalController extends Controller
 {
@@ -45,6 +46,7 @@ class PersonalController extends Controller
         $_to = explode('/', $request->input('to'));
         $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
         $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
+
         Session::put('f_from',$f_from);
         Session::put('f_to',$f_to);
         if(count($_from) > 0 and count($_to) > 0){
@@ -69,7 +71,7 @@ class PersonalController extends Controller
         $date = $list->date_y.'-'.$list->date_m.'-'.$day;
         return date('D', strtotime($date));
     }
-    public static function get_time($date,$event)
+    public static function get_time($datein,$event)
     {
         $order = "";
         if($event == 'IN')
@@ -77,10 +79,11 @@ class PersonalController extends Controller
         if($event == 'OUT')
             $order = 'DESC';
 
-        $time = DtrDetails::where('datein',$date)
+        $id = Auth::user()->userid;
+        $time = DtrDetails::where('datein',$datein)
+                            ->where('userid',$id)
                             ->where('event', $event)
-                            //->where('date', $op ,12)
-                            ->orderBy('created_at', $order)
+                            ->orderBy('time', $order)
                             ->pluck('time')
                             ->first();
         return $time;

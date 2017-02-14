@@ -49,29 +49,30 @@ if(isset($lists) and count($lists) > 0) {
                                         </tr>
                                     </thead>
                                 </table>
-                                <table class="table table-list table-hover table-striped">
+                                <table border="1" class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <td class="col-sm-1">Date</td>
-                                            <td class="col-sm-1">DAY</td>
-                                            <td class="col-sm-2">IN</td>
-                                            <td class="col-sm-2">OUT</td>
-                                            <td class="col-sm-2">IN</td>
-                                            <td class="col-sm-2">OUT</td>
-                                            <td class="col-sm-2">LATE | UT</td>
+                                            <td class="col-sm-1 text-center">Date</td>
+                                            <td class="col-sm-1 text-center">DAY</td>
+                                            <td class="col-sm-2 text-center">IN</td>
+                                            <td class="col-sm-2 text-center">OUT</td>
+                                            <td class="col-sm-2 text-center">IN</td>
+                                            <td class="col-sm-2 text-center">OUT</td>
+                                            <td class="col-sm-2 text-center">LATE | UT</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($lists as $list)
                                             @if($startday <= $endday)
+                                                <?php $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$startday ?>
                                                 <tr>
-                                                    <td class="col-sm-2">{{ $list->datein }}</td>
-                                                    <td class="col-sm-2">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <td class="col-sm-2 text-center">{{ $list->datein }}</td>
+                                                    <td class="col-sm-2 text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT') }}</td>
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>
