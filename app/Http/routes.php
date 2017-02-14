@@ -14,6 +14,7 @@ Route::get('home', function(){
     return redirect('index');
 });
 
+Route::get('rpchallenge', 'PasswordController@change_password');
 Route::get('index', 'AdminController@index');
 Route::match(['get','post'], 'admin/upload', 'DtrController@upload');
 Route::match(['get', 'post'],'search', 'DtrController@search');
@@ -32,6 +33,10 @@ Route::get('new/flixetime' ,'HoursController@create');
 Route::match(['get','post'], 'create/flixe', 'HoursController@create_flixe');
 
 
+Route::get('resetpass', 'PasswordController@change_password');
+Route::post('/', 'PasswordController@save_changes');
+
+
 //FOR PERSONAL ROUTE GROUP
 
 Route::get('personal/home', function() {
@@ -48,6 +53,7 @@ Route::get('personal/monthly',function() {
 Route::get('personal/index', 'PersonalController@index');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
+
 
 
 
