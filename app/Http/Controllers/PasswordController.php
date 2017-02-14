@@ -44,7 +44,8 @@ class PasswordController extends Controller
             $user->password = Hash::make($request->input('password_confirmation'));
             $user->save();
             Session::flush();
-            return redirect('/')->with('ok', 'Password succesfully changed. Login now to your account.');
+            return redirect('/')->with(
+                'ok', 'Password succesfully changed. Login now to your account.');
         }
         return redirect('resetpass')->with('not_match','Current password invalid');
     }
