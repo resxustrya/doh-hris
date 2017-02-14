@@ -81,7 +81,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="To sake employement" name="leave_type">
+                                                                <input type="radio" id="checkboxSuccess" value="To_sake_employement" name="leave_type">
                                                                 To seek employement
                                                             </label>
                                                         </div>
@@ -124,7 +124,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="Others" name="leave_type">
+                                                                <input type="radio" id="checkboxSuccess" value="Others2" name="leave_type">
                                                                 Others(Specify)
                                                             </label>
                                                         </div>

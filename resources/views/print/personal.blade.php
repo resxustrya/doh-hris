@@ -65,13 +65,13 @@ if(isset($lists) and count($lists) > 0) {
                                         @foreach($lists as $list)
                                             @if($startday <= $endday)
                                                 <tr>
-                                                    <td>{{ $list->datein }}</td>
-                                                    <td>{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <td class="col-sm-2">{{ $list->datein }}</td>
+                                                    <td class="col-sm-2">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
+                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'IN') }}</td>
+                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'IN') }}</td>
+                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <td class="col-sm-2">{{  personal::get_time($list->datein, 'OUT') }}</td>
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>
