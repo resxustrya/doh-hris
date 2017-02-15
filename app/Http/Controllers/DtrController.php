@@ -98,7 +98,7 @@ class DtrController extends Controller
                         continue;
                     }
                 }
-                return redirect('admin/home');
+                return redirect('index');
             }
         }
     }

@@ -11,6 +11,8 @@ use App\DtrDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use PDO;
 class PersonalController extends Controller
 {
     public function __construct()
@@ -47,29 +49,24 @@ class PersonalController extends Controller
         $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
         $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
 
-        Session::put('f_from',$f_from);
-        Session::put('f_to',$f_to);
-        if(count($_from) > 0 and count($_to) > 0){
-            $lists = DtrDetails::where('userid', $request->user()->userid)
-                                ->where('datein','>=', $f_from)
-                                ->where('datein','<=', $f_to)
-                                ->orderBy('datein', 'ASC')
-                                ->paginate(61);
-            if(isset($lists) and count($lists) > 0) {
-                Session::put('filter_list', $lists);
-                return redirect('personal/print/monthly');
-            } else {
-                return redirect('personal/print/monthly');
-            }
+        $pdo = DB::connection()->getPdo();
+        $query = "SELECT DISTINCT datein,date_d,DATE_FORMAT(datein,'%M %d, %Y') AS 'date' FROM dtr_file WHERE userid = '" . $request->user()->userid . "' and datein BETWEEN '" . $f_from . "' AND '" . $f_to . "' ORDER BY datein ASC";
+
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $lists = $st->fetchAll(PDO::FETCH_ASSOC);
+        $pdo = null;
+        if(isset($lists) and count($lists) > 0){
+            return view('print.personal')->with('lists',$lists);
         } else {
             return redirect('personal/print/monthly');
         }
     }
 
-    public static function day_name($day,$list)
+    public static function day_name($datein)
     {
-        $date = $list->date_y.'-'.$list->date_m.'-'.$day;
-        return date('D', strtotime($date));
+
+        return date('D', strtotime($datein));
     }
     public static function get_time($datein,$event)
     {

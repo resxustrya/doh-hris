@@ -23,8 +23,7 @@ class AdminController extends Controller
     }
     public function index(Request $request)
     {
-        $listQuery = DtrDetails::query();
-        $lists = $listQuery->where('userid','<>' ,'')
+        $lists = DtrDetails::where('userid','<>' ,'')
             ->where('firstname', '<>', NULL)
             ->where('lastname', '<>', NULL)
             ->where('userid', '<>', NULL)

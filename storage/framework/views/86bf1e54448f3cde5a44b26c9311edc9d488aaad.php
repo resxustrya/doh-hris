@@ -1,12 +1,9 @@
 <?php
-use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PersonalController as personal;
-if(Session::has('filter_list')) {
-    $lists = Session::get('filter_list');
-}
+
 if(isset($lists) and count($lists) > 0) {
-    $startday = $lists[0]->date_d;
-    $endday = $lists[count($lists) -1 ]->date_d;
+    $startday = $lists[0]['date_d'];
+    $endday = $lists[count($lists) -1 ]['date_d'];
 }
 ?>
 
@@ -63,26 +60,26 @@ if(isset($lists) and count($lists) > 0) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($lists as $list): ?>
-                                            <?php if($startday <= $endday): ?>
-                                                <?php $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$startday ?>
-                                                <tr>
-                                                    <td class="col-sm-2 text-center"><?php echo e($list->datein); ?></td>
-                                                    <td class="col-sm-2 text-center"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
-                                                    <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'IN')); ?></td>
-                                                    <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'OUT')); ?></td>
-                                                    <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'IN')); ?></td>
-                                                    <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'OUT')); ?></td>
-                                                    <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'OUT')); ?></td>
-                                                </tr>
-                                            <?php endif; ?>
-                                           <?php $startday = $startday + 1; ?>
-                                        <?php endforeach; ?>
+                                        <?php $i = 0; ?>
+                                        <?php for(; $startday <= $endday;): ?>
+                                            <?php
+                                                $date = explode('-',$lists[$i]['datein']);
+                                                $datein = $date[0]."-".$date[1]."-".$startday;
+                                            ?>
+                                            <tr>
+                                                <td class="col-sm-2 text-center"><?php echo e($lists[$i]['date']); ?></td>
+                                                <td class="col-sm-2 text-center"><?php echo e($startday ." " .personal::day_name($datein)); ?></td>
+                                                <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'IN')); ?></td>
+                                                <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'OUT')); ?></td>
+                                                <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'IN')); ?></td>
+                                                <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'OUT')); ?></td>
+                                                <td class="col-sm-2 text-center"><?php echo e(personal::get_time($datein, 'OUT')); ?></td>
+                                            </tr>
+                                           <?php $startday = $startday + 1; $i++ ?>
+                                        <?php endfor; ?>
                                     </tbody>
                                 </table>
                             </div>
-                            <?php echo e($lists->links()); ?>
-
                         <?php else: ?>
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                         <?php endif; ?>
