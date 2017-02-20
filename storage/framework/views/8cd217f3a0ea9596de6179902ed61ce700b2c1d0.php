@@ -11,7 +11,7 @@
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
         </h3>
-        <form class="form-inline" method="POST" action="<?php echo e(asset('search')); ?>" onsubmit="return searchDocument();" id="searchForm">
+        <form class="form-inline" method="GET" action="<?php echo e(asset('search')); ?>" onsubmit="return searchDocument();" id="searchForm">
             <?php echo e(csrf_field()); ?>
 
             <div class="form-group">

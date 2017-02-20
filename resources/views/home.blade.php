@@ -11,7 +11,7 @@
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
         </h3>
-        <form class="form-inline" method="POST" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
+        <form class="form-inline" method="GET" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="{{ Session::get('keyword') }}" autofocus>

@@ -39,7 +39,6 @@ class PersonalController extends Controller
     }
     public function filter(Request $request)
     {
-
         if($request->input('from') == "" and $request->input('to') == "") {
             return redirect('personal/print/monthly');
         }
@@ -49,40 +48,45 @@ class PersonalController extends Controller
         $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
         $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
 
-        $pdo = DB::connection()->getPdo();
-        $query = "SELECT DISTINCT datein,date_d,DATE_FORMAT(datein,'%M %d, %Y') AS 'date' FROM dtr_file WHERE userid = '" . $request->user()->userid . "' and datein BETWEEN '" . $f_from . "' AND '" . $f_to . "' ORDER BY datein ASC";
-
-        $st = $pdo->prepare($query);
-        $st->execute();
-        $lists = $st->fetchAll(PDO::FETCH_ASSOC);
-        $pdo = null;
-        if(isset($lists) and count($lists) > 0){
+        if(count($_from) > 0 and count($_to) > 0){
+            $lists = DtrDetails::where('userid', $request->user()->userid)
+                                ->where('datein','>=', $f_from)
+                                ->where('datein','<=', $f_to)
+                                ->orderBy('datein', 'ASC')
+                                ->get();
             return view('print.personal')->with('lists',$lists);
         } else {
             return redirect('personal/print/monthly');
         }
     }
 
-    public static function day_name($datein)
-    {
 
-        return date('D', strtotime($datein));
+    public static function day_name($day,$list)
+    {
+        $date = $list->date_y.'-'.$list->date_m.'-'.$day;
+        return date('D', strtotime($date));
     }
-    public static function get_time($datein,$event)
+    public static function get_time($datein,$event,$b)
     {
-        $order = "";
-        if($event == 'IN')
-            $order = 'ASC';
-        if($event == 'OUT')
-            $order = 'DESC';
-
         $id = Auth::user()->userid;
-        $time = DtrDetails::where('datein',$datein)
-                            ->where('userid',$id)
-                            ->where('event', $event)
-                            ->orderBy('time', $order)
-                            ->pluck('time')
-                            ->first();
-        return $time;
+        $pdo = DB::connection()->getPdo();
+        $query = "";
+        if($event == 'IN' and $b == 'AM') {
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h < 12 and event = 'IN'";
+        }
+        if($event == 'OUT' and $b == 'AM') {
+            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h = 12 and time_m <=59 and time_s <= 59 and event = 'OUT'";
+        }
+        if($event == 'IN' and $b == 'PM') {
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h = 12 and time_m <=59 and time_s <= 59 and event = 'IN'";
+        }
+        if($event == 'OUT' and $b == 'PM') {
+            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" .$id ."' and datein ='" . $datein . "' and time_h >12  and event = 'OUT'";
+        }
+
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
+        return $row[0]['time'];
     }
 }

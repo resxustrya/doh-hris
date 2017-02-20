@@ -57,6 +57,7 @@
         <!--DATE RANGE-->
 @show
 <body  class="ng-cloak">
+<div class="loading"></div>
 
 <!-- Fixed navbar -->
 

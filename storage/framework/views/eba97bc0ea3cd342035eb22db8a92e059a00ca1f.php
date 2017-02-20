@@ -57,6 +57,7 @@
         <!--DATE RANGE-->
 <?php echo $__env->yieldSection(); ?>
 <body  class="ng-cloak">
+<div class="loading"></div>
 
 <!-- Fixed navbar -->
 

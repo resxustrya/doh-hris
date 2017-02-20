@@ -2,8 +2,8 @@
 use App\Http\Controllers\PersonalController as personal;
 
 if(isset($lists) and count($lists) > 0) {
-    $startday = $lists[0]['date_d'];
-    $endday = $lists[count($lists) -1 ]['date_d'];
+    $startday = $lists[0]->date_d;
+    $endday = $lists[count($lists) -1 ]->date_d;
 }
 ?>
 @extends('layouts.app')
@@ -59,24 +59,21 @@ if(isset($lists) and count($lists) > 0) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $i = 0; ?>
-                                        @for(; $startday <= $endday;)
-                                            <?php
-                                                $datein = isset($lists[$i]['datein']) ? $lists[$i]['datein'] : null;
-                                                $date = explode('-',$datein);
-                                                $datein = $date[0]."-".$date[1]."-".$startday;
-                                            ?>
-                                            <tr>
-                                                <td class="col-sm-2 text-center">{{ $lists[$i]['date'] }}</td>
-                                                <td class="col-sm-2 text-center">{{ $startday ." " .personal::day_name($datein) }}</td>
-                                                <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN') }}</td>
-                                                <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT') }}</td>
-                                                <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN') }}</td>
-                                                <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT') }}</td>
-                                                <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT') }}</td>
-                                            </tr>
-                                           <?php $startday = $startday + 1; $i++ ?>
-                                        @endfor
+                                        @foreach($lists as $list)
+                                            @if($startday <= $endday)
+                                                <?php $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$startday ?>
+                                                <tr>
+                                                    <td class="col-sm-2 text-center">{{ $datein }}</td>
+                                                    <td class="col-sm-2 text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN','AM') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT', 'AM') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN','PM') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT','PM') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT','AM') }}</td>
+                                                </tr>
+                                            @endif
+                                           <?php $startday = $startday + 1; ?>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
