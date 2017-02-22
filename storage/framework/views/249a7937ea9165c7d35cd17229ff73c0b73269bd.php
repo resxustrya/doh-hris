@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="btn-group">
-                    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" data-link= "<?php echo e(asset('create/work-schedule')); ?>" href="#flixe">
+                    <a class="btn btn-success" href="<?php echo e(asset('create/work-schedule')); ?>">
                         <i class="fa fa-plus"></i>  Add New
                     </a>
                 </div>
@@ -12,19 +12,38 @@
         </div>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
+        <?php if(Session::has('new_hour')): ?>
+            <div class="alert alert-success">
+                <strong><?php echo e(Session::get('new_hour')); ?></strong>
+            </div>
+        <?php endif; ?>
         <?php if(isset($hours) and count($hours)): ?>
+
             <div class="table-responsive">
                 <table class="table table-list table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>Time From</th>
-                            <th>Time To</th>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>AM Time In</th>
+                            <th>AM Time Out</th>
+                            <th>PM Time In</th>
+                            <th>PM Time Out</th>
+                            <th>Options</th>
                         </tr>
                     </thead>
                     <?php foreach($hours as $hour): ?>
                         <tr>
-                            <td><?php echo e($hour->from); ?></td>
-                            <td><?php echo e($hour->to); ?></td>
+                            <td><?php echo e($hour->id); ?></td>
+                            <td><?php echo e($hour->description); ?></td>
+                            <td><?php echo e($hour->am_in); ?></td>
+                            <td><?php echo e($hour->am_out); ?></td>
+                            <td><?php echo e($hour->pm_in); ?></td>
+                            <td><?php echo e($hour->pm_out); ?></td>
+                            <td>
+                                <a class="btn btn-default" href="<?php echo e(asset('edit/work-schedule/' . $hour->id)); ?>">Update</a>
+                                <a class="btn btn-danger" href="<?php echo e(asset('delete/work-schedule/' . $hour->id)); ?>">Delete</a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
@@ -57,14 +76,6 @@
             align : 'left',
             donetext : 'Ok',
             'default' : '12:00'
-        });
-        $('a[href="#flixe"]').click(function(event){
-            event.preventDefault();
-            var url = $(this).data('link');
-            $.get(url,'',function(response){
-               $('#new_form').modal('show');
-               $('.modal-body').html(response);
-            });
         });
     </script>
 <?php $__env->stopSection(); ?>

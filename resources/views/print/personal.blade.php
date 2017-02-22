@@ -63,13 +63,16 @@ if(isset($lists) and count($lists) > 0) {
                                             @if($startday <= $endday)
                                                 <?php $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$startday ?>
                                                 <tr>
+                                                    <?php
+                                                        $am_in =  personal::get_time($datein, 'IN','AM');
+                                                    ?>
                                                     <td class="col-sm-2 text-center">{{ $datein }}</td>
                                                     <td class="col-sm-2 text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
                                                     <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN','AM') }}</td>
                                                     <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT', 'AM') }}</td>
                                                     <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN','PM') }}</td>
                                                     <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT','PM') }}</td>
-                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT','AM') }}</td>
+                                                    <td class="col-sm-2 text-center">{{  personal::late($am_in) }}</td>
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>

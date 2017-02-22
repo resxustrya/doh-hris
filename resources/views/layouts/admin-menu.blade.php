@@ -7,9 +7,9 @@
             <li><a href="{{ asset('/employee-attendance')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Employee attendance</a></li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
-                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Flixetime</a>
+                <a href="#"><i class="fa fa-clock-o"></i>&nbsp;&nbsp; Manage Schedule</a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ asset('new/flixetime') }}">Add New Flixetime</a></li>
+                    <li><a href="{{ asset('work-schedule') }}">Working Schedule</a></li>
                     <li><a href="{{ asset('new/flixe/group') }}">Employee Flixe Group</a></li>
                 </ul>
             </li>

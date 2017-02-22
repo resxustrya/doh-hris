@@ -27,12 +27,3 @@
         <button type="submit" class="btn btn-success" onclick="$('form').attr('taraget','');"><i class="fa fa-send"></i> Submit</button>
     </div>
 </form>
-<script>
-    var input = $('#input-a');
-    input.clockpicker({
-        autoclose: true,
-        placement : 'top',
-        align : 'left',
-        donetext : 'Ok'
-    });
-</script>

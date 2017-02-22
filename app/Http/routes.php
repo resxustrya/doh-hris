@@ -29,9 +29,9 @@ Route::get('print','PrintController@home');
 Route::match(['get','post'], 'print-monthly', 'PrintController@print_monthly');
 Route::match(['get','post'], 'print/employee-attendance', 'PrintController@print_employee');
 
-Route::get('new/flixetime' ,'HoursController@create');
-Route::match(['get','post'], 'create/flixe', 'HoursController@create_flixe');
-
+Route::get('work-schedule' ,'HoursController@create');
+Route::match(['get','post'], 'create/work-schedule', 'HoursController@work_schedule');
+Route::match(['get','post'] , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
 
 Route::get('resetpass', 'PasswordController@change_password');
 Route::post('/', 'PasswordController@save_changes');
