@@ -34,6 +34,31 @@ class PersonalController extends Controller
         return view('employee.index')->with('lists',$lists);
     }
 
+    public  function search_filter(Request $request)
+    {
+        if($request->has('from') and $request->has('to')){
+
+            $_from = explode('/', $request->input('from'));
+            $_to = explode('/', $request->input('to'));
+            $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
+            $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
+            Session::put('from',$f_from);
+            Session::put('to', $f_to);
+        }
+
+        if(Session::has('from') and Session::has('to')) {
+
+            $f_from = Session::get('from');
+            $f_to = Session::get('to');
+            $lists = DtrDetails::where('userid', $request->user()->userid)
+                ->where('datein', '>=', $f_from)
+                ->where('datein', '<=', $f_to)
+                ->orderBy('datein', 'ASC')
+                ->paginate(10);
+
+            return view('employee.index')->with('lists',$lists);
+        }
+    }
     public function print_monthly(Request $request)
     {
         return view('print.personal');

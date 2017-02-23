@@ -51,9 +51,10 @@ Route::get('personal/monthly',function() {
 });
 
 Route::get('personal/index', 'PersonalController@index');
+
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
-
+Route::get('personal/filter', 'PersonalController@search_filter');
 //DOCUMENTS
 Route::match(['get','post'],'form/leave','DocumentController@leave');
 Route::get('form/leave/all', 'DocumentController@all_leave');

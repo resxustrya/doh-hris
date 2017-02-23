@@ -3,7 +3,7 @@
         <div class="alert alert-jim">
             <h3 class="page-header">Your Attendance
             </h3>
-            <form class="form-inline" method="GET" action="<?php echo e(asset('search')); ?>" onsubmit="return searchDocument();" id="searchForm">
+            <form class="form-inline" method="GET" action="<?php echo e(asset('personal/filter')); ?>"  id="searchForm">
                 <?php echo e(csrf_field()); ?>
 
                 <div class="form-group">
@@ -61,7 +61,6 @@
                                 </table>
                             </div>
                             <?php echo e($lists->links()); ?>
-
 
                         <?php else: ?>
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>

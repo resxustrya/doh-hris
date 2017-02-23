@@ -6,7 +6,7 @@
         <div class="alert alert-jim">
             <h3 class="page-header">Your Attendance
             </h3>
-            <form class="form-inline" method="GET" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
+            <form class="form-inline" method="GET" action="{{ asset('personal/filter') }}"  id="searchForm">
                 {{ csrf_field() }}
                 <div class="form-group">
                     <div class="btn-group">

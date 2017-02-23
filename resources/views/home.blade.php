@@ -1,9 +1,4 @@
-<?php
-    use Illuminate\Support\Facades\Session;
-    if(Session::has('lists')){
-        $lists = Session::get('lists');
-    }
-?>
+
 @extends('layouts.app')
 
 @section('content')
@@ -11,7 +6,7 @@
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
         </h3>
-        <form class="form-inline" method="GET" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
+        <form class="form-inline" method="GET" action="{{ asset('search') }}"  id="searchForm">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
