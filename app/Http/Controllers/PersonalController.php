@@ -27,10 +27,11 @@ class PersonalController extends Controller
             ->where('firstname', '<>', NULL)
             ->where('lastname', '<>', NULL)
             ->where('userid', '<>', NULL)
+            ->where('department', '<>', '--')
             ->where('userid', $request->user()->userid)
             ->orderBy('created_at', 'DESC')
             ->paginate(20);
-        return view('home')->with('lists',$lists);
+        return view('employee.index')->with('lists',$lists);
     }
 
     public function print_monthly(Request $request)
