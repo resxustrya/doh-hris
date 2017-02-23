@@ -123,26 +123,26 @@ class DtrController extends Controller
         }
 
         if (Session::has('f_from') and Session::has('f_to') and Session::has('keyword')) {
+
             $f_from = Session::get('f_from');
             $f_to = Session::get('f_to');
             $keyword = Session::get('keyword');
             $lists = DtrDetails::where('department','- -')
                 ->where('datein', '>=', $f_from)
                 ->where('datein', '<=', $f_to)
-                ->where('userid', 'LIKE', '%' . $keyword . '%')
-                ->where('firstname', 'LIKE', '%' . $keyword . '%')
-                ->where('lastname', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('userid', 'LIKE', '%'.$keyword.'%')
+                ->orWhere('firstname', 'LIKE', '%'.$keyword.'%')
+                ->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
                 ->orderBy('datein', 'ASC')
                 ->paginate(20);
         }
         if(Session::has('keyword')) {
             $keyword = Session::get('keyword');
-            $lists = DB::table('dtr_file')->where('department', '<>', '- -')
-                            //->orWhere('userid', 'LIKE', '%'.$keyword.'%')
-                            ->orWhere('firstname', 'LIKE', '%'.$keyword.'%')
-                            //->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
-                            ->orderBy('firstname','DESC')
-                            ->paginate(20);
+            $lists = DtrDetails::where('userid', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('firstname', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
+                                ->orderBy('userid', 'ASC')
+                                ->paginate(20);
         }
 
         return view('home')->with('lists', $lists);
