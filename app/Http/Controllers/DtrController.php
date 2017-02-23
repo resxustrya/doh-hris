@@ -107,45 +107,45 @@ class DtrController extends Controller
     }
     public function search(Request $request)
     {
-        if($request->has('filter') or $request->has('search')){
-            if($request->has('from') and $request->has('to')){
-                $_from = explode('/', $request->input('from'));
-                $_to = explode('/', $request->input('to'));
-                $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
-                $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
-                Session::put('f_from',$f_from);
-                Session::put('f_to',$f_to);
-                if(count($_from) > 0 and count($_to) > 0){
-                    if($request->has('keyword')){
-                        $keyword = $request->input('keyword');
-                        if(isset($keyword)){
-                            $lists = DB::table('dtr_file')
-                                ->where('datein' ,'>=', $f_from)
-                                ->where('datein', '<=', $f_to)
-                                ->Where('userid', 'LIKE', '%'.$keyword .'%')
-                                ->Where('firstname', 'LIKE', '%'. $keyword .'%')
-                                ->Where('lastname', 'LIKE', '%'. $keyword .'%')
-                                ->paginate(20);
-                            if(isset($lists) and count($lists) > 0){
-                                Session::put('lists',$lists);
-                                return redirect('home');
-                            } else
-                                return redirect('home')->with('msg', 'No result set is found.');
-                        }
-                    } else {
-                        $lists = DB::table('dtr_file')
-                            ->where('datein' ,'>=', $f_from)
-                            ->where('datein', '<=', $f_to)
-                            ->paginate(20);
-                        if(isset($lists) and count($lists) > 0){
-                            Session::put('lists',$lists);
-                            return redirect('home');
-                        } else
-                            return redirect('home')->with('msg', 'No result set is found.');
-                    }
-                }
-            } else
-                return redirect('home');
+        $lists = '';
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+            Session::put('keyword', $keyword);
         }
+        if ($request->has('from') and $request->has('to')) {
+            $_from = explode('/', $request->input('from'));
+            $_to = explode('/', $request->input('to'));
+
+            $f_from = $_from[2] . '-' . $_from[0] . '-' . $_from[1];
+            $f_to = $_to[2] . '-' . $_to[0] . '-' . $_to[1];
+            Session::put('f_from', $f_from);
+            Session::put('f_to', $f_to);
+        }
+
+        if (Session::has('f_from') and Session::has('f_to') and Session::has('keyword')) {
+            $f_from = Session::get('f_from');
+            $f_to = Session::get('f_to');
+            $keyword = Session::get('keyword');
+            $lists = DtrDetails::where('department','- -')
+                ->where('datein', '>=', $f_from)
+                ->where('datein', '<=', $f_to)
+                ->where('userid', 'LIKE', '%' . $keyword . '%')
+                ->where('firstname', 'LIKE', '%' . $keyword . '%')
+                ->where('lastname', 'LIKE', '%' . $keyword . '%')
+                ->orderBy('datein', 'ASC')
+                ->paginate(20);
+        }
+        if(Session::has('keyword')) {
+            $keyword = Session::get('keyword');
+            $lists = DB::table('dtr_file')->where('department', '<>', '- -')
+                            //->orWhere('userid', 'LIKE', '%'.$keyword.'%')
+                            ->orWhere('firstname', 'LIKE', '%'.$keyword.'%')
+                            //->orWhere('lastname', 'LIKE', '%'.$keyword.'%')
+                            ->orderBy('firstname','DESC')
+                            ->paginate(20);
+        }
+
+        return view('home')->with('lists', $lists);
+
     }
 }

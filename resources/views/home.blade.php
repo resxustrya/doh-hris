@@ -9,7 +9,7 @@
         <form class="form-inline" method="GET" action="{{ asset('search') }}"  id="searchForm">
             {{ csrf_field() }}
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
+                <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" autofocus>
                 <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
                     <div class="input-group input-daterange">

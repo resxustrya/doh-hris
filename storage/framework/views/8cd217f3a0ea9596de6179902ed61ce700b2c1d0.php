@@ -1,21 +1,13 @@
-<?php
-    use Illuminate\Support\Facades\Session;
-    if(Session::has('lists')){
-        $lists = Session::get('lists');
-    }
-?>
-
-
 <?php $__env->startSection('content'); ?>
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
         </h3>
-        <form class="form-inline" method="GET" action="<?php echo e(asset('search')); ?>" onsubmit="return searchDocument();" id="searchForm">
+        <form class="form-inline" method="GET" action="<?php echo e(asset('search')); ?>"  id="searchForm">
             <?php echo e(csrf_field()); ?>
 
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="<?php echo e(Session::get('keyword')); ?>" autofocus>
+                <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" autofocus>
                 <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
                     <div class="input-group input-daterange">
