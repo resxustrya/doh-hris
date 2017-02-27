@@ -9,9 +9,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <meta http-equiv="cache-control" content="max-age=0" />
-    <link rel="icon" href="{{ asset('resources/img/favicon.png') }}">
+    <link rel="icon" href="<?php echo e(asset('resources/img/favicon.png')); ?>">
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('resources/assets/css/bootstrap.pdf.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('resources/assets/css/bootstrap.pdf.css')); ?>" rel="stylesheet">
     <title>
        Application fo Leave
     </title>
@@ -31,7 +31,7 @@
     <tr>
         <td>
             <p style="padding: 10px;">
-                Office/Agency <br /><b>{{ $leave->office_agency }}</b>
+                Office/Agency <br /><b><?php echo e($leave->office_agency); ?></b>
             </p>
         </td>
         <td>
@@ -43,9 +43,9 @@
             </div>
             <div style="padding: 10px;">
                 <span class="col-sm-3">&nbsp;</span>
-                <span class="col-sm-3 tab1"><b>{{ $leave->lastname }}</b></span>
-                <span class="col-sm-3"><b>{{ $leave->firstname }}</b></span>
-                <span class="col-sm-3"><b>{{ $leave->middlename }}</b></span>
+                <span class="col-sm-3 tab1"><b><?php echo e($leave->lastname); ?></b></span>
+                <span class="col-sm-3"><b><?php echo e($leave->firstname); ?></b></span>
+                <span class="col-sm-3"><b><?php echo e($leave->middlename); ?></b></span>
             </div>
         </td>
     </tr>
@@ -54,17 +54,17 @@
     <tr>
         <td>
             <p style="padding: 10px;">
-                (3.) Date of Filling<br /><b>{{ $leave->date_filling }}</b>
+                (3.) Date of Filling<br /><b><?php echo e($leave->date_filling); ?></b>
             </p>
         </td>
         <td>
             <p style="padding: 10px;">
-                (4.) Position<br /><b>{{ $leave->position }}</b>
+                (4.) Position<br /><b><?php echo e($leave->position); ?></b>
             </p>
         </td>
         <td>
             <p style="padding: 10px;">
-                (5.) Salary (Monthly)<br /><b>{{ $leave->salary }}</b>
+                (5.) Salary (Monthly)<br /><b><?php echo e($leave->salary); ?></b>
             </p>
         </td>
     </tr>
@@ -92,91 +92,92 @@
                     <tbody>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->leave_type == "Vication")
+                            <?php if($leave->leave_type == "Vication"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong>VACATION</strong></td>
                     </tr>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->leave_type == "To_sake_employement")
+                            <?php if($leave->leave_type == "To_sake_employement"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong>TO SAKE EMPLOYEMENT</strong></td>
                     </tr>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->leave_type == "Others")
+                            <?php if($leave->leave_type == "Others"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong>OTHERS (specify)</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            @if(isset($leave->leave_type_others_1))
-                                <span class="tab2"><em>{{  $leave->leave_type_others_1 }}</em></span>
-                            @endif
+                            <?php if(isset($leave->leave_type_others_1)): ?>
+                                <span class="tab2"><em><?php echo e($leave->leave_type_others_1); ?></em></span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->leave_type == "Sick")
+                            <?php if($leave->leave_type == "Sick"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong>SICK</strong></td>
                     </tr>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->leave_type == "Maternity")
+                            <?php if($leave->leave_type == "Maternity"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong>MATERNITY</strong></td>
                     </tr>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->leave_type == "Others2")
+                            <?php if($leave->leave_type == "Others2"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong>OTHERS (specify)</strong></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            @if(isset($leave->leave_type_others_2))
-                                <span class="tab2"><em>{{  $leave->leave_type_others_2 }}</em></span>
-                            @endif
+                            <?php if(isset($leave->leave_type_others_2)): ?>
+                                <span class="tab2"><em><?php echo e($leave->leave_type_others_2); ?></em></span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <strong>(6c) NUMBER OF WORKING DAYS APPLIED <br /> FOR :
-                    @if(isset($leave->applied_num_days))
-                        <span style="text-decoration: underline;" class="tab2">{{ $leave->applied_num_days }}</span>
-                    @endif
+                    <?php if(isset($leave->applied_num_days)): ?>
+                        <span style="text-decoration: underline;" class="tab2"><?php echo e($leave->applied_num_days); ?></span>
+                    <?php endif; ?>
                 </strong>
                 <div style="padding:10px;width: 100%;">
                     <strong class="col-md-4">Inclusive Dates : </strong>
                     <strong class="col-md-5">
-                        {{ $leave->inc_from }} - {{ $leave->inc_to }}
+                        <?php echo e($leave->inc_from); ?> - <?php echo e($leave->inc_to); ?>
+
                     </strong>
                 </div>
             </div>
@@ -193,21 +194,21 @@
                     <tbody>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->vication_loc == "local")
+                            <?php if($leave->vication_loc == "local"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong> Within the Philippines</strong></td>
                     </tr>
                     <tr>
                         <td>
-                            @if($leave->vication_loc == "abroad")
+                            <?php if($leave->vication_loc == "abroad"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td>
                             <strong class="col-sm-6">
@@ -218,9 +219,9 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            @if(isset($leave->abroad_others))
-                                <span class="tab2"><em>{{  $leave->abroad_others }}</em></span>
-                            @endif
+                            <?php if(isset($leave->abroad_others)): ?>
+                                <span class="tab2"><em><?php echo e($leave->abroad_others); ?></em></span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     </tbody>
@@ -234,11 +235,11 @@
                     <tbody>
                     <tr>
                         <td style="width: 20%;">
-                            @if($leave->sick_loc == "in_hostpital")
+                            <?php if($leave->sick_loc == "in_hostpital"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td><strong> In Hospital</strong></td>
                     </tr>
@@ -246,21 +247,22 @@
                         <td>&nbsp;</td>
                         <td>
                             <em>
-                                @if(isset($leave->in_hospital_specify))
-                                    {{ $leave->in_hospital_specify }}
-                                @else
+                                <?php if(isset($leave->in_hospital_specify)): ?>
+                                    <?php echo e($leave->in_hospital_specify); ?>
+
+                                <?php else: ?>
                                     <strong><hr /></strong>
-                                @endif
+                                <?php endif; ?>
                             </em>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            @if($leave->sick_loc == "out_patient")
+                            <?php if($leave->sick_loc == "out_patient"): ?>
                                 <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                            @else
+                            <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
                         <td>
                             <strong class="col-sm-6">Out-patient (specify)</strong>
@@ -268,11 +270,12 @@
                     </tr>
                     <tr>
                         <em>
-                            @if(isset($leave->out_patient_specify))
-                                {{ $leave->out_patient_specify }}
-                            @else
+                            <?php if(isset($leave->out_patient_specify)): ?>
+                                <?php echo e($leave->out_patient_specify); ?>
+
+                            <?php else: ?>
                                 <strong><hr /></strong>
-                            @endif
+                            <?php endif; ?>
                         </em>
                     </tr>
                     </tbody>
@@ -286,21 +289,21 @@
                     <tbody>
                     <tr>
                         <td>
-                            @if($leave->com_requested == "yes")
+                            <?php if($leave->com_requested == "yes"): ?>
                                 <strong class="col-sm-1">
                                     <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                                 </strong>
                                 <strong class="col-sm-6">
                                     Requested
                                 </strong>
-                            @else
+                            <?php else: ?>
                                 <strong class="col-sm-1">
                                     <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                                 </strong>
                                 <strong class="col-sm-6">
                                     Not Requested
                                 </strong>
-                            @endif
+                            <?php endif; ?>
                         </td>
                     </tr>
                     </tbody>
@@ -329,7 +332,7 @@
         <td style="width: 50%;">
             <div class="row" style="padding:10px;">
                 <div class="col-md-12">
-                    <strong>(6a) CERTIFICATION OF LEAVE CREDITS <br />AS OF : <span style="text-decoration: underline;">{{ $leave->credit_date }}</span></strong>
+                    <strong>(6a) CERTIFICATION OF LEAVE CREDITS <br />AS OF : <span style="text-decoration: underline;"><?php echo e($leave->credit_date); ?></span></strong>
                     <div class="row">
                         <div class="col-md-12">
                             <br />
@@ -348,9 +351,9 @@
                                     <td height="60"></td>
                                 </tr>
                                 <tr>
-                                    <td class="col-md-1"><b>{{ (isset($leave->vication_total) ? $leave->vication_total : 0) }}</b> Days</td>
-                                    <td class="col-md-1"><b>{{ (isset($leave->sick_total) ? $leave->sick_total : 0) }}</b> Days</td>
-                                    <td class="col-md-1"><b>{{ (isset($leave->over_total) ? $leave->over_total : 0) }}</b> Days</td>
+                                    <td class="col-md-1"><b><?php echo e((isset($leave->vication_total) ? $leave->vication_total : 0)); ?></b> Days</td>
+                                    <td class="col-md-1"><b><?php echo e((isset($leave->sick_total) ? $leave->sick_total : 0)); ?></b> Days</td>
+                                    <td class="col-md-1"><b><?php echo e((isset($leave->over_total) ? $leave->over_total : 0)); ?></b> Days</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -376,21 +379,21 @@
                     <tbody>
                         <tr>
                             <td>
-                                @if($leave->reco_approval == "approve")
+                                <?php if($leave->reco_approval == "approve"): ?>
                                     <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                                @else
+                                <?php else: ?>
                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                                @endif
+                                <?php endif; ?>
                             </td>
                             <td> <strong>Approval</strong></td>
                         </tr>
                         <tr>
                             <td>
-                                @if($leave->reco_approval == "disapprove")
+                                <?php if($leave->reco_approval == "disapprove"): ?>
                                     <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
-                                @else
+                                <?php else: ?>
                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
-                                @endif
+                                <?php endif; ?>
                             </td>
                             <td><strong class="col-sm-6">Disapproval</strong></td>
                         </tr>
@@ -402,9 +405,9 @@
                             <td>&nbsp;</td>
                             <td>
                                 <span class="tab2">
-                                    @if(isset($leave->disaprove_due_to))
-                                        <em>{{ $leave->disaprove_due_to }}</em>
-                                    @endif
+                                    <?php if(isset($leave->disaprove_due_to)): ?>
+                                        <em><?php echo e($leave->disaprove_due_to); ?></em>
+                                    <?php endif; ?>
                                 </span>
                             </td>
                         </tr>
@@ -426,15 +429,15 @@
                 <br />
                 <table style="width: 60%;">
                     <tr>
-                        <td><strong style="text-decoration: underline;">{{ (isset($leave->a_days_w_pay) ? $leave->a_days_w_pay : 0) }}</strong></td>
+                        <td><strong style="text-decoration: underline;"><?php echo e((isset($leave->a_days_w_pay) ? $leave->a_days_w_pay : 0)); ?></strong></td>
                         <td>day(s) with pay</td>
                     </tr>
                     <tr>
-                        <td><strong style="text-decoration: underline;">{{ (isset($leave->a_days_wo_pay) ? $leave->a_days_wo_pay : 0) }}</strong></td>
+                        <td><strong style="text-decoration: underline;"><?php echo e((isset($leave->a_days_wo_pay) ? $leave->a_days_wo_pay : 0)); ?></strong></td>
                         <td>day(s) without pay</td>
                     </tr>
                     <tr>
-                        <td><strong style="text-decoration: underline;">{{ (isset($leave->a_others) ? $leave->a_others : 0) }}</strong></td>
+                        <td><strong style="text-decoration: underline;"><?php echo e((isset($leave->a_others) ? $leave->a_others : 0)); ?></strong></td>
                         <td>others(specify)</td>
                     </tr>
                 </table>
@@ -445,9 +448,9 @@
                 <strong>DISAPPROVED DUE TO :</strong>
                 <br />
                 <br />
-                @if(isset($leave->disaprove_due_to))
-                    <em>{{ $leave->disaprove_due_to }}</em>
-                @endif
+                <?php if(isset($leave->disaprove_due_to)): ?>
+                    <em><?php echo e($leave->disaprove_due_to); ?></em>
+                <?php endif; ?>
             </div>
         </td>
     </tr>
@@ -484,7 +487,7 @@
 
 </style>
 
-<script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
-<script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
+<script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
+<script src="<?php echo e(asset('resources/assets/js/bootstrap.min.js')); ?>"></script>
 </body>
 </html>
