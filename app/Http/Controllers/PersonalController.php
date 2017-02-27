@@ -104,7 +104,7 @@ class PersonalController extends Controller
             $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h = 12 and time_m <=59 and time_s <= 59 and event = 'OUT'";
         }
         if($event == 'IN' and $b == 'PM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h = 12 and time_m <=59 and time_s <= 59 and event = 'IN'";
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h >= 12 and time_m <=59 and time_s <= 59 and event = 'IN'";
         }
         if($event == 'OUT' and $b == 'PM') {
             $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" .$id ."' and datein ='" . $datein . "' and time_h >12  and event = 'OUT'";

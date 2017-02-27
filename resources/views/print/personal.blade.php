@@ -40,22 +40,21 @@ if(isset($lists) and count($lists) > 0) {
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th class="col-sm-2" style="text-align: center;">AM</th>
-                                            <th class="col-sm-2" style="text-align: center;">PM</th>
-                                            <th class="col-sm-2" style="text-align: center;">UNDERTIME<br />Late | UT</th>
+                                            <th class="col-sm-3" style="text-align: center;">AM</th>
+                                            <th class="col-sm-3" style="text-align: center;">PM</th>
                                         </tr>
                                     </thead>
                                 </table>
                                 <table border="1" class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <td class="col-sm-1 text-center">Date</td>
-                                            <td class="col-sm-1 text-center">DAY</td>
-                                            <td class="col-sm-2 text-center">IN</td>
-                                            <td class="col-sm-2 text-center">OUT</td>
-                                            <td class="col-sm-2 text-center">IN</td>
-                                            <td class="col-sm-2 text-center">OUT</td>
-                                            <td class="col-sm-2 text-center">LATE | UT</td>
+                                            <td class="text-center">Date</td>
+                                            <td class="text-center">DAY</td>
+                                            <td class="text-center">IN</td>
+                                            <td class="text-center">OUT</td>
+                                            <td class="text-center">IN</td>
+                                            <td class="text-center">OUT</td>
+                                            <td class="text-center">LATE | UT</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -66,13 +65,13 @@ if(isset($lists) and count($lists) > 0) {
                                                     <?php
                                                         $am_in =  personal::get_time($datein, 'IN','AM');
                                                     ?>
-                                                    <td class="col-sm-2 text-center">{{ $datein }}</td>
-                                                    <td class="col-sm-2 text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN','AM') }}</td>
-                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT', 'AM') }}</td>
-                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'IN','PM') }}</td>
-                                                    <td class="col-sm-2 text-center">{{  personal::get_time($datein, 'OUT','PM') }}</td>
-                                                    <td class="col-sm-2 text-center">{{  personal::late($am_in) }}</td>
+                                                    <td class="text-center">{{ $datein }}</td>
+                                                    <td class="text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
+                                                    <td class="text-center">{{  personal::get_time($datein, 'IN','AM') }}</td>
+                                                    <td class="text-center">{{  personal::get_time($datein, 'OUT', 'AM') }}</td>
+                                                    <td class="text-center">{{  personal::get_time($datein, 'IN','PM') }}</td>
+                                                    <td class="text-center">{{  personal::get_time($datein, 'OUT','PM') }}</td>
+                                                    <td class="text-center">{{  personal::late($am_in) }}</td>
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>

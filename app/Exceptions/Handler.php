@@ -50,6 +50,9 @@ class Handler extends ExceptionHandler
             //return 'create 404.blade.php';
             return redirect('/');
         }
+        if($e instanceof MethodNotAllowedHttpException ) {
+
+        }
         //return redirect('/home');
         return parent::render($request,$e);
     }
