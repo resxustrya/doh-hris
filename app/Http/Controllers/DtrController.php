@@ -148,4 +148,10 @@ class DtrController extends Controller
         return view('home')->with('lists', $lists);
 
     }
+    public function create_attendance(Request $request)
+    {
+        if($request->isMethod('get')) {
+            return view('dtr.new_attendance');
+        }
+    }
 }

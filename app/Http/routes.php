@@ -18,7 +18,7 @@ Route::get('rpchallenge', 'PasswordController@change_password');
 Route::get('index', 'AdminController@index');
 Route::match(['get','post'], 'admin/upload', 'DtrController@upload');
 Route::match(['get', 'post'],'search', 'DtrController@search');
-
+Route::match(['get', 'post'], 'add/attendance', 'DtrController@create_attendance');
 Route::get('dtr/print-monthly',function(){
    Session::forget('f_from');
    Session::forget('f_to');
