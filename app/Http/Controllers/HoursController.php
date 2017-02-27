@@ -29,6 +29,7 @@ class HoursController extends Controller
             return view('hour.form-hour');
         }
         if($request->isMethod('post')) {
+
             $work_sched = new Work_sched();
             $work_sched->description = $request->input('description');
             $work_sched->am_in = $request->input('am_in');

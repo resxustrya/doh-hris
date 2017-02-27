@@ -98,10 +98,10 @@ class PersonalController extends Controller
         $pdo = DB::connection()->getPdo();
         $query = "";
         if($event == 'IN' and $b == 'AM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h < 12 and event = 'IN'";
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h < 12 and time_m >= 0 event = 'IN'";
         }
         if($event == 'OUT' and $b == 'AM') {
-            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h = 12 and time_m <=59 and time_s <= 59 and event = 'OUT'";
+            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h >= 12 and time_m <=59 and time_s <= 59 and event = 'OUT'";
         }
         if($event == 'IN' and $b == 'PM') {
             $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h >= 12 and time_m <=59 and time_s <= 59 and event = 'IN'";
