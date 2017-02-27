@@ -127,7 +127,7 @@ class DtrController extends Controller
             $f_from = Session::get('f_from');
             $f_to = Session::get('f_to');
             $keyword = Session::get('keyword');
-            $lists = DtrDetails::where('department','- -')
+            $lists = DtrDetails::where('department','<>','- -')
                 ->where('datein', '>=', $f_from)
                 ->where('datein', '<=', $f_to)
                 ->orWhere('userid', 'LIKE', '%'.$keyword.'%')
