@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 use App\DtrDetails;
+use App\Work_sched;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -94,15 +95,17 @@ class PersonalController extends Controller
     }
     public static function get_time($datein,$event,$b)
     {
+        $work_sched = Work_sched::where('id',1)->first();
+
+        $am_in = explode(':',$work_sched->am_in);
+        $am_out =  explode(':',$work_sched->am_out);
+        $pm_in =  explode(':',$work_sched->pm_in);
+        $pm_out = explode(':',$work_sched->pm_out);
         $id = Auth::user()->userid;
         $pdo = DB::connection()->getPdo();
         $query = "";
         if($event == 'IN' and $b == 'AM') {
-<<<<<<< HEAD
             $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h < 12 and time_m >= 0 and event = 'IN'";
-=======
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h < 12 and time_m >= 0 event = 'IN'";
->>>>>>> 82aacc42d66ed1994e2265515e0d072066cc1ca6
         }
         if($event == 'OUT' and $b == 'AM') {
             $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h >= 12 and time_m <=59 and time_s <= 59 and event = 'OUT'";

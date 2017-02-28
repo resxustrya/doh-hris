@@ -9,12 +9,13 @@
                 <div class="row">
                     <div class="col-md-11">
                         <form action="{{ asset('add/attendance') }}" method="POST">
+                            {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-md-2 control-label">User ID</label>
                                         <div class="col-sm-5">
-                                            <input type="text" class="col-md-2 form-control" id="inputEmail3">
+                                            <input type="text" class="col-md-2 form-control" id="inputEmail3" name="userid">
                                         </div>
                                     </div>
                                 </div>
@@ -24,7 +25,27 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-md-2 control-label">Department</label>
                                         <div class="col-sm-5">
-                                            <input type="email"class="form-control" id="inputEmail3">
+                                            <input type="text" class="form-control" id="inputEmail3" value="GENERAL" readonly name="department">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-2 control-label">Firstname</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="inputEmail3" name="firstname">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-md-2 control-label">Lastname</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" class="form-control" id="inputEmail3" name="lastname">
                                         </div>
                                     </div>
                                 </div>
@@ -34,7 +55,7 @@
                                     <div class="form-group  input-daterange">
                                         <label class="control-label col-md-2" for="inputSuccess1">Date In</label>
                                         <div class="col-sm-5">
-                                            <input type="text" class="form-control" name="date_filling" value="2012-04-05">
+                                            <input type="text" class="form-control" name="datein" value="2012-04-05">
                                         </div>
                                     </div>
                                 </div>
@@ -42,39 +63,9 @@
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-md-2 control-label">Time In</label>
+                                        <label for="inputEmail3" class="col-md-2 control-label">Event Time</label>
                                         <div class="col-sm-5">
-                                            <input id="input-a" value="" data-default="20:48" name="am_in" class="form-control clock" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-md-2 control-label">Time Out</label>
-                                        <div class="col-sm-5">
-                                            <input id="input-b" value="" data-default="20:48" name="am_in" class="form-control clock" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-md-2 control-label">Time In</label>
-                                        <div class="col-sm-5">
-                                            <input id="input-c" value="" data-default="20:48" name="am_in" class="form-control clock" required>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-md-2 control-label">Time Out</label>
-                                        <div class="col-sm-5">
-                                            <input id="input-d" value="" data-default="20:48" name="am_in" class="form-control clock" required>
+                                            <input id="input-a" value="" data-default="20:48" name="time" class="form-control clock" required>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +89,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-md-2 control-label">Terminal</label>
                                         <div class="col-sm-5">
-                                            <input type="email" class="col-md-2 form-control" id="inputEmail3">
+                                            <input type="text" class="col-md-2 form-control" value="WEB" readonly name="terminal">
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +99,7 @@
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-md-2 control-label">Remarks</label>
                                         <div class="col-sm-5">
-                                            <input type="email" class="col-md-2 form-control" id="inputEmail3">
+                                            <input type="text" class="col-md-2 form-control" value="WEB" readonly name="remarks">
                                         </div>
                                     </div>
                                 </div>
@@ -133,6 +124,7 @@
 @section('js')
     @@parent
     <script>
+
         var input = $('#input-a');
         input.clockpicker({
             autoclose: true,
@@ -142,31 +134,6 @@
             'default' : '8:00'
         });
 
-        var input = $('#input-b');
-        input.clockpicker({
-            autoclose: true,
-            placement : 'top',
-            align : 'left',
-            donetext : 'Ok',
-            'default' : '8:00'
-        });
-        var input = $('#input-c');
-        input.clockpicker({
-            autoclose: true,
-            placement : 'top',
-            align : 'left',
-            donetext : 'Ok',
-            'default' : '8:00'
-        });
-
-        var input = $('#input-d');
-        input.clockpicker({
-            autoclose: true,
-            placement : 'top',
-            align : 'left',
-            donetext : 'Ok',
-            'default' : '8:00'
-        });
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });

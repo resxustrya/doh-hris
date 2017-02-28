@@ -153,5 +153,45 @@ class DtrController extends Controller
         if($request->isMethod('get')) {
             return view('dtr.new_attendance');
         }
+        if($request->isMethod('post')) {
+            $dtr = new DtrDetails();
+            $dtr->userid = $request->input('userid');
+            $dtr->firstname = $request->input('firstname');
+            $dtr->lastname = $request->input('lastname');
+            $dtr->department = $request->input('department');
+            $date = explode('/', $request->input('datein'));
+            $date = $date[2] . '-' . $date[0] . '-' . $date[1];
+            $dtr->datein = $date;
+            $date = explode('-', $date);
+            $dtr->date_y = array_key_exists(0, $date) == true ? trim($date[0], "\" ") : null;
+            $dtr->date_m = array_key_exists(1, $date) == true ?trim($date[1], "\" ") : null;
+            $dtr->date_d = array_key_exists(2, $date) == true ?trim($date[2], "\" ") : null;
+
+            $dtr->time = $request->input('time');
+            $time = explode(':', $request->input('time'));
+            $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
+            $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
+            $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
+
+            $dtr->event = $request->input('event');
+            $dtr->terminal = $request->input('terminal');
+            $dtr->remark = $request->input('remarks');
+            $dtr->save();
+
+
+            $user = User::where('userid',$dtr->userid)->first();
+            //checking for duplicate userid
+            if( !isset($user) and !count($user) > 0){
+                $user = new User();
+                $user->fname = $dtr->firstname;
+                $user->lname = $dtr->lastname;
+                $user->userid = $dtr->userid;
+                $user->username = $dtr->userid;
+                $user->password = Hash::make($dtr->userid);
+                $user->usertype = 0;
+                $user->save();
+            }
+            return redirect('home');
+        }
     }
 }
