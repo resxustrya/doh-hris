@@ -22,6 +22,8 @@
     <link href="{{ asset('resources/assetes/css/upload.css') }}" rel="stylesheet" >
     <link href="{{ asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}" rel="stylesheet">
     <!-- bootstrap datepicker -->
+    <!--DATE RANGE-->
+    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/clockpicker/dist/bootstrap-clockpicker.min.css') }}" />
@@ -116,6 +118,10 @@
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<!-- DATE RANGE SELECT -->
+<script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+
 <script src="{{ asset('resources/assets/js/jquery-validate.js') }}"></script>
 <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('resources/assets/datepicer/js/bootstrap-datepicker.js') }}"></script>

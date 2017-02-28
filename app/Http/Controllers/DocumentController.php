@@ -10,6 +10,11 @@ namespace App\Http\Controllers;
 use App\Leave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Calendar;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use PDO;
+
 class DocumentController extends Controller
 {
     public function __construct()
@@ -100,6 +105,107 @@ class DocumentController extends Controller
         $pdf->setPaper('LEGAL', 'portrait');
         $pdf->loadHTML($display);
         return $pdf->stream();
+    }
+
+    ///RUSEL
+    public function so_append(){
+        return view('form.office_order_append');
+    }
+    public function so_add(Request $request){
+        $route_no = date('Y-') . $request->user()->id . date('mdHis');
+        $doc_type = 'OFFICE_ORDER';
+        $prepared_date = date('Y-m-d H:i:s');
+        $prepared_by =  $request->user()->id;
+        $description = $request->get('subject');
+
+        $count = 0;
+        foreach($request->get('inclusive') as $result)
+        {
+            $str = $result;
+            $temp1 = explode('-',$str);
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $start_date = date('Y-m-d',strtotime($tmp));
+
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $enddate = date_create(date('Y-m-d',strtotime($tmp)));
+            date_add($enddate, date_interval_create_from_date_string('1days'));
+            $end_date = date_format($enddate, 'Y-m-d');
+
+            $so = new Calendar();
+            $so->route_no = $route_no;
+            $so->title = $request->get('subject');
+            $so->start = $start_date;
+            $so->end = $end_date;
+            $so->backgroundColor = 'rgb(216, 27, 96)';
+            $so->borderColor = 'rgb(216, 27, 96)';
+            $so->prepared_by = $request->user()->id;
+            $so->status = 0;
+            $so->save();
+            $count++;
+        }
+        //ADD TRACKING MASTER
+        $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+
+        //ADD TRACKING DETAILS
+        $date_in = $prepared_date;
+        $received_by = $prepared_by;
+        $delivered_by = $prepared_by;
+        $action = $description;
+        $this->insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+
+        //ADD SYSTEM LOGS
+        $user_id = $prepared_by;
+        $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
+        $activity = 'CREATED';
+        $this->insert_system_logs($user_id,$name,$activity);
+        Session::put('added',true);
+
+        return redirect()->back();
+    }
+
+    //PDO
+    public function connect()
+    {
+        return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
+    }
+    public function sample()
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM TRACKING_MASTER";
+        $pdo = $db->prepare($sql);
+        $pdo->execute();
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description) values(?,?,?,?,?)";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no,$doc_type,$prepared_date,$prepared_by,$description));
+        $db=null;
+    }
+
+    public function insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action) values(?,?,?,?,?)";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no,$date_in,$received_by,$delivered_by,$action));
+        $db=null;
+    }
+
+    public function insert_system_logs($user_id,$name,$activity)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity) values(?,?,?)";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($user_id,$name,$activity));
+        $db=null;
     }
 
 }

@@ -33,6 +33,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 @endsection
@@ -96,6 +97,7 @@
                 reader.readAsText(file);
             });
         }
+
     </script>
 
 @endsection
