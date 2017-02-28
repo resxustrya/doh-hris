@@ -68,7 +68,7 @@ if(isset($lists) and count($lists) > 0) {
                                                     <td class="text-center">{{ $datein }}</td>
                                                     <td class="text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
                                                     <td class="text-center">{{  personal::get_time($datein, 'IN','AM') }}</td>
-                                                    <td class="text-center">{{  personal::get_time($datein, 'OUT', 'AM') }}</td>
+                                                    <td class="text-center">{{  (!($am_in == '' or $am_in == null)) ? personal::get_time($datein, 'OUT', 'AM') : '' }}</td>
                                                     <td class="text-center">{{  personal::get_time($datein, 'IN','PM') }}</td>
                                                     <td class="text-center">{{  personal::get_time($datein, 'OUT','PM') }}</td>
                                                     <td class="text-center">{{  personal::late($am_in) }}</td>

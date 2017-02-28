@@ -69,7 +69,7 @@ if(isset($lists) and count($lists) > 0) {
                                                     <td class="text-center"><?php echo e($datein); ?></td>
                                                     <td class="text-center"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
                                                     <td class="text-center"><?php echo e(personal::get_time($datein, 'IN','AM')); ?></td>
-                                                    <td class="text-center"><?php echo e(personal::get_time($datein, 'OUT', 'AM')); ?></td>
+                                                    <td class="text-center"><?php echo e((!($am_in == '' or $am_in == null)) ? personal::get_time($datein, 'OUT', 'AM') : ''); ?></td>
                                                     <td class="text-center"><?php echo e(personal::get_time($datein, 'IN','PM')); ?></td>
                                                     <td class="text-center"><?php echo e(personal::get_time($datein, 'OUT','PM')); ?></td>
                                                     <td class="text-center"><?php echo e(personal::late($am_in)); ?></td>
