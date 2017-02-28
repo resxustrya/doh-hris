@@ -67,10 +67,6 @@ Route::get('clear', function(){
     return redirect('/');
 });
 
-Route::get('calendar', function() {
-    return view('calendar.calendar');
-});
-
 Route::get('modal',function(){
     return view('users.modal');
 });
@@ -143,3 +139,11 @@ Route::get('drop', function(Request $request) {
         });
     }
 });
+
+/////////RUSEL
+Route::get('so_append','DocumentController@so_append');
+Route::post('so_add','DocumentController@so_add');
+/////////CALENDAR
+Route::get('calendar', 'CalendarController@calendar');
+Route::get('calendar_event', 'CalendarController@calendar_event');
+Route::get('sample','DocumentController@sample');
