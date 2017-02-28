@@ -25,6 +25,8 @@
             </li>
             <li class="divider"></li>
             <li><a href="{{ url('employees') }}"><i class="fa fa-user"></i> Employees</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ url('add/attendance') }}"><i class="fa fa-user"></i> Add attendance</a></li>
         </ul>
     </li>
     <li class="dropdown">
