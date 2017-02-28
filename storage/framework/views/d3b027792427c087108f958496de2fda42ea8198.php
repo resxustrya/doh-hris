@@ -31,6 +31,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 <?php $__env->stopSection(); ?>
@@ -94,6 +95,7 @@
                 reader.readAsText(file);
             });
         }
+
     </script>
 
 <?php $__env->stopSection(); ?>
