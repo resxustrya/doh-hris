@@ -66,14 +66,19 @@ if(isset($lists) and count($lists) > 0) {
                                                 <tr>
                                                     <?php
                                                         $am_in =  personal::get_time($datein, 'IN','AM');
+                                                        $am_out = (!($am_in == '' or $am_in == null)) ? personal::get_time($datein, 'OUT', 'AM') : '';
+                                                        $pm_in = personal::get_time($datein, 'IN','PM');
+                                                        $pm_out = personal::get_time($datein, 'OUT','PM');
+                                                        $late = personal::late($am_in);
+                                                        $undertime = personal::undertime();
                                                     ?>
                                                     <td class="text-center"><?php echo e($datein); ?></td>
                                                     <td class="text-center"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
-                                                    <td class="text-center"><?php echo e(personal::get_time($datein, 'IN','AM')); ?></td>
-                                                    <td class="text-center"><?php echo e((!($am_in == '' or $am_in == null)) ? personal::get_time($datein, 'OUT', 'AM') : ''); ?></td>
-                                                    <td class="text-center"><?php echo e(personal::get_time($datein, 'IN','PM')); ?></td>
-                                                    <td class="text-center"><?php echo e(personal::get_time($datein, 'OUT','PM')); ?></td>
-                                                    <td class="text-center"><?php echo e(personal::late($am_in)); ?></td>
+                                                    <td class="text-center"><?php echo e($am_in); ?></td>
+                                                    <td class="text-center"><?php echo e($am_out); ?></td>
+                                                    <td class="text-center"><?php echo e($pm_in); ?></td>
+                                                    <td class="text-center"><?php echo e($pm_out); ?></td>
+                                                    <td class="text-center"><?php echo e('10'); ?> | <?php echo e('10'); ?></td>
                                                 </tr>
                                             <?php endif; ?>
                                            <?php $startday = $startday + 1; ?>

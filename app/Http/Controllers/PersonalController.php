@@ -105,16 +105,16 @@ class PersonalController extends Controller
         $pdo = DB::connection()->getPdo();
         $query = "";
         if($event == 'IN' and $b == 'AM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h > 00  and time_h < 12   and event = 'IN'";
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h > 00  and time_h < ". $am_out[0] ."   and event = 'IN'";
         }
         if($event == 'OUT' and $b == 'AM') {
-            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h > 00 and time_h <= 13 and event = 'OUT'";
+            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h > 00 and time_h <= ". $pm_in[0] ." and event = 'OUT'";
         }
         if($event == 'IN' and $b == 'PM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h >= 12  and time_h < 17 and event = 'IN'";
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h >= ". $am_out[0] ." and time_h < ". $pm_in[0] ." and event = 'IN'";
         }
         if($event == 'OUT' and $b == 'PM') {
-            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" .$id ."' and datein ='" . $datein . "' and time_h >12  and event = 'OUT'";
+            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" .$id ."' and datein ='" . $datein . "' and time_h > " . $am_out[0] . "  and event = 'OUT'";
         }
 
         $st = $pdo->prepare($query);
@@ -122,8 +122,36 @@ class PersonalController extends Controller
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         return $row[0]['time'];
     }
-    public static function late($am_in)
+    public static function late_undertime($am_in, $am_out, $pm_in, $pm_out)
     {
+        $late = 0.0;
+        $undertime = 0.0;
+
+        $work_sched = Work_sched::where('id',1)->first();
+        $s_am_in = explode(':',$work_sched->am_in);
+        $s_am_out =  explode(':',$work_sched->am_out);
+        $s_pm_in =  explode(':',$work_sched->pm_in);
+        $s_pm_out = explode(':',$work_sched->pm_out);
+
+        $am_in = explode(':',$am_in);
+        $am_out = explode(':', $am_out);
+        $pm_in = explode(':', $pm_in);
+        $pm_out = explode(':', $pm_out);
+
+
+        if($am_in[0] <= $s_am_in[0] and $am_in[1] <= $s_am_in[0]) {
+            $late = '';
+        } else {
+
+        }
+
+
+
+
+
+
+
 
     }
+
 }
