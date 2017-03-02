@@ -69,8 +69,8 @@ if(isset($lists) and count($lists) > 0) {
                                                         $am_out = (!($am_in == '' or $am_in == null)) ? personal::get_time($datein, 'OUT', 'AM') : '';
                                                         $pm_in = personal::get_time($datein, 'IN','PM');
                                                         $pm_out = personal::get_time($datein, 'OUT','PM');
-                                                        $late = personal::late($am_in);
-                                                        $undertime = personal::undertime();
+                                                        $late_undertime = personal::late_undertime($am_in,$am_out, $pm_in,$pm_out);
+
                                                     ?>
                                                     <td class="text-center"><?php echo e($datein); ?></td>
                                                     <td class="text-center"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
@@ -78,7 +78,7 @@ if(isset($lists) and count($lists) > 0) {
                                                     <td class="text-center"><?php echo e($am_out); ?></td>
                                                     <td class="text-center"><?php echo e($pm_in); ?></td>
                                                     <td class="text-center"><?php echo e($pm_out); ?></td>
-                                                    <td class="text-center"><?php echo e('10'); ?> | <?php echo e('10'); ?></td>
+                                                    <td class="text-center"><?php echo e($late_undertime); ?></td>
                                                 </tr>
                                             <?php endif; ?>
                                            <?php $startday = $startday + 1; ?>

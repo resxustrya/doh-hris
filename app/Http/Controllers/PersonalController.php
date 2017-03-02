@@ -111,7 +111,7 @@ class PersonalController extends Controller
             $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h > 00 and time_h <= ". $pm_in[0] ." and event = 'OUT'";
         }
         if($event == 'IN' and $b == 'PM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein ."' and time_h >= ". $am_out[0] ." and time_h < ". $pm_in[0] ." and event = 'IN'";
+            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein . "' and time_h >= " . $am_out[0] ." and time_h <= ". $pm_out[0] ." and event = 'IN'";
         }
         if($event == 'OUT' and $b == 'PM') {
             $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" .$id ."' and datein ='" . $datein . "' and time_h > " . $am_out[0] . "  and event = 'OUT'";
@@ -124,34 +124,43 @@ class PersonalController extends Controller
     }
     public static function late_undertime($am_in, $am_out, $pm_in, $pm_out)
     {
-        $late = 0.0;
+        $total_late = 0.0;
         $undertime = 0.0;
-
+        $am_late = 0.0;
+        $pm_late = 0.0;
         $work_sched = Work_sched::where('id',1)->first();
         $s_am_in = explode(':',$work_sched->am_in);
         $s_am_out =  explode(':',$work_sched->am_out);
         $s_pm_in =  explode(':',$work_sched->pm_in);
         $s_pm_out = explode(':',$work_sched->pm_out);
 
-        $am_in = explode(':',$am_in);
+
         $am_out = explode(':', $am_out);
-        $pm_in = explode(':', $pm_in);
+
         $pm_out = explode(':', $pm_out);
 
 
-        if($am_in[0] <= $s_am_in[0] and $am_in[1] <= $s_am_in[0]) {
-            $late = '';
-        } else {
-
+        if($am_in != null and $am_in != '') {
+            $am_in = explode(':',$am_in);
+            if(floor($am_in[0]) <= floor($s_am_in[0]) and floor($am_in[1]) <= floor($s_am_in[1])) {
+                $am_late = '';
+            } else {
+                $am_late = ((floor($am_in[0]) - floor($s_am_in[0])) * 60);
+            }
+        }
+        if($pm_in != null and $pm_in != '') {
+            $pm_in = explode(':', $pm_in);
+            if(floor($pm_in[0]) <= floor($s_pm_in[1]) and floor($pm_in[1]) <= floor($s_pm_in[1])) {
+                $pm_late = '';
+            } else {
+                $pm_late = ((floor($pm_in[0]) - floor($s_pm_in[0])) * 60);
+            }
         }
 
-
-
-
-
-
-
-
+        if($am_late != null || $am_late != '' and $pm_late != null || $pm_late != '') {
+            return floor($am_late) + floor($pm_late);
+        }
+        return '';
     }
 
 }
