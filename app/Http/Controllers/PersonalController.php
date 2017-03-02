@@ -122,7 +122,7 @@ class PersonalController extends Controller
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         return $row[0]['time'];
     }
-    public static function late($am_in, $am_out, $pm_in, $pm_out)
+    public static function late($am_in, $pm_in)
     {
         $total_late = 0.0;
 
@@ -137,11 +137,6 @@ class PersonalController extends Controller
         $s_am_out =  explode(':',$work_sched->am_out);
         $s_pm_in =  explode(':',$work_sched->pm_in);
         $s_pm_out = explode(':',$work_sched->pm_out);
-
-
-        $am_out = explode(':', $am_out);
-
-        $pm_out = explode(':', $pm_out);
 
 
         if(isset($am_in) ) {
@@ -162,7 +157,6 @@ class PersonalController extends Controller
                         $m_am_late = 0;
                     }
                 }
-
             }
         }
         if(isset($pm_in)) {
@@ -208,9 +202,61 @@ class PersonalController extends Controller
     }
 
 
-    public static function undertime($am_in, $am_out, $pm_in, $pm_out)
+    public static function undertime($am_out,$pm_out)
     {
+        $work_sched = Work_sched::where('id',1)->first();
+        $s_am_in = explode(':',$work_sched->am_in);
+        $s_am_out =  explode(':',$work_sched->am_out);
+        $s_pm_in =  explode(':',$work_sched->pm_in);
+        $s_pm_out = explode(':',$work_sched->pm_out);
+
+        $total_ut = 0.0;
+
+        $h_am_ut = 0.0;
+        $h_pm_ut = 0.0;
+
+        $m_am_ut = 0.0;
+        $m_pm_ut = 0.0;
+
+
+        if(isset($am_out)) {
+            $am_out = explode(':', $am_out);
+            if(floor($am_out[0]) < floor($s_am_out[0])) {
+                $h_am_ut = 0;
+                $m_am_ut = 0;
+            } else {
+                $h_am_ut = floor($s_am_out[0]) - floor($am_out[0]);
+                if($h_am_ut < 0) {
+                    $h_am_ut = 0;
+                }
+                if($am_out[0] > $s_am_out[0]) {
+                    $m_am_ut = 0;
+                } else {
+                    $m_am_ut = floor($s_am_out[1]) - floor($am_out[1]);
+                    if($m_am_ut <= 0) {
+                        $m_am_ut = 0;
+                    }
+                }
+            }
+        }
+        if(isset($pm_out)) {
+            $pm_out = explode(':' ,$pm_out);
+            if(floor($pm_out[0]) < floor($s_pm_out[0])) {
+                $h_pm_ut = 0;
+                $m_pm_ut = 0;
+            } else {
+                $h_pm_ut = floor($s_pm_out) - floor($pm_out[0]);
+                if($h_pm_ut < 0) {
+                    $h_pm_ut = 0;
+                }
+                if($pm_out[0] > $s_pm_out[0]) {
+                    $m_pm_ut = floor($s_pm_out[1]) - floor($pm_out[1]);
+                    if($m_pm_ut <= 0) {
+                        $m_pm_ut = 0;
+                    }
+                }
+            }
+        }
 
     }
-
 }

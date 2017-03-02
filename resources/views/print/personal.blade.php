@@ -69,8 +69,8 @@ if(isset($lists) and count($lists) > 0) {
                                                         $am_out = (!($am_in == '' or $am_in == null)) ? personal::get_time($datein, 'OUT', 'AM') : '';
                                                         $pm_in = personal::get_time($datein, 'IN','PM');
                                                         $pm_out = personal::get_time($datein, 'OUT','PM');
-                                                        $late = personal::late($am_in,$am_out, $pm_in,$pm_out);
-                                                        $ut = personal::undertime($am_in,$am_out, $pm_in,$pm_out);
+                                                        $late = personal::late($am_in, $pm_in);
+                                                        $ut = personal::undertime($am_out,$pm_out);
                                                     ?>
                                                     <td class="text-center">{{ $datein }}</td>
                                                     <td class="text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
