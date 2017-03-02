@@ -150,6 +150,6 @@ Route::get('sample','DocumentController@sample');
 
 //TEST ROUTES
 
-Route::get('test/time', function() {
-
+Route::get('phpinfo', function() {
+    return phpinfo();
 });
