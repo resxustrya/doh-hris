@@ -147,3 +147,9 @@ Route::post('so_add','DocumentController@so_add');
 Route::get('calendar', 'CalendarController@calendar');
 Route::get('calendar_event', 'CalendarController@calendar_event');
 Route::get('sample','DocumentController@sample');
+
+//TEST ROUTES
+
+Route::get('test/time', function() {
+
+});

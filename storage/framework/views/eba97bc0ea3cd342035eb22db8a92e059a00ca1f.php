@@ -22,6 +22,8 @@
     <link href="<?php echo e(asset('resources/assetes/css/upload.css')); ?>" rel="stylesheet" >
     <link href="<?php echo e(asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')); ?>" rel="stylesheet">
     <!-- bootstrap datepicker -->
+    <!--DATE RANGE-->
+    <link href="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker-bs3.css')); ?>" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/bootstrap-clockpicker.min.css')); ?>" />
@@ -116,6 +118,10 @@
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<!-- DATE RANGE SELECT -->
+<script src="<?php echo e(asset('resources/plugin/daterangepicker/moment.min.js')); ?>"></script>
+<script src="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker.js')); ?>"></script>
+
 <script src="<?php echo e(asset('resources/assets/js/jquery-validate.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/js/bootstrap.min.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/datepicer/js/bootstrap-datepicker.js')); ?>"></script>
