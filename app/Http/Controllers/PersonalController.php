@@ -146,7 +146,7 @@ class PersonalController extends Controller
 
         if(isset($am_in) ) {
             $am_in = explode(':',$am_in);
-            if(floor($am_in[0]) <= floor($s_am_in[0]) and floor($am_in[1]) <= floor($s_am_in[1])) {
+            if(floor($am_in[0]) < floor($s_am_in[0])) {
                 $h_am_late = 0;
                 $m_am_late = 0;
             } else {
@@ -154,15 +154,20 @@ class PersonalController extends Controller
                 if($h_am_late <= 0) {
                     $h_am_late = 0;
                 }
-                $m_am_late = floor($am_in[1]) - floor($s_am_in[1]);
-                if($m_am_late <= 0) {
+                if($am_in[0] < $s_am_in[0]) {
                     $m_am_late = 0;
+                } else {
+                    $m_am_late = floor($am_in[1]) - floor($s_am_in[1]);
+                    if($m_am_late <= 0) {
+                        $m_am_late = 0;
+                    }
                 }
+
             }
         }
         if(isset($pm_in)) {
             $pm_in = explode(':', $pm_in);
-            if(floor($pm_in[0]) <= floor($s_pm_in[1]) and floor($pm_in[1]) <= floor($s_pm_in[1])) {
+            if(floor($pm_in[0]) < floor($s_pm_in[1])) {
                 $h_pm_late = 0;
                 $m_pm_late = 0;
             } else {
@@ -170,13 +175,17 @@ class PersonalController extends Controller
                 if($h_pm_late <= 0) {
                     $h_pm_late = 0;
                 }
-                $m_pm_late = floor($pm_in[1]) - floor($s_pm_in[1]);
-                if($m_pm_late <= 0) {
+                if($pm_in[0] < $s_pm_in[0]) {
                     $m_pm_late = 0;
+                } else {
+                    $m_pm_late = floor($pm_in[1]) - floor($s_pm_in[1]);
+                    if($m_pm_late <= 0) {
+                        $m_pm_late = 0;
+                    }
                 }
             }
         }
-        /*
+
         if(isset($h_am_late) and isset($h_pm_late)) {
             $total = $h_am_late + $h_pm_late;
 
@@ -185,9 +194,8 @@ class PersonalController extends Controller
             } else {
                 $total_late .= $total;
             }
-            return $total_late;
         }
-        */
+
         if(isset($m_am_late) and isset($m_pm_late)) {
             $total = $m_am_late + $m_pm_late;
             if($total <= 0) {
@@ -197,7 +205,6 @@ class PersonalController extends Controller
             }
         }
         return $total_late;
-
     }
 
 
