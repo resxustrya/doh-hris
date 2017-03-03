@@ -109,10 +109,12 @@ class DtrController extends Controller
     {
         $lists = '';
         if ($request->has('keyword')) {
+
             $keyword = $request->input('keyword');
             Session::put('keyword', $keyword);
         }
         if ($request->has('from') and $request->has('to')) {
+            Session::forget('keyword');
             $_from = explode('/', $request->input('from'));
             $_to = explode('/', $request->input('to'));
 

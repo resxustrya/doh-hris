@@ -138,7 +138,9 @@
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
-
+        $('.clock').keyup(function(){
+            $(this).val(null);
+        });
     </script>
 
 @endsection

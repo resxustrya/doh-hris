@@ -68,7 +68,6 @@
                         </div>
                         <?php echo e($lists->links()); ?>
 
-
                     <?php else: ?>
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                     <?php endif; ?>
