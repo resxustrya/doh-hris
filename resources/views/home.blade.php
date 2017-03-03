@@ -42,13 +42,14 @@
                                     <th>Transaction time</th>
                                     <th>Event Type</th>
                                     <th>Terminal</th>
+                                    <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $list)
                                     <tr>
                                         <td>{{ $list->userid }}</td>
-                                        <td>{{ $list->firstname .", " .$list->lastname }}</td>
+                                        <td>{{ $list->lastname }}</td>
                                         <td>{{ $list->department }} </td>
                                         <td>
                                             {{ date('l', strtotime($list->datein)) }}
@@ -57,6 +58,9 @@
                                         <td>{{ date("h:i A", strtotime($list->time)) }}</td>
                                         <td>{{ $list->event }}</td>
                                         <td>{{ $list->terminal }}</td>
+                                        <td>
+                                            <a class="btn btn-default" href="{{ asset('edit/attendance/' .$list->dtr_id) }}">Edit</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

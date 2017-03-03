@@ -109,6 +109,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-5 col-md-offset-2">
                                             <input type="submit" name="submit" class="btn btn-success" value="Submit">
+                                            <a href="{{ asset('home') }}" class="btn btn-default">Cancel</a>
                                         </div>
                                     </div>
                                 </div>

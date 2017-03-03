@@ -184,7 +184,7 @@ class PersonalController extends Controller
             $total = $h_am_late + $h_pm_late;
 
             if($total <= 0) {
-                $total_late .= $total;
+                $total_late .= '0';
             } else {
                 $total_late .= $total;
             }
@@ -193,7 +193,7 @@ class PersonalController extends Controller
         if(isset($m_am_late) and isset($m_pm_late)) {
             $total = $m_am_late + $m_pm_late;
             if($total <= 0) {
-                $total_late .= ":" . $total;
+                $total_late .= ":" . '0';
             } else {
                 $total_late .= ":" .$total;
             }
@@ -219,9 +219,9 @@ class PersonalController extends Controller
         $m_pm_ut = 0.0;
 
 
-        if(isset($am_out)) {
+        if(isset($am_out) and $am_out != '' ) {
             $am_out = explode(':', $am_out);
-            if(floor($am_out[0]) < floor($s_am_out[0])) {
+            if(floor($am_out[0]) > floor($s_am_out[0])) {
                 $h_am_ut = 0;
                 $m_am_ut = 0;
             } else {
@@ -239,13 +239,13 @@ class PersonalController extends Controller
                 }
             }
         }
-        if(isset($pm_out)) {
+        if(isset($pm_out) and $pm_out != '') {
             $pm_out = explode(':' ,$pm_out);
-            if(floor($pm_out[0]) < floor($s_pm_out[0])) {
+            if(floor($pm_out[0]) > floor($s_pm_out[0])) {
                 $h_pm_ut = 0;
                 $m_pm_ut = 0;
             } else {
-                $h_pm_ut = floor($s_pm_out) - floor($pm_out[0]);
+                $h_pm_ut = floor($s_pm_out[0]) - floor($pm_out[0]);
                 if($h_pm_ut < 0) {
                     $h_pm_ut = 0;
                 }
@@ -258,5 +258,23 @@ class PersonalController extends Controller
             }
         }
 
+        if(isset($h_am_ut) and isset($h_pm_ut)) {
+            $total = $h_am_ut + $h_pm_ut;
+            if($total <= 0) {
+                $total_ut .= '0';
+            } else {
+                $total_ut .= $total;
+            }
+        }
+        if(isset($m_am_ut) and isset($m_pm_ut)) {
+            $total = $m_am_ut + $m_pm_ut;
+            if($total <= 0) {
+                $total_ut.= ":" .'0';
+            } else {
+                $total_ut .= ":". $total;
+            }
+        }
+
+        return $total_ut;
     }
 }

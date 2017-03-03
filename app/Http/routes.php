@@ -32,7 +32,7 @@ Route::match(['get','post'], 'print/employee-attendance', 'PrintController@print
 Route::get('work-schedule' ,'HoursController@create');
 Route::match(['get','post'], 'create/work-schedule', 'HoursController@work_schedule');
 Route::match(['get','post'] , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
-
+Route::match(['get','post'] , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
 Route::get('resetpass', 'PasswordController@change_password');
 Route::post('/', 'PasswordController@save_changes');
 

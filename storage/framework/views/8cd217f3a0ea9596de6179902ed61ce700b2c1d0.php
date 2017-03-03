@@ -40,13 +40,14 @@
                                     <th>Transaction time</th>
                                     <th>Event Type</th>
                                     <th>Terminal</th>
+                                    <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach($lists as $list): ?>
                                     <tr>
                                         <td><?php echo e($list->userid); ?></td>
-                                        <td><?php echo e($list->firstname .", " .$list->lastname); ?></td>
+                                        <td><?php echo e($list->lastname); ?></td>
                                         <td><?php echo e($list->department); ?> </td>
                                         <td>
                                             <?php echo e(date('l', strtotime($list->datein))); ?>
@@ -57,6 +58,9 @@
                                         <td><?php echo e(date("h:i A", strtotime($list->time))); ?></td>
                                         <td><?php echo e($list->event); ?></td>
                                         <td><?php echo e($list->terminal); ?></td>
+                                        <td>
+                                            <a class="btn btn-default" href="<?php echo e(asset('edit/attendance/' .$list->dtr_id)); ?>">Edit</a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
