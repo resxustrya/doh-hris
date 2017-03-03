@@ -67,7 +67,6 @@
                             </table>
                         </div>
                         {{ $lists->links() }}
-
                     @else
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                     @endif
