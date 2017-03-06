@@ -1,4 +1,12 @@
 <?php $__env->startSection('content'); ?>
+<?php if(Session::has('message')): ?>
+    <div class="col-md-12 wrapper">
+        <div class="alert alert-success" role="alert">
+            <?php echo e(Session::get('message')); ?>
+
+        </div>
+    </div>
+<?php endif; ?>
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance

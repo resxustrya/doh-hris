@@ -223,6 +223,11 @@ class DtrController extends Controller
     }
     public function delete(Request $request)
     {
-        return $request->input('dtr_id');
+        $dtr = DtrDetails::where('dtr_id',$request->input('dtr_id'))->first();
+        if(isset($dtr) and $dtr != null)
+        {
+            $dtr->delete();
+            return redirect('index')->with('message','Attendance succesfully deleted.');
+        }
     }
 }
