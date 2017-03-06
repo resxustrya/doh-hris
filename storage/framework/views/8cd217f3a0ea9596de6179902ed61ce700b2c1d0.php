@@ -33,7 +33,7 @@
                             <table class="table table-list table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Userid</th>
+                                    <th>DTR ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Transaction date</th>
@@ -46,7 +46,7 @@
                                 <tbody>
                                 <?php foreach($lists as $list): ?>
                                     <tr>
-                                        <td><?php echo e($list->userid); ?></td>
+                                        <td><?php echo e($list->dtr_id); ?></td>
                                         <td><?php echo e($list->lastname); ?></td>
                                         <td><?php echo e($list->department); ?> </td>
                                         <td>
@@ -60,6 +60,7 @@
                                         <td><?php echo e($list->terminal); ?></td>
                                         <td>
                                             <a class="btn btn-default" href="<?php echo e(asset('edit/attendance/' .$list->dtr_id)); ?>">Edit</a>
+                                            <button class="btn btn-danger" onclick="delete_time('<?php echo e($list->dtr_id); ?>');">Delete</button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -86,7 +87,11 @@
     $('.input-daterange input').each(function() {
         $(this).datepicker("clearDates");
     });
-
+    function delete_time(id)
+    {
+        $('#delete_time').modal('show');
+        $('#dtr_id_val').val(id);
+    }
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

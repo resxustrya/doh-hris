@@ -221,4 +221,8 @@ class DtrController extends Controller
             }
         }
     }
+    public function delete(Request $request)
+    {
+        return $request->input('dtr_id');
+    }
 }

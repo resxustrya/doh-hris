@@ -35,7 +35,7 @@
                             <table class="table table-list table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Userid</th>
+                                    <th>DTR ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Transaction date</th>
@@ -48,7 +48,7 @@
                                 <tbody>
                                 @foreach($lists as $list)
                                     <tr>
-                                        <td>{{ $list->userid }}</td>
+                                        <td>{{ $list->dtr_id }}</td>
                                         <td>{{ $list->lastname }}</td>
                                         <td>{{ $list->department }} </td>
                                         <td>
@@ -60,6 +60,7 @@
                                         <td>{{ $list->terminal }}</td>
                                         <td>
                                             <a class="btn btn-default" href="{{ asset('edit/attendance/' .$list->dtr_id) }}">Edit</a>
+                                            <button class="btn btn-danger" onclick="delete_time('{{ $list->dtr_id }}');">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -85,6 +86,10 @@
     $('.input-daterange input').each(function() {
         $(this).datepicker("clearDates");
     });
-
+    function delete_time(id)
+    {
+        $('#delete_time').modal('show');
+        $('#dtr_id_val').val(id);
+    }
 </script>
 @endsection
