@@ -57,7 +57,8 @@ if(isset($lists) and count($lists) > 0) {
                                             <td class="text-center">OUT</td>
                                             <td class="text-center">IN</td>
                                             <td class="text-center">OUT</td>
-                                            <td class="text-center">LATE | UT</td>
+                                            <td class="text-center">LATE</td>
+                                            <td class="text-center">UNDERTIME</td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -109,7 +110,9 @@ if(isset($lists) and count($lists) > 0) {
                                                         }
                                                         $pm_in = personal::get_time($datein, 'IN','PM');
                                                         $pm_out = personal::get_time($datein, 'OUT','PM');
-                                                        $late_undertime = personal::late_undertime($am_in,$am_out, $pm_in,$pm_out);
+
+                                                        $late = personal::late($am_in, $pm_in);
+                                                        $ut = personal::undertime($am_out,$pm_out);
                                                     ?>
                                                         <td class="text-center"><?php echo e($datein); ?></td>
                                                         <td class="text-center"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
@@ -121,7 +124,8 @@ if(isset($lists) and count($lists) > 0) {
                                                         <td class="text-center"><?php echo e($pm_in); ?></td>
                                                         <td class="text-center"><?php echo e($pm_out); ?></td>
                                                         <?php endif; ?>
-                                                        <td class="text-center"><?php echo e($late_undertime); ?></td>
+                                                        <td class="text-center"><?php echo e($late); ?></td>
+                                                        <td class="text-center"><?php echo e($ut); ?></td>
 
                                                 </tr>
                                             <?php endif; ?>

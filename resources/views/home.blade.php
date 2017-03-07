@@ -2,6 +2,13 @@
 @extends('layouts.app')
 
 @section('content')
+@if(Session::has('message'))
+    <div class="col-md-12 wrapper">
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    </div>
+@endif
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
@@ -35,20 +42,21 @@
                             <table class="table table-list table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Userid</th>
+                                    <th>DTR ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Transaction date</th>
                                     <th>Transaction time</th>
                                     <th>Event Type</th>
                                     <th>Terminal</th>
+                                    <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $list)
                                     <tr>
-                                        <td>{{ $list->userid }}</td>
-                                        <td>{{ $list->firstname .", " .$list->lastname }}</td>
+                                        <td>{{ $list->dtr_id }}</td>
+                                        <td>{{ $list->lastname }}</td>
                                         <td>{{ $list->department }} </td>
                                         <td>
                                             {{ date('l', strtotime($list->datein)) }}
@@ -57,13 +65,16 @@
                                         <td>{{ date("h:i A", strtotime($list->time)) }}</td>
                                         <td>{{ $list->event }}</td>
                                         <td>{{ $list->terminal }}</td>
+                                        <td>
+                                            <a class="btn btn-default" href="{{ asset('edit/attendance/' .$list->dtr_id) }}">Edit</a>
+                                            <button class="btn btn-danger" onclick="delete_time('{{ $list->dtr_id }}');">Delete</button>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         </div>
                         {{ $lists->links() }}
-
                     @else
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                     @endif
@@ -82,6 +93,10 @@
     $('.input-daterange input').each(function() {
         $(this).datepicker("clearDates");
     });
-
+    function delete_time(id)
+    {
+        $('#delete_time').modal('show');
+        $('#dtr_id_val').val(id);
+    }
 </script>
 @endsection

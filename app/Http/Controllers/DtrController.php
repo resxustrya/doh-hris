@@ -109,10 +109,12 @@ class DtrController extends Controller
     {
         $lists = '';
         if ($request->has('keyword')) {
+
             $keyword = $request->input('keyword');
             Session::put('keyword', $keyword);
         }
         if ($request->has('from') and $request->has('to')) {
+            Session::forget('keyword');
             $_from = explode('/', $request->input('from'));
             $_to = explode('/', $request->input('to'));
 
@@ -192,6 +194,40 @@ class DtrController extends Controller
                 $user->save();
             }
             return redirect('home');
+        }
+    }
+    public function edit_attendance(Request $request,$id = null)
+    {
+        if($request->isMethod('get')) {
+            if(isset($id)) {
+                Session::put('dtr_id',$id);
+            }
+            $dtr = DtrDetails::where('dtr_id', $id)->first();
+            return view('dtr.edit_attendance')->with('dtr',$dtr);
+        }
+        if($request->isMethod('post')) {
+            if(Session::has('dtr_id')) {
+                $dtr_id = Session::get('dtr_id');
+                $dtr = DtrDetails::where('dtr_id', $dtr_id)->first();
+                $dtr->time = $request->input('time');
+                $time = explode(':', $request->input('time'));
+                $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
+                $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
+                $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
+                $dtr->event = $request->input('event');
+                $dtr->save();
+                Session::forget('dtr_id');
+                return redirect('home');
+            }
+        }
+    }
+    public function delete(Request $request)
+    {
+        $dtr = DtrDetails::where('dtr_id',$request->input('dtr_id'))->first();
+        if(isset($dtr) and $dtr != null)
+        {
+            $dtr->delete();
+            return redirect('index')->with('message','Attendance succesfully deleted.');
         }
     }
 }

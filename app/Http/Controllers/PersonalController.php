@@ -122,12 +122,16 @@ class PersonalController extends Controller
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         return $row[0]['time'];
     }
-    public static function late_undertime($am_in, $am_out, $pm_in, $pm_out)
+    public static function late($am_in, $pm_in)
     {
         $total_late = 0.0;
-        $undertime = 0.0;
-        $am_late = 0.0;
-        $pm_late = 0.0;
+
+        $h_am_late = 0.0;
+        $h_pm_late = 0.0;
+
+        $m_am_late = 0.0;
+        $m_pm_late = 0.0;
+
         $work_sched = Work_sched::where('id',1)->first();
         $s_am_in = explode(':',$work_sched->am_in);
         $s_am_out =  explode(':',$work_sched->am_out);
@@ -135,32 +139,142 @@ class PersonalController extends Controller
         $s_pm_out = explode(':',$work_sched->pm_out);
 
 
-        $am_out = explode(':', $am_out);
-
-        $pm_out = explode(':', $pm_out);
-
-
-        if($am_in != null and $am_in != '') {
+        if(isset($am_in) ) {
             $am_in = explode(':',$am_in);
-            if(floor($am_in[0]) <= floor($s_am_in[0]) and floor($am_in[1]) <= floor($s_am_in[1])) {
-                $am_late = '';
+            if(floor($am_in[0]) < floor($s_am_in[0])) {
+                $h_am_late = 0;
+                $m_am_late = 0;
             } else {
-                $am_late = ((floor($am_in[0]) - floor($s_am_in[0])) * 60);
+                $h_am_late = floor($am_in[0]) - floor($s_am_in[0]);
+                if($h_am_late <= 0) {
+                    $h_am_late = 0;
+                }
+                if($am_in[0] < $s_am_in[0]) {
+                    $m_am_late = 0;
+                } else {
+                    $m_am_late = floor($am_in[1]) - floor($s_am_in[1]);
+                    if($m_am_late <= 0) {
+                        $m_am_late = 0;
+                    }
+                }
             }
         }
-        if($pm_in != null and $pm_in != '') {
+        if(isset($pm_in)) {
             $pm_in = explode(':', $pm_in);
-            if(floor($pm_in[0]) <= floor($s_pm_in[1]) and floor($pm_in[1]) <= floor($s_pm_in[1])) {
-                $pm_late = '';
+            if(floor($pm_in[0]) < floor($s_pm_in[1])) {
+                $h_pm_late = 0;
+                $m_pm_late = 0;
             } else {
-                $pm_late = ((floor($pm_in[0]) - floor($s_pm_in[0])) * 60);
+                $h_pm_late = floor($pm_in[0]) - floor($s_pm_in[0]);
+                if($h_pm_late <= 0) {
+                    $h_pm_late = 0;
+                }
+                if($pm_in[0] < $s_pm_in[0]) {
+                    $m_pm_late = 0;
+                } else {
+                    $m_pm_late = floor($pm_in[1]) - floor($s_pm_in[1]);
+                    if($m_pm_late <= 0) {
+                        $m_pm_late = 0;
+                    }
+                }
             }
         }
 
-        if($am_late != null || $am_late != '' and $pm_late != null || $pm_late != '') {
-            return floor($am_late) + floor($pm_late);
+        if(isset($h_am_late) and isset($h_pm_late)) {
+            $total = $h_am_late + $h_pm_late;
+
+            if($total <= 0) {
+                $total_late .= '0';
+            } else {
+                $total_late .= $total;
+            }
         }
-        return '';
+
+        if(isset($m_am_late) and isset($m_pm_late)) {
+            $total = $m_am_late + $m_pm_late;
+            if($total <= 0) {
+                $total_late .= ":" . '0';
+            } else {
+                $total_late .= ":" .$total;
+            }
+        }
+        return $total_late;
     }
 
+
+    public static function undertime($am_out,$pm_out)
+    {
+        $work_sched = Work_sched::where('id',1)->first();
+        $s_am_in = explode(':',$work_sched->am_in);
+        $s_am_out =  explode(':',$work_sched->am_out);
+        $s_pm_in =  explode(':',$work_sched->pm_in);
+        $s_pm_out = explode(':',$work_sched->pm_out);
+
+        $total_ut = 0.0;
+
+        $h_am_ut = 0.0;
+        $h_pm_ut = 0.0;
+
+        $m_am_ut = 0.0;
+        $m_pm_ut = 0.0;
+
+
+        if(isset($am_out) and $am_out != '' ) {
+            $am_out = explode(':', $am_out);
+            if(floor($am_out[0]) > floor($s_am_out[0])) {
+                $h_am_ut = 0;
+                $m_am_ut = 0;
+            } else {
+                $h_am_ut = floor($s_am_out[0]) - floor($am_out[0]);
+                if($h_am_ut < 0) {
+                    $h_am_ut = 0;
+                }
+                if($am_out[0] > $s_am_out[0]) {
+                    $m_am_ut = 0;
+                } else {
+                    $m_am_ut = floor($s_am_out[1]) - floor($am_out[1]);
+                    if($m_am_ut <= 0) {
+                        $m_am_ut = 0;
+                    }
+                }
+            }
+        }
+        if(isset($pm_out) and $pm_out != '') {
+            $pm_out = explode(':' ,$pm_out);
+            if(floor($pm_out[0]) > floor($s_pm_out[0])) {
+                $h_pm_ut = 0;
+                $m_pm_ut = 0;
+            } else {
+                $h_pm_ut = floor($s_pm_out[0]) - floor($pm_out[0]);
+                if($h_pm_ut < 0) {
+                    $h_pm_ut = 0;
+                }
+                if($pm_out[0] > $s_pm_out[0]) {
+                    $m_pm_ut = floor($s_pm_out[1]) - floor($pm_out[1]);
+                    if($m_pm_ut <= 0) {
+                        $m_pm_ut = 0;
+                    }
+                }
+            }
+        }
+
+        if(isset($h_am_ut) and isset($h_pm_ut)) {
+            $total = $h_am_ut + $h_pm_ut;
+            if($total <= 0) {
+                $total_ut .= '0';
+            } else {
+                $total_ut .= $total;
+            }
+        }
+        if(isset($m_am_ut) and isset($m_pm_ut)) {
+            $total = $m_am_ut + $m_pm_ut;
+            if($total <= 0) {
+                $total_ut.= ":" .'0';
+            } else {
+                $total_ut .= ":". $total;
+            }
+        }
+
+        return $total_ut;
+    }
 }

@@ -111,6 +111,16 @@ class DocumentController extends Controller
         return $pdf->stream();
     }
 
+    public function list_print()
+    {
+        $display = view('pdf.personal_dtr');
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->setPaper('A4', 'portrait');
+        $pdf->loadHTML($display);
+        return $pdf->stream();
+    }
+
+
     ///RUSEL
     public function so_append(){
         return view('form.office_order_append');

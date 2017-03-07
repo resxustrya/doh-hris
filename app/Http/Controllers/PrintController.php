@@ -12,6 +12,8 @@ namespace App\Http\Controllers;
 use App\DtrDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use PDO;
 class PrintController extends Controller
 {
     public function __construct()
@@ -25,6 +27,10 @@ class PrintController extends Controller
 
     public function print_monthly(Request $request)
     {
+        $pdo = DB::connection()->getPdo();
+        if($request->isMethod('get')) {
+            return view('print.monthly');
+        }
         if($request->isMethod('post')){
            if($request->has('filter')) {
                if($request->has('from') and $request->has('to')) {
@@ -35,16 +41,12 @@ class PrintController extends Controller
                    Session::put('f_from',$f_from);
                    Session::put('f_to',$f_to);
 
-                   $lists = DtrDetails::where('datein', '>=', $f_from)
-                       ->where('datein', '<=', $f_to)
-                       ->where('firstname', '<>', null)
-                       ->where('lastname', '<>' ,null)
-                       ->where('userid', '<>', null)
-                       ->orderBy('datein', 'ASC')
-                       ->paginate(20);
-                   if(isset($lists) and count($lists) > 0) {
-                       Session::put('lists',$lists);
-                       return redirect('print');
+                   $query = "SELECT dtr_id,userid,datein,time,event from dtr_file where userid <> 'Unknown User' and datein BETWEEN '" . $f_from . "' and '" .$f_to . "' ORDER BY datein ASC";
+                   $st = $pdo->prepare($query);
+                   $st->execute();
+                   $lists = $st->fetchAll(PDO::FETCH_ASSOC);
+                   if(isset($lists) and count($lists) > 0){
+                       return view('pdf.monthly')->with('lists',$lists);
                    }
                }
            }
