@@ -25,7 +25,7 @@ Route::get('dtr/print-monthly',function(){
    Session::forget('lists');
     return redirect('print');
 });
-Route::get('print','PrintController@home');
+
 Route::match(['get','post'], 'print-monthly', 'PrintController@print_monthly');
 Route::match(['get','post'], 'print/employee-attendance', 'PrintController@print_employee');
 
@@ -61,6 +61,7 @@ Route::match(['get','post'],'form/leave','DocumentController@leave');
 Route::get('form/leave/all', 'DocumentController@all_leave');
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
+
 Route::get('list/pdf', 'DocumentController@list_print');
 
 
@@ -94,54 +95,6 @@ Route::get('pdf/leave',function() {
 });
 
 
-
-Route::get('drop', function(Request $request) {
-
-    $table = $request->input('table');
-    $drop = $request->input('drop');
-    if($drop == "yes") {
-        \Illuminate\Support\Facades\Schema::dropIfExists($table);
-        return "Table drop";
-    } else {
-        Schema::create('leave', function(Blueprint $table){
-            $table->increments('id');
-            $table->string('userid');
-            $table->string('office_agency')->nullable();
-            $table->string('lastname')->nullable();
-            $table->string('firstname')->nullable();
-            $table->string('middlename')->nullable();
-            $table->date('date_filling')->nullable();
-            $table->string('position')->nullable();
-            $table->double('salary')->nullable();
-            $table->string('leave_type')->nullable();
-            $table->string('leave_type_others_1')->nullable();
-            $table->string('leave_type_others_2')->nullable();
-            $table->string('vication_loc')->nullable();
-            $table->string('abroad_others')->nullable();
-            $table->string('sick_loc')->nullable();
-            $table->string('in_hospital_specify')->nullable();
-            $table->string('out_patient_specify')->nullable();
-            $table->string('applied_num_days')->nullable();
-            $table->date('inc_from')->nullable();
-            $table->date('inc_to')->nullable();
-            $table->string('com_requested')->nullable();
-            $table->date('credit_date')->nullable();
-            $table->string('vication_total')->nullable();
-            $table->string('sick_total')->nullable();
-            $table->string('over_total')->nullable();
-            $table->string('a_days_w_pay')->nullable();
-            $table->string('a_days_wo_pay')->nullable();
-            $table->string('a_others')->nullable();
-            $table->string('reco_approval')->nullable();
-            $table->text('reco_disaprove_due_to')->nullable();
-            $table->text('disaprove_due_to')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-
-            return "Table created";
-        });
-    }
-});
 
 /////////RUSEL
 Route::get('so_append','DocumentController@so_append');
