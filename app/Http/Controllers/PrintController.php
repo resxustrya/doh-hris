@@ -79,13 +79,7 @@ class PrintController extends Controller
             }
         }
     }
-    public function download()
-    {
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('LEGAL', 'portrait');
-       // $pdf->loadHTML($display);
-        return $pdf->stream();
-    }
+
     public function print_employee(Request $request) {
         if($request->isMethod('get')){
             return view('print.employee');
