@@ -18,7 +18,7 @@ if(Session::has('lists')){
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
                             <div class="col-md-6 col-lg-offset-3">
-                                <form action="{{ asset('print-monthly') }}" method="POST" id="filter" target="_blank">
+                                <form action="{{ asset('print-monthly') }}" method="POST" id="filter">
                                     {{ csrf_field() }}
                                     <div class="btn-group">
                                         <div class="input-group input-daterange" >

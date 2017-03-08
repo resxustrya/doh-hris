@@ -18,7 +18,7 @@ if(Session::has('lists')){
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
                             <div class="col-md-6 col-lg-offset-3">
-                                <form action="<?php echo e(asset('print-monthly')); ?>" method="POST" id="filter" target="_blank">
+                                <form action="<?php echo e(asset('print-monthly')); ?>" method="POST" id="filter">
                                     <?php echo e(csrf_field()); ?>
 
                                     <div class="btn-group">

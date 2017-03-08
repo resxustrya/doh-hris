@@ -130,6 +130,7 @@ class PersonalController extends Controller
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         return $row[0]['time'];
     }
+
     public static function late($am_in, $pm_in)
     {
         $total_late = 0.0;
