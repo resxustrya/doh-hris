@@ -66,19 +66,27 @@ class PersonalController extends Controller
     }
     public function filter(Request $request)
     {
-        if($request->input('from') == "" and $request->input('to') == "") {
-            return redirect('personal/print/monthly');
-        }
         $lists = null;
-        $_from = explode('/', $request->input('from'));
-        $_to = explode('/', $request->input('to'));
-        $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
-        $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
 
-        if(count($_from) > 0 and count($_to) > 0){
+        $str = $request->get('date_range');
+        $temp1 = explode('-',$str);
+        $temp2 = array_slice($temp1, 0, 1);
+        $tmp = implode(',', $temp2);
+        $start_date = date('Y-m-d',strtotime($tmp));
+
+        $temp3 = array_slice($temp1, 1, 1);
+        $tmp = implode(',', $temp3);
+        $end_date = date('Y-m-d',strtotime($tmp));
+
+        /*$_from = explode('/', $start_date);
+        $_to = explode('/', $end_date);
+        $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
+        $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];*/
+
+        if(count($start_date) > 0 and count($end_date) > 0){
             $lists = DtrDetails::where('userid', $request->user()->userid)
-                                ->where('datein','>=', $f_from)
-                                ->where('datein','<=', $f_to)
+                                ->where('datein','>=', $start_date)
+                                ->where('datein','<=', $end_date)
                                 ->orderBy('datein', 'ASC')
                                 ->get();
             return view('print.personal')->with('lists',$lists);

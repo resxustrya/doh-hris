@@ -17,18 +17,24 @@ if(isset($lists) and count($lists) > 0) {
             </h3>
             <form class="form-inline" method="POST" action="{{ asset('personal/print/filter') }}" id="searchForm">
                 {{ csrf_field() }}
-                <div class="form-group">
-                    <div class="btn-group">
-                        <div class="input-group input-daterange">
-                            <span class="input-group-addon">From</span>
+                <div class="container-fluid">
+                    <div class="form-group">
+                        <div class="input-group">
+                            {{--<span class="input-group-addon">From</span>
                             <input type="text" class="form-control" name="from" value="2012-04-05">
                             <span class="input-group-addon">To</span>
                             <input type="text" class="form-control" name="to" value="2012-04-19">
-                            <span class="input-group-addon"></span>
-                            <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
-                            </button>
+                            <span class="input-group-addon"></span>--}}
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control" id="inclusive1" name="date_range" placeholder="Input date range here..." required>
+                            </div>
                         </div>
+                        <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
+                            <i class="fa fa-search"></i> Filter
+                        </button>
                     </div>
                 </div>
             </form>
@@ -147,9 +153,6 @@ if(isset($lists) and count($lists) > 0) {
 @section('js')
     @@parent
     <script>
-        $('.input-daterange input').each(function() {
-            $(this).datepicker("clearDates");
-        });
-
+        $('#inclusive1').daterangepicker();
     </script>
 @endsection
