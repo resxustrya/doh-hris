@@ -14,6 +14,8 @@ use App\Calendar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use PDO;
+use App\inclusive_name;
+use App\office_order;
 
 class DocumentController extends Controller
 {
@@ -82,9 +84,11 @@ class DocumentController extends Controller
     }
     public function so(Request $request)
     {
-
+        Session::put('my_id',$request->user()->id);
         if($request->isMethod('get')){
-            return view('form.office_order');
+            $users = $this->users();
+            $division = $this->division();
+            return view('form.office_order',['users'=>$users]);
         }
         if($request->isMethod('post')){
             return $request->all();
@@ -124,10 +128,29 @@ class DocumentController extends Controller
     public function so_add(Request $request){
         $route_no = date('Y-') . $request->user()->id . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
-        $prepared_date = date('Y-m-d H:i:s');
+        $prepared_date = $request->get('prepared_date');
         $prepared_by =  $request->user()->id;
         $description = $request->get('subject');
 
+        //ADD OFFICE ORDER
+        $office_order = new office_order();
+        $office_order->route_no = $route_no;
+        $office_order->subject = $request->get('subject');
+        $office_order->header_body = $request->get('header_body');
+        $office_order->footer_body = $request->get('footer_body');
+        $office_order->approved_by = $request->get('approved_by');
+        $office_order->save();
+
+        //ADD INCLUSIVE NAME
+        foreach($request->get('inclusive_name') as $row){
+            $inclusive_name = new inclusive_name();
+            $inclusive_name->route_no = $route_no;
+            $inclusive_name->user_id = $row;
+            $inclusive_name->status = 0;
+            $inclusive_name->save();
+        }
+
+        //ADD CALENDAR
         $count = 0;
         foreach($request->get('inclusive') as $result)
         {
@@ -150,7 +173,6 @@ class DocumentController extends Controller
             $so->end = $end_date;
             $so->backgroundColor = 'rgb(216, 27, 96)';
             $so->borderColor = 'rgb(216, 27, 96)';
-            $so->prepared_by = $request->user()->id;
             $so->status = 0;
             $so->save();
             $count++;
@@ -180,10 +202,10 @@ class DocumentController extends Controller
     {
         return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
     }
-    public function sample()
+    public function users()
     {
         $db=$this->connect();
-        $sql="SELECT * FROM TRACKING_MASTER";
+        $sql="SELECT * FROM USERS ORDER BY FNAME ASC";
         $pdo = $db->prepare($sql);
         $pdo->execute();
         $row = $pdo->fetchAll();
@@ -191,6 +213,29 @@ class DocumentController extends Controller
 
         return $row;
     }
+    public function division()
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM DIVISION";
+        $pdo = $db->prepare($sql);
+        $pdo->execute();
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public function division_head($head)
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM DIVISION where head = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($head));
+        $row = $pdo->fetch();
+        $db = null;
+
+        return $row;
+    }
+
     public function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
     {
         $db=$this->connect();
@@ -216,6 +261,11 @@ class DocumentController extends Controller
         $pdo = $db->prepare($sql);
         $pdo->execute(array($user_id,$name,$activity));
         $db=null;
+    }
+
+    public static function check_calendar()
+    {
+        return inclusive_name::where('user_id',Auth::user()->id)->get();
     }
 
 }

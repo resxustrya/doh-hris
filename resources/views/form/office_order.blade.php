@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/select2/select2.min.css') }}" />
+    <script src="{{ asset('resources/plugin/select2/select2.full.min.js') }}"></script>
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
@@ -27,12 +29,12 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Prepared by</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="prepared_date" class="form-control" value="{{ Auth::user()->fname }} {{ Auth::user()->lname }}" required readonly></td>
+                                        <td class="col-sm-8"><input type="text" name="prepared_by" class="form-control" value="{{ Auth::user()->fname }} {{ Auth::user()->lname }}" required readonly></td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>Prepared date</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><strong>{{ date('M') ." " .date('d') .", ". date('Y') }}</strong></td>
+                                        <td class="col-sm-8"><input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required></td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
@@ -40,22 +42,27 @@
                                         <td class="col-sm-8"><input type="text" name="subject" class="form-control" required /></td>
                                     </tr>
                                     <tr>
-                                        <td class=""><label>Message / Remarks</label></td>
-                                        <td>:</td>
-                                        <td><textarea class="form-control" name="description" rows="20" style="resize:none;" required></textarea></td>
+                                        <td colspan="3">
+                                            <span>Header Body</span>
+                                            <textarea class="form-control" id="textarea" name="header_body" rows="8" style="resize:none;" required></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-sm-3"><label>Inclusive Name</label></td>
+                                        <td class="col-sm-1">:</td>
+                                        <td class="col-sm-8">
+                                            <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
+                                                @foreach($users as $row)
+                                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
                                     </tr>
                                     <tbody class="p_inclusive_date">
                                         <tr>
-                                            <td class="col-sm-3"><label>Inclusive Dates :</label></td>
+                                            <td class="col-sm-3"><label>Inclusive Dates </label></td>
                                             <td class="col-sm-1">:</td>
                                             <td class="col-sm-8">
-                                                {{--<div class="input-group input-daterange">
-                                                    <span class="input-group-addon">From</span>
-                                                    <input type="text" class="form-control" name="inc_from[]">
-                                                    <span class="input-group-addon">To</span>
-                                                    <input type="text" class="form-control" name="inc_to[]">
-                                                    <span class="input-group-addon"></span>
-                                                </div>--}}
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
@@ -70,18 +77,26 @@
                                         <td></td>
                                         <td id="border-top">
                                             <a onclick="add_inclusive();" href="#">
-                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date:</a></p>
+                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date</a></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <span>Footer Body</span>
+                                            <textarea class="form-control" id="textarea1" name="footer_body" rows="8" style="resize:none;" required></textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>To be approve by:</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="approve_by" class="form-control" required /></td>
+                                        <td class="col-sm-8">
+                                            <input type="text" name="approved_by" value="Ruben S. Siapno,MD,MPH" class="form-control" readonly/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>Designation</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="designation" class="form-control" required /></td>
+                                        <td class="col-sm-8"><input type="text" value="Director III" class="form-control" readonly/></td>
                                     </tr>
                                 </table>
                                 <div class="modal-footer">
@@ -106,12 +121,14 @@
     </style>
 @endsection
 @section('js')
-    @@parent
+    @parent
     <script>
-        $("textarea").wysihtml5();
-        /*$('.input-daterange input').each(function() {
-            $(this).datepicker("clearDates");
-        });*/
+        $("#textarea").wysihtml5();
+        $("#textarea1").wysihtml5();
+        $(".select2").select2();
+        $('.datepickercalendar').datepicker({
+            autoclose: true
+        });
         //rusel
         $('#inclusive1').daterangepicker();
         var count = 1;

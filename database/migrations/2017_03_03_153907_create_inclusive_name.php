@@ -3,21 +3,17 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCalendar extends Migration
+class CreateInclusiveName extends Migration
 {
     public function up()
     {
-        if(Schema::hasTable('calendar')){
+        if(Schema::hasTable('inclusive_name')){
             return true;
         }
-        Schema::create('calendar', function (Blueprint $table) {
+        Schema::create('inclusive_name', function (Blueprint $table) {
             $table->increments('id');
             $table->text('route_no');
-            $table->text('title');
-            $table->text('start');
-            $table->text('end');
-            $table->text('backgroundColor');
-            $table->text('borderColor');
+            $table->text('user_id');
             $table->text('status');
             $table->rememberToken();
             $table->timestamps();
@@ -26,6 +22,6 @@ class CreateCalendar extends Migration
 
     public function down()
     {
-        Schema::drop('calendar');
+        Schema::drop('inclusive_name');
     }
 }
