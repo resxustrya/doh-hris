@@ -27,6 +27,7 @@ Route::get('dtr/print-monthly',function(){
 });
 
 Route::match(['get','post'], 'print-monthly', 'PrintController@print_monthly');
+Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(['get','post'], 'print/employee-attendance', 'PrintController@print_employee');
 
 Route::get('work-schedule' ,'HoursController@create');

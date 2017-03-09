@@ -103,6 +103,7 @@ class DocumentController extends Controller
 
     public function print_leave(Request $request, $id)
     {
+
         $leave = Leave::find($id);
         $display = view('pdf.leave')->with('leave', $leave);
         $pdf = App::make('dompdf.wrapper');

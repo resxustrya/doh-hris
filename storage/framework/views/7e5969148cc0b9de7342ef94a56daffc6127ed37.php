@@ -6,7 +6,7 @@ if(Session::has('lists')){
 ?>
 
 <?php $__env->startSection('content'); ?>
-    <div class="col-md-12 wrapper">
+    <div class="col-md-12 wrapper" style="height: 200px;">
         <div class="alert alert-jim">
             <h3 class="page-header">Employee monthly attendance
             </h3>
@@ -18,8 +18,7 @@ if(Session::has('lists')){
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
                             <div class="col-md-6 col-lg-offset-3">
-                                <form action="<?php echo e(asset('print-monthly')); ?>" method="POST" id="filter">
-                                    <?php echo e(csrf_field()); ?>
+                                <form action="<?php echo e(asset('print-monthly/attendance')); ?>" method="GET" id="filter" target="_blank">
 
                                     <div class="btn-group">
                                         <div class="input-group input-daterange" >
@@ -36,52 +35,6 @@ if(Session::has('lists')){
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="page-divider"></div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <?php if(isset($lists) and count($lists) >0): ?>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-list table-hover table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th>Userid</th>
-                                                <th>Name</th>
-                                                <th>Department</th>
-                                                <th>Transaction date</th>
-                                                <th>Transaction time</th>
-                                                <th>Event Type</th>
-                                                <th>Terminal</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php foreach($lists as $list): ?>
-                                                <tr>
-                                                    <td><?php echo e($list->userid); ?></td>
-                                                    <td><?php echo e($list->lastname .", " .$list->lastname); ?></td>
-                                                    <td><?php echo e($list->department); ?></td>
-                                                    <td><?php echo e(date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y); ?></td></td>
-                                                    <td><?php echo e(date("h:i A", strtotime($list->time))); ?></td>
-                                                    <td><?php echo e($list->event); ?></td>
-                                                    <td><?php echo e($list->terminal); ?></td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <?php echo e($lists->links()); ?>
-
-                                </div>
-                            </div>
-                        <?php else: ?>
-                            <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>

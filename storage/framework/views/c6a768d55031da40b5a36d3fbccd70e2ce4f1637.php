@@ -93,7 +93,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->leave_type == "Vication"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true">CHECK</span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -103,7 +103,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->leave_type == "To_sake_employement"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true">CHECK</span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -113,7 +113,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->leave_type == "Others"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true">CHECK</span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -131,7 +131,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->leave_type == "Sick"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true">CHECK</span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -141,7 +141,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->leave_type == "Maternity"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true">CHECK</span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -151,7 +151,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->leave_type == "Others2"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true">CHECK</span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -195,7 +195,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->vication_loc == "local"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -205,7 +205,7 @@
                     <tr>
                         <td>
                             <?php if($leave->vication_loc == "abroad"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -236,7 +236,7 @@
                     <tr>
                         <td style="width: 20%;">
                             <?php if($leave->sick_loc == "in_hostpital"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -259,7 +259,7 @@
                     <tr>
                         <td>
                             <?php if($leave->sick_loc == "out_patient"): ?>
-                                <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                             <?php else: ?>
                                 <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                             <?php endif; ?>
@@ -291,14 +291,14 @@
                         <td>
                             <?php if($leave->com_requested == "yes"): ?>
                                 <strong class="col-sm-1">
-                                    <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                                 </strong>
                                 <strong class="col-sm-6">
                                     Requested
                                 </strong>
                             <?php else: ?>
                                 <strong class="col-sm-1">
-                                    <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                                 </strong>
                                 <strong class="col-sm-6">
                                     Not Requested
@@ -380,7 +380,7 @@
                         <tr>
                             <td>
                                 <?php if($leave->reco_approval == "approve"): ?>
-                                    <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                                 <?php else: ?>
                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                 <?php endif; ?>
@@ -390,7 +390,7 @@
                         <tr>
                             <td>
                                 <?php if($leave->reco_approval == "disapprove"): ?>
-                                    <span style="text-decoration: underline;" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <strong><span style="font-family: DejaVu Sans;">&#10004; </span></strong>
                                 <?php else: ?>
                                     <span style="text-decoration: underline;width: 20%;" aria-hidden="true">&nbsp;</span>
                                 <?php endif; ?>

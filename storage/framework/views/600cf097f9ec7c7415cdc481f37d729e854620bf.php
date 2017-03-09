@@ -1,7 +1,4 @@
-<?php
-    ini_set('max_execution_time', 0);
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,31 +13,12 @@
     <!-- Bootstrap core CSS -->
     <link href="<?php echo e(asset('resources/assets/css/bootstrap.pdf.css')); ?>" rel="stylesheet">
     <title>
-        JO Daily Attendance Report
+        Application fo Leave
     </title>
-    <style>
-
-    </style>
 </head>
 
 <body>
-<?php for($i = 0; $i < 500; $i++): ?>
-
-    <div id="box" style="height: 800px;width: 100%; border: 1px solid #333;padding:2px;margin-top: 10px;">
-        <?php echo e($lists[$i]['dtr_id']); ?>
-
-        <!--
-       <div style="height: 400px;width:300px; float: left; border: 1px solid #333;">
-
-       </div>
-        <div style="height: 400px;width:300px; float: right; border: 1px solid #333;">
-
-        </div>
-        -->
-    </div>
-
-<?php endfor; ?>
-
+    <h1>Test OUTPUT</h1>
 <script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/js/bootstrap.min.js')); ?>"></script>
 </body>

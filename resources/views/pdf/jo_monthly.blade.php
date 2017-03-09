@@ -1,7 +1,4 @@
-<?php
-    ini_set('max_execution_time', 0);
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,23 +13,12 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('resources/assets/css/bootstrap.pdf.css') }}" rel="stylesheet">
     <title>
-        JO Daily Attendance Report
+        Application fo Leave
     </title>
-    <style>
-
-    </style>
 </head>
 
 <body>
-@for($i = 0; $i < count($lists); $i++)
-
-    <div id="box" style="height: 800px;width: 100%;padding:2px;margin-top: 10px;">
-        {{ $lists[$i]['dtr_id'] }}
-
-    </div>
-
-@endfor
-
+    <h1>Test OUTPUT</h1>
 <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('resources/assets/js/bootstrap.min.js') }}"></script>
 </body>
