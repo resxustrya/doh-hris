@@ -18,8 +18,7 @@ if(Session::has('lists')){
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
                             <div class="col-md-6 col-lg-offset-3">
-                                <form action="<?php echo e(asset('print-monthly/attendance')); ?>" method="GET" id="filter" target="_blank">
-
+                                <form action="<?php echo e(asset('FPDF/dtr.php')); ?>" method="GET" id="filter" target="_blank">
                                     <div class="btn-group">
                                         <div class="input-group input-daterange" >
                                             <span class="input-group-addon">From</span>
