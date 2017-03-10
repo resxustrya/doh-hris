@@ -110,3 +110,6 @@ Route::get('example','DocumentController@check_calendar');
 Route::get('phpinfo', function() {
     return phpinfo();
 });
+
+
+Route::get('fpdf', 'PersonalController@rdr_home');

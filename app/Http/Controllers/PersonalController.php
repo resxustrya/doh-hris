@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+
 use App\DtrDetails;
 use App\Work_sched;
 use Illuminate\Http\Request;
@@ -94,7 +95,6 @@ class PersonalController extends Controller
             return redirect('personal/print/monthly');
         }
     }
-
 
     public static function day_name($day,$list)
     {
@@ -285,5 +285,10 @@ class PersonalController extends Controller
         }
 
         return $total_ut;
+    }
+
+    public function rdr_home()
+    {
+        require('FPDF/dtr.php');
     }
 }
