@@ -33,14 +33,12 @@ function userlist($date_from,$date_to)
         {
             $pdo = null;
             return $row;
-
         }
     }catch(PDOException $ex)
     {
         echo $ex->getMessage();
         exit();
     }
-
 }
 
 function get_logs($userid, $date_from,$date_to)

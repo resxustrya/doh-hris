@@ -11,22 +11,22 @@ class PDF extends FPDF
 {
 
 // Page header
-    function form($name,$userid)
+    function form($name,$userid,$date_from,$date_to)
     {
         $this->SetFont('Arial','',8);
         $this->SetX(10);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
-        $this->SetX(70);
+        $this->SetX(60);
         $this->Cell(40,10,'Printed : '. date('Y-m-d'),0);
 
         $this->SetX(120);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
-        $this->SetX(-30);
-        $this->Cell(40,10,'Printed : '. date('Y'),0);
+        $this->SetX(-40);
+        $this->Cell(40,10,'Printed : '.date('Y-m-d') ,0);
 
         $this->Ln(5);
         $this->SetFont('Arial','',10);
-        $this->SetXY(40,15);
+        $this->SetXY(35,15);
         $this->Cell(40,10,'DAILY TIME RECORD',0);
 
         $this->SetFont('Arial','B',10);
@@ -38,8 +38,8 @@ class PDF extends FPDF
         $this->Cell(40,10,'For the month of',0);
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(70,28);
-        $this->Cell(40,10,'ID No.',0);
+        $this->SetXY(60,28);
+        $this->Cell(40,10,'ID No.  '.$userid,0);
 
         $this->SetFont('Arial','',10);
         $this->SetXY(10,33);
@@ -48,11 +48,12 @@ class PDF extends FPDF
 
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(150,15);
+        $this->SetXY(145,15);
         $this->Cell(40,10,'DAILY TIME RECORD',0);
 
         $this->SetFont('Arial','B',10);
         $this->SetXY(120,22);
+        $this->SetFillColor(200,220,255);
         $this->Cell(40,10,'Name : '.$name,0);
 
         $this->SetFont('Arial','',10);
@@ -60,12 +61,36 @@ class PDF extends FPDF
         $this->Cell(40,10,'For the month of',0);
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(180,28);
-        $this->Cell(40,10,'ID No.',0);
+        $this->SetXY(170,28);
+        $this->Cell(40,10,'ID No.  '.$userid,0);
 
         $this->SetFont('Arial','',10);
         $this->SetXY(120,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
+
+        $this->SetFont('Arial','',9);
+        $this->SetXY(120,42);
+        $this->Cell(89,10,'                     AM                              PM              UNDERTIME',1);
+
+        $this->SetFont('Arial','',9);
+        $this->SetXY(10,42);
+        $this->Cell(89,10,'                     AM                              PM              UNDERTIME',1);
+
+        $this->SetFont('Arial','',7.5);
+        $this->SetXY(120,52);
+        $this->Cell(89,10,'  DAY  ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
+
+        $this->SetFont('Arial','',7.5);
+        $this->SetXY(10,52);
+        $this->Cell(89,10,'  DAY  ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
+
+        $this->SetFont('Arial', '', 7.5);
+        $this->SetXY(10,60);
+        for($i = 0; $i < 15; $i++)
+        {
+            $this->Cell($i, 10, '  '.$i.'        8:05:12     12:17:27            12:17:34              20:56:17     0        0',0);
+            $this->Ln();
+        }
 
 
         $this->Ln(500);
@@ -99,9 +124,9 @@ if(isset($_GET['from']) and isset($_GET['to'])) {
 $row = userlist($date_from,$date_to);
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < count($row); $i++)
+    for($i = 0; $i < 100; $i++)
     {
-        $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid']);
+        $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid'],$date_from,$date_to);
     }
 }
 $pdf->Output();
