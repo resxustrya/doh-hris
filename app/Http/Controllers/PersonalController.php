@@ -112,6 +112,7 @@ class PersonalController extends Controller
         $id = Auth::user()->userid;
         $pdo = DB::connection()->getPdo();
         $query = "";
+
         if($event == 'IN' and $b == 'AM') {
             $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h > 00  and time_h < ". $am_out[0] ."   and event = 'IN'";
         }
