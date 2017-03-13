@@ -11,64 +11,8 @@ class PDF extends FPDF
 {
 
 // Page header
-    function form($name,$userid,$date_from,$date_to)
+    function form()
     {
-        $this->SetFont('Arial','',8);
-        $this->SetX(10);
-        $this->Cell(40,10,'Civil Service Form No. 43',0);
-        $this->SetX(60);
-        $this->Cell(40,10,'Printed : '. date('Y-m-d'),0);
-
-        $this->SetX(120);
-        $this->Cell(40,10,'Civil Service Form No. 43',0);
-        $this->SetX(-40);
-        $this->Cell(40,10,'Printed : '.date('Y-m-d') ,0);
-
-        $this->Ln(5);
-        $this->SetFont('Arial','',10);
-        $this->SetXY(35,15);
-        $this->Cell(40,10,'DAILY TIME RECORD',0);
-
-        $this->SetFont('Arial','B',10);
-        $this->SetXY(10,22);
-        $this->Cell(40,10,'Name : '.$name,0);
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(10,28);
-        $this->Cell(40,10,'For the month of',0);
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(60,28);
-        $this->Cell(40,10,'ID No.  '.$userid,0);
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(10,33);
-        $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
-
-
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(145,15);
-        $this->Cell(40,10,'DAILY TIME RECORD',0);
-
-        $this->SetFont('Arial','B',10);
-        $this->SetXY(120,22);
-        $this->SetFillColor(200,220,255);
-        $this->Cell(40,10,'Name : '.$name,0);
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(120,28);
-        $this->Cell(40,10,'For the month of',0);
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(170,28);
-        $this->Cell(40,10,'ID No.  '.$userid,0);
-
-        $this->SetFont('Arial','',10);
-        $this->SetXY(120,33);
-        $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
-
-
 
 
 
@@ -125,10 +69,6 @@ class PDF extends FPDF
 
             $this->Ln();
         }
-
-
-
-        $this->Ln(500);
     }
 // Page footer
     function Footer()
@@ -156,14 +96,9 @@ if(isset($_GET['from']) and isset($_GET['to'])) {
     $date_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
 
 }
-$row = userlist($date_from,$date_to);
-if(isset($row) and count($row) > 0)
-{
-    for($i = 0; $i < count($row); $i++)
-    {
-        $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid'],$date_from,$date_to);
-    }
-}
+$pdf->form();
+
+
 $pdf->Output();
 
 ?>
