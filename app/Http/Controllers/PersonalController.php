@@ -56,6 +56,7 @@ class PersonalController extends Controller
                 ->where('datein', '>=', $f_from)
                 ->where('datein', '<=', $f_to)
                 ->orderBy('datein', 'ASC')
+                ->pluck('datein')
                 ->paginate(10);
 
             return view('employee.index')->with('lists',$lists);
@@ -84,24 +85,41 @@ class PersonalController extends Controller
         $f_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
         $f_to = $_to[2].'-'.$_to[0].'-'.$_to[1];*/
 
-        if(count($start_date) > 0 and count($end_date) > 0){
-            $lists = DtrDetails::where('userid', $request->user()->userid)
-                                ->where('datein','>=', $start_date)
-                                ->where('datein','<=', $end_date)
-                                ->orderBy('datein', 'ASC')
-                                ->get();
-            return view('print.personal')->with('lists',$lists);
+        $id = Auth::user()->userid;
+        $pdo = DB::connection()->getPdo();
+
+        $query = "SELECT DISTINCT e.userid, datein,
+
+                    (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < 12) as am_in,
+                    (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < 13 AND t2.event = 'OUT') as am_out,
+                    (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= 12 and t3.time_h < 17 AND t3.event = 'IN' ) as pm_in,
+                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > 13 and t4. time_h < 24) as pm_out
+
+                    FROM dtr_file d LEFT JOIN users e
+                        ON d.userid = e.userid
+                    WHERE d.datein BETWEEN '". $start_date. "' AND '" . $end_date . "'
+                          AND e.userid = '". $id."'
+                    ORDER BY datein ASC";
+
+
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $lists = $st->fetchAll(PDO::FETCH_ASSOC);
+
+        if(isset($lists) and count($lists) > 0) {
+
+            return view('print.personal')->with('lists',$lists)->with('start_date',$start_date)->with('end_date',$end_date);
         } else {
             return redirect('personal/print/monthly');
         }
     }
 
-    public static function day_name($day,$list)
+    public static function day_name($datein)
     {
-        $date = $list->date_y.'-'.$list->date_m.'-'.$day;
-        return date('D', strtotime($date));
+
+        return date('D', strtotime($datein));
     }
-    public static function get_time($datein,$event,$b)
+    public static function get_time($datein)
     {
         $work_sched = Work_sched::where('id',1)->first();
 
@@ -113,23 +131,23 @@ class PersonalController extends Controller
         $pdo = DB::connection()->getPdo();
         $query = "";
 
-        if($event == 'IN' and $b == 'AM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '" . $id . "' and datein = '" .$datein ."' and time_h > 00  and time_h < ". $am_out[0] ."   and event = 'IN'";
-        }
-        if($event == 'OUT' and $b == 'AM') {
-            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" . $id ."' and datein = '" . $datein ."' and time_h > 00 and time_h <= ". $pm_in[0] ." and event = 'OUT'";
-        }
-        if($event == 'IN' and $b == 'PM') {
-            $query = "SELECT min(time) as 'time' from dtr_file WHERE userid = '". $id ."' and datein = '" . $datein . "' and time_h >= " . $am_out[0] ." and time_h <= ". $pm_out[0] ." and event = 'IN'";
-        }
-        if($event == 'OUT' and $b == 'PM') {
-            $query = "SELECT max(time) as 'time' from dtr_file WHERE userid = '" .$id ."' and datein ='" . $datein . "' and time_h > " . $am_out[0] . "  and event = 'OUT'";
-        }
+        $query = "SELECT DISTINCT e.userid, datein,
+
+                    (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < 12) as am_in,
+                    (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < 13 AND t2.event = 'OUT') as am_out,
+                    (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= 12 and t3.time_h < 17 AND t3.event = 'IN' ) as pm_in,
+                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > 13 and t4. time_h < 24) as pm_out
+
+                    FROM dtr_file d LEFT JOIN users e
+                        ON d.userid = e.userid
+                    WHERE d.datein BETWEEN '2017-01-01' AND '2017-01-31'
+                          AND e.userid = '0476'
+                    ORDER BY datein ASC";
 
         $st = $pdo->prepare($query);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
-        return $row[0]['time'];
+        return $row;
     }
 
     public static function late($am_in, $pm_in)

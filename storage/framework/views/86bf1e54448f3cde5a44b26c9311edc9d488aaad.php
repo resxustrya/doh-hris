@@ -4,8 +4,11 @@ use App\Http\Controllers\DocumentController as document;
 use App\Calendar;
 
 if(isset($lists) and count($lists) > 0) {
-    $startday = $lists[0]->date_d;
-    $endday = $lists[count($lists) -1 ]->date_d;
+    $day1 = explode('-',$start_date);
+    $day2 = explode('-',$end_date);
+
+    $startday = floor($day1[2]);
+    $endday = $day2[2];
 }
 ?>
 
@@ -73,18 +76,19 @@ if(isset($lists) and count($lists) > 0) {
                                             $temp2 = -0;
                                             $condition = -0;
                                             $title = '';
+                                            $logs = null;
+                                            $ok = false;
                                         ?>
-                                        <?php foreach($lists as $list): ?>
-                                            <?php if($startday <= $endday): ?>
+                                        <?php for($d = $startday; $d <= $endday; $d++): ?>
                                                 <?php
-                                                    $startday >= 1 && $startday < 10 ? $zero='0' : $zero = '';
-                                                    $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$zero.$startday;
+                                                    $d >= 1 && $d < 10 ? $zero='0' : $zero = '';
+                                                    $datein = $day1[0]."-".$day1[1]."-".$zero.$d;
                                                 ?>
                                                 <tr>
                                                     <?php
-                                                        $am_in =  personal::get_time($datein, 'IN','AM');
-                                                        if(!($am_in == '' or $am_in == null)){
-                                                            $am_out = personal::get_time($datein, 'OUT', 'AM');
+                                                        $logs =  personal::get_time($datein);
+                                                        if(!($logs[0]['am_in'] == '' or $logs[0]['am_in'] == null)){
+
                                                             //flag for calendar
                                                             $ok = false;
                                                         } else {
@@ -114,14 +118,16 @@ if(isset($lists) and count($lists) > 0) {
                                                                 }
                                                             }
                                                         }
-                                                        $pm_in = personal::get_time($datein, 'IN','PM');
-                                                        $pm_out = personal::get_time($datein, 'OUT','PM');
+                                                        $am_in = $logs[0]['am_in'];
+                                                        $am_out = $logs[0]['am_out'];
+                                                        $pm_in = $logs[0]['pm_in'];
+                                                        $pm_out = $logs[0]['pm_out'];
 
                                                         $late = personal::late($am_in, $pm_in);
                                                         $ut = personal::undertime($am_out,$pm_out);
                                                     ?>
                                                         <td class="text-center"><?php echo e($datein); ?></td>
-                                                        <td class="text-center"><?php echo e($startday ." " .personal::day_name($startday, $list)); ?></td>
+                                                        <td class="text-center"><?php echo e(personal::day_name($datein)); ?></td>
                                                         <?php if($ok): ?>
                                                         <td class="text-center" colspan="4"><?php echo $am_out; ?></td>
                                                         <?php else: ?>
@@ -134,9 +140,7 @@ if(isset($lists) and count($lists) > 0) {
                                                         <td class="text-center"><?php echo e($ut); ?></td>
 
                                                 </tr>
-                                            <?php endif; ?>
-                                           <?php $startday = $startday + 1; ?>
-                                        <?php endforeach; ?>
+                                        <?php endfor; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -148,7 +152,6 @@ if(isset($lists) and count($lists) > 0) {
             </div>
         </div>
     </div>
-
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('js'); ?>

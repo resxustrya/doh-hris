@@ -2,9 +2,8 @@
 <?php
 
 require('fpdf.php');
-require('dbconn.php');
 ini_set('max_execution_time', 0);
-ini_set('memory_limit','10000M');
+ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
 
 class PDF extends FPDF
@@ -13,6 +12,14 @@ class PDF extends FPDF
 // Page header
     function form($name,$userid,$date_from,$date_to)
     {
+
+        $day1 = explode('-',$date_from);
+        $day2 = explode('-',$date_to);
+
+        $startday = floor($day1[2]);
+        $endday = $day2[2];
+
+
         $this->SetFont('Arial','',8);
         $this->SetX(10);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
@@ -70,8 +77,6 @@ class PDF extends FPDF
 
 
 
-
-
         $this->SetFont('Arial','',9);
         $this->SetXY(10,42);
         $this->Cell(89,8,'                     AM                             PM              UNDERTIME',1);
@@ -84,20 +89,34 @@ class PDF extends FPDF
         $this->SetFont('Arial', '', 7.5);
         $this->SetXY(10,65);
 
-        $w = array(10,15,15, 15, 15);
-        for($i = 0; $i < 15; $i++)
-        {
+        $w = array(10,15,15,15,15);
 
-            $this->Cell($w[0],6,'L'.$i,'');
-            $this->Cell($w[1],6,$i.':22:22','');
-            $this->Cell($w[1],6,$i.':22:22','');
-            $this->Cell($w[2],6,$i.':22:22','',0,'R');
-            $this->Cell($w[3],6,$i.':22:22','',0,'R');
+        for($r1 = $startday; $r1 <= $endday; $r1++)
+        {
+            $r1 >= 1 && $r1 < 10 ? $zero='0' : $zero = '';
+            $datein = $day1[0]."-".$day1[1]."-".$zero.$r1;
+
+            $day_name = date('D', strtotime($datein));
+
+            $logs = get_logs($datein,$userid);
+
+            $this->Cell(5,6,$r1,'');
+            $this->Cell(7,6,$day_name,'');
+            $this->Cell($w[1],6,$logs[0]['am_in'],'');
+            $this->Cell($w[1],6,$logs[0]['am_out'],'');
+            $this->Cell($w[2],6,$logs[0]['pm_in'],'',0,'R');
+            $this->Cell($w[3],6,$logs[0]['pm_out'],'',0,'R');
+
+            $this->Cell(37);
+            $this->Cell(5,6,$r1,'');
+            $this->Cell(7,6,$day_name,'');
+            $this->Cell($w[1],6,$logs[0]['am_in'],'');
+            $this->Cell($w[1],6,$logs[0]['am_out'],'');
+            $this->Cell($w[2],6,$logs[0]['pm_in'],'',0,'R');
+            $this->Cell($w[3],6,$logs[0]['pm_out'],'',0,'R');
 
             $this->Ln();
         }
-
-
 
         $this->SetFont('Arial','',9);
         $this->SetXY(120,42);
@@ -108,28 +127,11 @@ class PDF extends FPDF
         $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
 
 
-        $this->SetFont('Arial', '', 7.5);
-        $this->SetXY(120,65);
-        $w = array(10,15,15, 15, 15);
-
-        for($i = 0; $i < 15; $i++)
-        {
-            if($i > 0){
-                $this->Cell(110);
-            }
-            $this->Cell($w[0],6,'R'.$i,'');
-            $this->Cell($w[1],6,$i.':22:22','');
-            $this->Cell($w[1],6,$i.':22:22','');
-            $this->Cell($w[2],6,$i.':22:22','',0,'R');
-            $this->Cell($w[3],6,$i.':22:22','',0,'R');
-
-            $this->Ln();
-        }
-
-
 
         $this->Ln(500);
     }
+
+
 // Page footer
     function Footer()
     {
@@ -146,9 +148,9 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_GET['from']) and isset($_GET['to'])) {
-    $date_from = $_GET['from'];
-    $date_to = $_GET['to'];
+if(isset($_POST['from']) and isset($_POST['to'])) {
+    $date_from = $_POST['from'];
+    $date_to = $_POST['to'];
 
     $_from = explode('/',$date_from);
     $_to = explode('/', $date_to);
@@ -165,5 +167,70 @@ if(isset($row) and count($row) > 0)
     }
 }
 $pdf->Output();
+
+
+
+function conn()
+{
+    $pdo = null;
+
+    try{
+        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch (PDOException $err) {
+        $err->getMessage() . "<br/>";
+        die();
+    }
+    return $pdo;
+}
+
+function userlist($date_from,$date_to)
+{
+    $pdo = conn();
+    try {
+        $st = $pdo->prepare("SELECT DISTINCT u.userid,u.fname,u.lname,u.mname FROM dtr_file d INNER JOIN users u ON u.userid = d.userid  WHERE u.usertype != '1' AND d.datein BETWEEN '".$date_from ."' AND '".$date_to ."' ORDER BY u.userid ASC");
+        $st->execute();
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
+        if(isset($row) and count($row) > 0)
+        {
+            $pdo = null;
+            return $row;
+        }
+    }catch(PDOException $ex)
+    {
+        echo $ex->getMessage();
+        exit();
+    }
+}
+
+function get_logs($datein,$id)
+{
+
+    $pdo = conn();
+    $query = "SELECT * FROM work_sched WHERE id = '1'";
+    $st = $pdo->prepare($query);
+    $st->execute();
+    $sched = $st->fetchAll(PDO::FETCH_ASSOC);
+
+    $am_in = explode(':',$sched[0]['am_in']);
+    $am_out =  explode(':',$sched[0]['am_out']);
+    $pm_in =  explode(':',$sched[0]['pm_in']);
+    $pm_out = explode(':',$sched[0]['pm_out']);
+
+
+    $query = "SELECT DISTINCT t.userid,
+                      (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id ."' and t1.datein = '". $datein ."' and t1.time_h < ". $am_out[0] .") as am_in,
+                      (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id ."' and t2.datein = '". $datein ."' and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
+                      (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id ."' AND t3.datein = '". $datein ."' and t3.time_h >= ". $am_out[0]." and t3.time_h < ". $pm_out[0]." AND t3.event = 'IN' ) as pm_in,
+                      (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id ."' AND t4.datein = '". $datein ."' and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as pm_out
+                FROM dtr_file t
+                WHERE t.userid = '".$id."'";
+
+    $st = $pdo->prepare($query);
+    $st->execute();
+    $row = $st->fetchAll(PDO::FETCH_ASSOC);
+    return $row;
+}
 
 ?>

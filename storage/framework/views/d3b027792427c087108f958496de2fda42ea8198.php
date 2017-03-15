@@ -95,7 +95,6 @@
                 reader.readAsText(file);
             });
         }
-
     </script>
 
 <?php $__env->stopSection(); ?>
