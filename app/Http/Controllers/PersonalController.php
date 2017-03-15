@@ -107,7 +107,6 @@ class PersonalController extends Controller
         $lists = $st->fetchAll(PDO::FETCH_ASSOC);
 
         if(isset($lists) and count($lists) > 0) {
-
             return view('print.personal')->with('lists',$lists)->with('start_date',$start_date)->with('end_date',$end_date);
         } else {
             return redirect('personal/print/monthly');
