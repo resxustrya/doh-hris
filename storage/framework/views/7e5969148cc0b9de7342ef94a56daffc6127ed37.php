@@ -17,7 +17,7 @@ if(Session::has('lists')){
                             <div id="alert" class="ng-cloak alert alert-warning alert-dismissible col-lg-12" role="alert">
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
-                            <div class="alert-success alert col-md-6 col-lg-offset-3">
+                            <div class="col-md-6 col-lg-offset-3">
                                 <form action="<?php echo e(asset('print-monthly')); ?>" method="POST" id="filter">
                                     <?php echo e(csrf_field()); ?>
 

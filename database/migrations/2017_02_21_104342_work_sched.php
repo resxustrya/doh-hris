@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
-class CreateFlixetime extends Migration
+class WorkSched extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,15 @@ class CreateFlixetime extends Migration
      */
     public function up()
     {
-        Schema::create('flixetime', function(Blueprint $table){
+        Schema::create('work_sched', function(Blueprint $table) {
             $table->increments('id');
-            $table->time('from');
-            $table->time('to');
-            $table->timestamps();
+            $table->string('description');
+            $table->time('am_in');
+            $table->time('am_out');
+            $table->time('pm_in');
+            $table->time('pm_out');
             $table->softDeletes();
-
+            $table->timestamps();
         });
     }
 
@@ -29,6 +31,6 @@ class CreateFlixetime extends Migration
      */
     public function down()
     {
-        Schema::drop('flixetime');
+        Schema::dropIfExists('work_sched');
     }
 }

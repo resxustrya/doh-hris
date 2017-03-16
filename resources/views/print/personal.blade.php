@@ -1,9 +1,8 @@
 <?php
-use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PersonalController as personal;
-if(Session::has('filter_list')) {
-    $lists = Session::get('filter_list');
-}
+use App\Http\Controllers\DocumentController as document;
+use App\Calendar;
+
 if(isset($lists) and count($lists) > 0) {
     $startday = $lists[0]->date_d;
     $endday = $lists[count($lists) -1 ]->date_d;
@@ -43,35 +42,90 @@ if(isset($lists) and count($lists) > 0) {
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th class="col-sm-2" style="text-align: center;">AM</th>
-                                            <th class="col-sm-2" style="text-align: center;">PM</th>
-                                            <th class="col-sm-2" style="text-align: center;">UNDERTIME<br />Late | UT</th>
+                                            <th class="col-sm-3" style="text-align: center;">AM</th>
+                                            <th class="col-sm-3" style="text-align: center;">PM</th>
                                         </tr>
                                     </thead>
                                 </table>
-                                <table class="table table-list table-hover table-striped">
+                                <table border="1" class="table table-list table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <td class="col-sm-1">Date</td>
-                                            <td class="col-sm-1">DAY</td>
-                                            <td class="col-sm-2">IN</td>
-                                            <td class="col-sm-2">OUT</td>
-                                            <td class="col-sm-2">IN</td>
-                                            <td class="col-sm-2">OUT</td>
-                                            <td class="col-sm-2">LATE | UT</td>
+                                            <td class="text-center">Date</td>
+                                            <td class="text-center">DAY</td>
+                                            <td class="text-center">IN</td>
+                                            <td class="text-center">OUT</td>
+                                            <td class="text-center">IN</td>
+                                            <td class="text-center">OUT</td>
+                                            <td class="text-center">LATE</td>
+                                            <td class="text-center">UNDERTIME</td>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                            $temp1 = -0;
+                                            $temp2 = -0;
+                                            $condition = -0;
+                                            $title = '';
+                                        ?>
                                         @foreach($lists as $list)
                                             @if($startday <= $endday)
+                                                <?php
+                                                    $startday >= 1 && $startday < 10 ? $zero='0' : $zero = '';
+                                                    $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$zero.$startday;
+                                                ?>
                                                 <tr>
-                                                    <td>{{ $list->datein }}</td>
-                                                    <td>{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'IN') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
-                                                    <td>{{  personal::get_time($list->datein, 'OUT') }}</td>
+                                                    <?php
+                                                        $am_in =  personal::get_time($datein, 'IN','AM');
+                                                        if(!($am_in == '' or $am_in == null)){
+                                                            $am_out = personal::get_time($datein, 'OUT', 'AM');
+                                                            //flag for calendar
+                                                            $ok = false;
+                                                        } else {
+                                                            $condition = floor(strtotime($datein) / (60 * 60 * 24));
+                                                            $check_calendar = document::check_calendar();
+                                                            foreach($check_calendar as $check)
+                                                            {
+                                                                if(isset(Calendar::where('route_no',$check->route_no)
+                                                                                    ->where('start',$datein)
+                                                                                    ->first()->title)) {
+                                                                    $title = Calendar::where('route_no',$check->route_no)
+                                                                            ->where('start',$datein)
+                                                                            ->orWhere('end',$datein)
+                                                                            ->get()
+                                                                            ->first();
+                                                                    $temp1 = floor(strtotime($title->start) / (60 * 60 * 24));
+                                                                    $temp2 = floor(strtotime($title->end) / (60 * 60 * 24));
+                                                                }
+                                                                if($condition < $temp2 and $title != ''){
+                                                                    $am_out = "<p style='color:red;'>".$title->title."</p>";
+                                                                    $ok = true;
+                                                                    break;
+                                                                }
+                                                                else {
+                                                                    $am_out = '';
+                                                                    $ok = false;
+                                                                }
+                                                            }
+                                                        }
+                                                        $pm_in = personal::get_time($datein, 'IN','PM');
+                                                        $pm_out = personal::get_time($datein, 'OUT','PM');
+
+                                                        $late = personal::late($am_in, $pm_in);
+                                                        $ut = personal::undertime($am_out,$pm_out);
+                                                    ?>
+                                                        <td class="text-center">{{ $datein }}</td>
+                                                        <td class="text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
+                                                        @if($ok)
+                                                        <td class="text-center" colspan="4"><?php echo $am_out; ?></td>
+                                                        @else
+                                                        <td class="text-center">{{ $am_in }}</td>
+                                                        <td class="text-center"><?php echo $am_out ?></td>
+                                                        <td class="text-center">{{  $pm_in }}</td>
+                                                        <td class="text-center">{{  $pm_out }}</td>
+                                                        @endif
+                                                        <td class="text-center">{{ $late }}</td>
+                                                        <td class="text-center">{{ $ut }}</td>
+
                                                 </tr>
                                             @endif
                                            <?php $startday = $startday + 1; ?>
@@ -79,7 +133,6 @@ if(isset($lists) and count($lists) > 0) {
                                     </tbody>
                                 </table>
                             </div>
-                            {{ $lists->links() }}
                         @else
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                         @endif

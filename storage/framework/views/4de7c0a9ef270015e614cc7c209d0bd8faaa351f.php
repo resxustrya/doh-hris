@@ -1,21 +1,18 @@
 <?php $__env->startSection('content'); ?>
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Flixeble Times</h2>
-        <form class="form-inline form-accept" action="<?php echo e(asset('/search/user')); ?>" method="GET">
-            <?php echo e(csrf_field()); ?>
-
-            <div class="form-group">
-                <input id="input-a" value="" data-default="20:48" class="form-control">
+        <h2 class="page-header">Working Schedule</h2>
+        <div class="row">
+            <div class="col-md-4">
                 <div class="btn-group">
-                    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" data-link="<?php echo e(asset('create/flixe')); ?>" href="#flixe">
+                    <a class="btn btn-success dropdown-toggle" data-toggle="dropdown" data-link= "<?php echo e(asset('create/work-schedule')); ?>" href="#flixe">
                         <i class="fa fa-plus"></i>  Add New
                     </a>
                 </div>
             </div>
-        </form>
+        </div>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
-        <?php if(isset($flixetimes) and count($flixetimes)): ?>
+        <?php if(isset($hours) and count($hours)): ?>
             <div class="table-responsive">
                 <table class="table table-list table-hover table-striped">
                     <thead>
@@ -24,15 +21,15 @@
                             <th>Time To</th>
                         </tr>
                     </thead>
-                    <?php foreach($flixetimes as $flixetime): ?>
+                    <?php foreach($hours as $hour): ?>
                         <tr>
-                            <td><?php echo e($flixetime->from); ?></td>
-                            <td><?php echo e($flixetime->to); ?></td>
+                            <td><?php echo e($hour->from); ?></td>
+                            <td><?php echo e($hour->to); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
             </div>
-            <?php echo e($flixetimes->links()); ?>
+            <?php echo e($hours->links()); ?>
 
         <?php else: ?>
             <div class="alert alert-danger">
@@ -60,6 +57,14 @@
             align : 'left',
             donetext : 'Ok',
             'default' : '12:00'
+        });
+        $('a[href="#flixe"]').click(function(event){
+            event.preventDefault();
+            var url = $(this).data('link');
+            $.get(url,'',function(response){
+               $('#new_form').modal('show');
+               $('.modal-body').html(response);
+            });
         });
     </script>
 <?php $__env->stopSection(); ?>

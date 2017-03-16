@@ -1,20 +1,22 @@
-<?php
-    use Illuminate\Support\Facades\Session;
-    if(Session::has('lists')){
-        $lists = Session::get('lists');
-    }
-?>
+
 @extends('layouts.app')
 
 @section('content')
+@if(Session::has('message'))
+    <div class="col-md-12 wrapper">
+        <div class="alert alert-success" role="alert">
+            {{ Session::get('message') }}
+        </div>
+    </div>
+@endif
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
         </h3>
-        <form class="form-inline" method="POST" action="{{ asset('search') }}" onsubmit="return searchDocument();" id="searchForm">
+        <form class="form-inline" method="GET" action="{{ asset('search') }}"  id="searchForm">
             {{ csrf_field() }}
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" value="{{ Session::get('keyword') }}" autofocus>
+                <input type="text" class="form-control" placeholder="Search ID and or NAME" name="keyword" autofocus>
                 <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                 <div class="btn-group">
                     <div class="input-group input-daterange">
@@ -40,32 +42,39 @@
                             <table class="table table-list table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Userid</th>
+                                    <th>DTR ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Transaction date</th>
                                     <th>Transaction time</th>
                                     <th>Event Type</th>
                                     <th>Terminal</th>
+                                    <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($lists as $list)
                                     <tr>
-                                        <td>{{ $list->userid }}</td>
-                                        <td>{{ $list->firstname .", " .$list->lastname }}</td>
-                                        <td>{{ date('l', strtotime($list->datein)) }}</td>
-                                        <td>{{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}</td></td>
+                                        <td>{{ $list->dtr_id }}</td>
+                                        <td>{{ $list->lastname }}</td>
+                                        <td>{{ $list->department }} </td>
+                                        <td>
+                                            {{ date('l', strtotime($list->datein)) }}
+                                            {{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}
+                                        </td>
                                         <td>{{ date("h:i A", strtotime($list->time)) }}</td>
                                         <td>{{ $list->event }}</td>
                                         <td>{{ $list->terminal }}</td>
+                                        <td>
+                                            <a class="btn btn-default" href="{{ asset('edit/attendance/' .$list->dtr_id) }}">Edit</a>
+                                            <button class="btn btn-danger" onclick="delete_time('{{ $list->dtr_id }}');">Delete</button>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         </div>
                         {{ $lists->links() }}
-
                     @else
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
                     @endif
@@ -84,6 +93,10 @@
     $('.input-daterange input').each(function() {
         $(this).datepicker("clearDates");
     });
-
+    function delete_time(id)
+    {
+        $('#delete_time').modal('show');
+        $('#dtr_id_val').val(id);
+    }
 </script>
 @endsection

@@ -1,13 +1,12 @@
 <?php $__env->startSection('content'); ?>
-
+    <span id="so_append" data-link="<?php echo e(asset('so_append')); ?>"></span>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
-            <h3 class="page-header">Office Order
-            </h3>
+            <h3>Office Order</h3>
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="<?php echo e(asset('form/so')); ?>" method="POST" id="form_route">
+                        <form action="<?php echo e(asset('so_add')); ?>" method="POST" id="form_route">
                             <?php echo e(csrf_field()); ?>
 
                             <div class="table-responsive">
@@ -45,6 +44,35 @@
                                         <td>:</td>
                                         <td><textarea class="form-control" name="description" rows="20" style="resize:none;" required></textarea></td>
                                     </tr>
+                                    <tbody class="p_inclusive_date">
+                                        <tr>
+                                            <td class="col-sm-3"><label>Inclusive Dates :</label></td>
+                                            <td class="col-sm-1">:</td>
+                                            <td class="col-sm-8">
+                                                <?php /*<div class="input-group input-daterange">
+                                                    <span class="input-group-addon">From</span>
+                                                    <input type="text" class="form-control" name="inc_from[]">
+                                                    <span class="input-group-addon">To</span>
+                                                    <input type="text" class="form-control" name="inc_to[]">
+                                                    <span class="input-group-addon"></span>
+                                                </div>*/ ?>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td id="border-top">
+                                            <a onclick="add_inclusive();" href="#">
+                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date:</a></p>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>To be approve by:</label></td>
                                         <td class="col-sm-1">:</td>
@@ -81,6 +109,20 @@
     @parent
     <script>
         $("textarea").wysihtml5();
+        /*$('.input-daterange input').each(function() {
+            $(this).datepicker("clearDates");
+        });*/
+        //rusel
+        $('#inclusive1').daterangepicker();
+        var count = 1;
+        function add_inclusive(){
+            event.preventDefault();
+            count++;
+            var url = $("#so_append").data('link')+"?count="+count;
+            $.get(url,function(result){
+               $(".p_inclusive_date").append(result);
+            });
+        }
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

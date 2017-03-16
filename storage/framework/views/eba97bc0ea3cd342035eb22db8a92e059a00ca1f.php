@@ -22,6 +22,8 @@
     <link href="<?php echo e(asset('resources/assetes/css/upload.css')); ?>" rel="stylesheet" >
     <link href="<?php echo e(asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')); ?>" rel="stylesheet">
     <!-- bootstrap datepicker -->
+    <!--DATE RANGE-->
+    <link href="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker-bs3.css')); ?>" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/bootstrap-clockpicker.min.css')); ?>" />
@@ -32,9 +34,9 @@
     <title>
         <?php echo $__env->yieldContent('title','Home'); ?>
     </title>
-
     <?php echo $__env->yieldContent('css'); ?>
     <style>
+
         body {
             background: url('<?php echo e(asset('resources/img/backdrop.png')); ?>'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
         }
@@ -57,6 +59,7 @@
         <!--DATE RANGE-->
 <?php echo $__env->yieldSection(); ?>
 <body  class="ng-cloak">
+<div class="loading"></div>
 
 <!-- Fixed navbar -->
 
@@ -115,6 +118,10 @@
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<!-- DATE RANGE SELECT -->
+<script src="<?php echo e(asset('resources/plugin/daterangepicker/moment.min.js')); ?>"></script>
+<script src="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker.js')); ?>"></script>
+
 <script src="<?php echo e(asset('resources/assets/js/jquery-validate.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/js/bootstrap.min.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/assets/datepicer/js/bootstrap-datepicker.js')); ?>"></script>
@@ -132,7 +139,9 @@
 
 <!-- SELECT CHOOSEN -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
+<script>
 
+</script>
 <?php $__env->startSection('js'); ?>
 
 <?php echo $__env->yieldSection(); ?>

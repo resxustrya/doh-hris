@@ -10,7 +10,8 @@
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Leave/CDO/SO</a>
                 <ul class="dropdown-menu">
-                    <li><a href="<?php echo e(asset('form/leave')); ?>" >Leave</a></li>
+                    <li class="dropdown-submenu">
+                    <li><a href="<?php echo e(asset('form/leave/all')); ?>">Leave</a></li>
                     <li class="divider"></li>
                     <li><a href="<?php echo e(asset('form/so')); ?>">Office Order</a></li>
                     <li class="divider"></li>
@@ -38,7 +39,7 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Account<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="<?php echo e(asset('/change/password')); ?>"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
+            <li><a href="<?php echo e(asset('resetpass')); ?>"><i class="fa fa-unlock"></i>&nbsp;&nbsp; Change Password</a></li>
             <li class="divider"></li>
             <li><a href="<?php echo e(url('/logout')); ?>"><i class="fa fa-sign-out"></i>&nbsp;&nbsp; Logout</a></li>
         </ul>

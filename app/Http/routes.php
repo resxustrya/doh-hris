@@ -1,4 +1,7 @@
 <?php
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 Route::auth();
 Route::get('/','HomeController@index');
 //FOR ADMIN ROUTE GROUP
@@ -11,22 +14,28 @@ Route::get('home', function(){
     return redirect('index');
 });
 
+Route::get('rpchallenge', 'PasswordController@change_password');
 Route::get('index', 'AdminController@index');
 Route::match(['get','post'], 'admin/upload', 'DtrController@upload');
 Route::match(['get', 'post'],'search', 'DtrController@search');
-
+Route::match(['get', 'post'], 'add/attendance', 'DtrController@create_attendance');
 Route::get('dtr/print-monthly',function(){
-    Session::forget('f_from');
-    Session::forget('f_to');
-    Session::forget('lists');
+   Session::forget('f_from');
+   Session::forget('f_to');
+   Session::forget('lists');
     return redirect('print');
 });
-Route::get('print','PrintController@home');
+
 Route::match(['get','post'], 'print-monthly', 'PrintController@print_monthly');
 Route::match(['get','post'], 'print/employee-attendance', 'PrintController@print_employee');
 
-Route::get('new/flixetime' ,'HoursController@create');
-Route::match(['get','post'], 'create/flixe', 'HoursController@create_flixe');
+Route::get('work-schedule' ,'HoursController@create');
+Route::match(['get','post'], 'create/work-schedule', 'HoursController@work_schedule');
+Route::match(['get','post'] , 'edit/work-schedule/{id}' ,'HoursController@edit_schedule');
+Route::match(['get','post'] , 'edit/attendance/{id?}', 'DtrController@edit_attendance');
+Route::post('delete/attendance','DtrController@delete');
+Route::get('resetpass', 'PasswordController@change_password');
+Route::post('/', 'PasswordController@save_changes');
 
 
 //FOR PERSONAL ROUTE GROUP
@@ -43,23 +52,23 @@ Route::get('personal/monthly',function() {
 });
 
 Route::get('personal/index', 'PersonalController@index');
+
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
-
-
-
-
+Route::get('personal/filter', 'PersonalController@search_filter');
 //DOCUMENTS
 Route::match(['get','post'],'form/leave','DocumentController@leave');
 Route::get('form/leave/all', 'DocumentController@all_leave');
+Route::get('leave/get/{id}','DocumentController@get_leave');
+Route::get('leave/print/{id}', 'DocumentController@print_leave');
+
+Route::get('list/pdf', 'DocumentController@list_print');
+
+
 Route::match(['get','post'], 'form/so', 'DocumentController@so');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');
-});
-
-Route::get('calendar', function() {
-    return view('calendar.calendar');
 });
 
 Route::get('modal',function(){
@@ -83,4 +92,20 @@ Route::get('pdf/leave',function() {
     $pdf = App::make('dompdf.wrapper');
     $pdf->loadHTML($display);
     return $pdf->stream();
+});
+
+
+
+/////////RUSEL
+Route::get('so_append','DocumentController@so_append');
+Route::post('so_add','DocumentController@so_add');
+/////////CALENDAR
+Route::get('calendar', 'CalendarController@calendar');
+Route::get('calendar_event', 'CalendarController@calendar_event');
+Route::get('example','DocumentController@check_calendar');
+
+//TEST ROUTES
+
+Route::get('phpinfo', function() {
+    return phpinfo();
 });

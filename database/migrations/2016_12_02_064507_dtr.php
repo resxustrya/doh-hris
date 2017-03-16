@@ -23,6 +23,7 @@ class Dtr extends Migration
             $table->integer('date_m')->nullable();
             $table->integer('date_d')->nullable();
             $table->time('time')->nullable();
+            $table->timestamp('timerecord')->nullable();
             $table->integer('time_h')->nullable();
             $table->integer('time_m')->nullable();
             $table->integer('time_s')->nullable();

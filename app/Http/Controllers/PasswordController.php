@@ -37,15 +37,16 @@ class PasswordController extends Controller
             )
         );
         if($validator->fails()){
-           return redirect('/change/password')->with('error', $validator->messages());
+           return redirect('resetpass')->with('error', $validator->messages());
         }
         $user = User::find($request->user()->id);
         if(Hash::check($request->input('current_password'),$user->password)){
             $user->password = Hash::make($request->input('password_confirmation'));
             $user->save();
             Session::flush();
-            return redirect('/')->with('ok', 'Password succesfully changed. Login now to your account.');
+            return redirect('/')->with(
+                'ok', 'Password succesfully changed. Login now to your account.');
         }
-        return redirect('/change/password')->with('not_match','Current password invalid');
+        return redirect('resetpass')->with('not_match','Current password invalid');
     }
 }

@@ -4,8 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FlixeTime extends Model
+class Work_sched extends Model
 {
-    protected $table = 'flixetime';
+    protected $table = 'work_sched';
     protected $primaryKey = 'id';
 }
