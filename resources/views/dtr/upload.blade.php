@@ -97,7 +97,6 @@
                 reader.readAsText(file);
             });
         }
-
     </script>
 
 @endsection

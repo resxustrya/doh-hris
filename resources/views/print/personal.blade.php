@@ -4,8 +4,11 @@ use App\Http\Controllers\DocumentController as document;
 use App\Calendar;
 
 if(isset($lists) and count($lists) > 0) {
-    $startday = $lists[0]->date_d;
-    $endday = $lists[count($lists) -1 ]->date_d;
+    $day1 = explode('-',$start_date);
+    $day2 = explode('-',$end_date);
+
+    $startday = floor($day1[2]);
+    $endday = $day2[2];
 }
 ?>
 @extends('layouts.app')
@@ -17,18 +20,24 @@ if(isset($lists) and count($lists) > 0) {
             </h3>
             <form class="form-inline" method="POST" action="{{ asset('personal/print/filter') }}" id="searchForm">
                 {{ csrf_field() }}
-                <div class="form-group">
-                    <div class="btn-group">
-                        <div class="input-group input-daterange">
-                            <span class="input-group-addon">From</span>
+                <div class="container-fluid">
+                    <div class="form-group">
+                        <div class="input-group">
+                            {{--<span class="input-group-addon">From</span>
                             <input type="text" class="form-control" name="from" value="2012-04-05">
                             <span class="input-group-addon">To</span>
                             <input type="text" class="form-control" name="to" value="2012-04-19">
-                            <span class="input-group-addon"></span>
-                            <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filters
-                            </button>
+                            <span class="input-group-addon"></span>--}}
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control" id="inclusive1" name="date_range" placeholder="Input date range here..." required>
+                            </div>
                         </div>
+                        <button type="submit" name="filter" class="btn btn-success form-control" value="Filter">
+                            <i class="fa fa-search"></i> Filter
+                        </button>
                     </div>
                 </div>
             </form>
@@ -66,70 +75,91 @@ if(isset($lists) and count($lists) > 0) {
                                             $temp2 = -0;
                                             $condition = -0;
                                             $title = '';
+                                            $logs = null;
+                                            $ok = false;
+                                            $index = 0;
+                                            $log_date = "";
                                         ?>
-                                        @foreach($lists as $list)
-                                            @if($startday <= $endday)
+                                        @for($d = $startday; $d <= $endday; $d++)
+                                            <?php
+                                                $d >= 1 && $d < 10 ? $zero='0' : $zero = '';
+                                                $datein = $day1[0]."-".$day1[1]."-".$zero.$d;
+
+                                                if($index != count($lists)) {
+                                                    if($datein == $lists[$index]['datein']){
+                                                        $log_date = $lists[$index]['datein'];
+                                                        $logs = $lists[$index];
+                                                        $index = $index + 1;
+                                                    }
+                                                }
+                                            ?>
+
+                                            <tr>
                                                 <?php
-                                                    $startday >= 1 && $startday < 10 ? $zero='0' : $zero = '';
-                                                    $date = explode('-',$list->datein);  $datein = $date[0]."-".$date[1]."-".$zero.$startday;
-                                                ?>
-                                                <tr>
-                                                    <?php
-                                                        $am_in =  personal::get_time($datein, 'IN','AM');
-                                                        if(!($am_in == '' or $am_in == null)){
-                                                            $am_out = personal::get_time($datein, 'OUT', 'AM');
-                                                            //flag for calendar
-                                                            $ok = false;
-                                                        } else {
-                                                            $condition = floor(strtotime($datein) / (60 * 60 * 24));
-                                                            $check_calendar = document::check_calendar();
-                                                            foreach($check_calendar as $check)
-                                                            {
-                                                                if(isset(Calendar::where('route_no',$check->route_no)
-                                                                                    ->where('start',$datein)
-                                                                                    ->first()->title)) {
-                                                                    $title = Calendar::where('route_no',$check->route_no)
-                                                                            ->where('start',$datein)
-                                                                            ->orWhere('end',$datein)
-                                                                            ->get()
-                                                                            ->first();
-                                                                    $temp1 = floor(strtotime($title->start) / (60 * 60 * 24));
-                                                                    $temp2 = floor(strtotime($title->end) / (60 * 60 * 24));
-                                                                }
-                                                                if($condition < $temp2 and $title != ''){
-                                                                    $am_out = "<p style='color:red;'>".$title->title."</p>";
-                                                                    $ok = true;
-                                                                    break;
-                                                                }
-                                                                else {
-                                                                    $am_out = '';
-                                                                    $ok = false;
-                                                                }
-                                                            }
+                                                if(!($logs['am_in'] == '' or $logs['am_in'] == null)){
+
+                                                    //flag for calendar
+                                                    $ok = false;
+                                                } else {
+                                                    $condition = floor(strtotime($datein) / (60 * 60 * 24));
+                                                    $check_calendar = document::check_calendar();
+                                                    foreach($check_calendar as $check)
+                                                    {
+                                                        if(isset(Calendar::where('route_no',$check->route_no)
+                                                                        ->where('start',$datein)
+                                                                        ->first()->title)) {
+                                                            $title = Calendar::where('route_no',$check->route_no)
+                                                                    ->where('start',$datein)
+                                                                    ->orWhere('end',$datein)
+                                                                    ->get()
+                                                                    ->first();
+                                                            $temp1 = floor(strtotime($title->start) / (60 * 60 * 24));
+                                                            $temp2 = floor(strtotime($title->end) / (60 * 60 * 24));
                                                         }
-                                                        $pm_in = personal::get_time($datein, 'IN','PM');
-                                                        $pm_out = personal::get_time($datein, 'OUT','PM');
+                                                        if($condition < $temp2 and $title != ''){
+                                                            $am_out = "<p style='color:red;'>".$title->title."</p>";
+                                                            $ok = true;
+                                                            break;
+                                                        }
+                                                        else {
+                                                            $am_out = '';
+                                                            $ok = false;
+                                                        }
+                                                    }
+                                                }
+                                                if($datein == $log_date)
+                                                {
+                                                    $am_in = $logs['am_in'];
+                                                    $am_out = $logs['am_out'];
+                                                    $pm_in = $logs['pm_in'];
+                                                    $pm_out = $logs['pm_out'];
 
-                                                        $late = personal::late($am_in, $pm_in);
-                                                        $ut = personal::undertime($am_out,$pm_out);
-                                                    ?>
-                                                        <td class="text-center">{{ $datein }}</td>
-                                                        <td class="text-center">{{ $startday ." " .personal::day_name($startday, $list) }}</td>
-                                                        @if($ok)
-                                                        <td class="text-center" colspan="4"><?php echo $am_out; ?></td>
-                                                        @else
-                                                        <td class="text-center">{{ $am_in }}</td>
-                                                        <td class="text-center"><?php echo $am_out ?></td>
-                                                        <td class="text-center">{{  $pm_in }}</td>
-                                                        <td class="text-center">{{  $pm_out }}</td>
-                                                        @endif
-                                                        <td class="text-center">{{ $late }}</td>
-                                                        <td class="text-center">{{ $ut }}</td>
+                                                    $late = personal::late($am_in, $pm_in);
+                                                    $ut = personal::undertime($am_out,$pm_out);
+                                                } else {
+                                                    $am_in = '';
+                                                    $am_out = '';
+                                                    $pm_in = '';
+                                                    $pm_out = '';
+                                                    $late = '';
+                                                    $ut = personal::undertime($am_out,$pm_out);
+                                                }
+                                                ?>
+                                                <td class="text-center">{{ $datein }}</td>
+                                                <td class="text-center">{{ personal::day_name($datein) }}</td>
+                                                @if($ok)
+                                                    <td class="text-center" colspan="4">{{ isset($am_out) ? $am_out : '' }}</td>
+                                                @else
+                                                    <td class="text-center">{{ isset($am_in) ? $am_in : '' }}</td>
+                                                    <td class="text-center">{{ isset($am_out) ? $am_out : '' }}</td>
+                                                    <td class="text-center">{{ isset($pm_in) ? $pm_in : '' }}</td>
+                                                    <td class="text-center">{{ isset($pm_out) ? $pm_out : '' }}</td>
+                                                @endif
+                                                <td class="text-center">{{ isset($late) ? $late : '' }}</td>
+                                                <td class="text-center">{{ isset($ut) ? $ut : '' }}</td>
 
-                                                </tr>
-                                            @endif
-                                           <?php $startday = $startday + 1; ?>
-                                        @endforeach
+                                            </tr>
+                                        @endfor
                                     </tbody>
                                 </table>
                             </div>
@@ -141,15 +171,11 @@ if(isset($lists) and count($lists) > 0) {
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('js')
     @@parent
     <script>
-        $('.input-daterange input').each(function() {
-            $(this).datepicker("clearDates");
-        });
-
+        $('#inclusive1').daterangepicker();
     </script>
 @endsection
