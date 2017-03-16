@@ -22,13 +22,16 @@ class DtrController extends Controller
     }
     public function upload(Request $request)
     {
+
         //GET Request
         if($request->isMethod('get')){
             return view('dtr.upload');
         }
         //POST Request
         if($request->isMethod('post')){
+
             if($request->hasFile('dtr_file')){
+
                 $file = $request->file('dtr_file');
                 ini_set('max_execution_time', 0);
                 $dtr = file_get_contents($file);
