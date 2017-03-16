@@ -140,7 +140,11 @@
 <!-- SELECT CHOOSEN -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
 <script>
-
+    $('#inclusive1').daterangepicker();
+    $('#generate_dtr').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
 </script>
 <?php $__env->startSection('js'); ?>
 

@@ -17,6 +17,12 @@ if(Session::has('lists')){
                             <div id="alert" class="ng-cloak alert alert-warning alert-dismissible col-lg-12" role="alert">
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. Generating attendance report.</strong>
+                                </div>
+                            </div>
                             <div class="col-md-6 col-lg-offset-3">
                                 <form action="<?php echo e(asset('FPDF/dtr.php')); ?>" method="POST" id="filter" target="_blank">
                                     <div class="btn-group">

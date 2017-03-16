@@ -39,6 +39,10 @@ Route::get('resetpass', 'PasswordController@change_password');
 Route::post('/', 'PasswordController@save_changes');
 
 
+Route::get('dtr/list/jo', 'GenerateDTRController@list_dtr');
+
+
+
 //FOR PERSONAL ROUTE GROUP
 
 Route::get('personal/home', function() {

@@ -130,8 +130,8 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
-                   // $late = personal::late($am_in, $pm_in);
-                   // $ut = personal::undertime($am_out,$pm_out);
+                    // $late = personal::late($am_in, $pm_in);
+                    // $ut = personal::undertime($am_out,$pm_out);
                 } else {
                     $am_in = '';
                     $am_out = '';
@@ -213,10 +213,10 @@ if(isset($row) and count($row) > 0)
 
         $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid'],$date_from,$date_to);
 
-       /* $filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'_'.$row[$i]['userid'].'.pdf';
-        $pdf->Output($filename,'F');
-        save_file_name($row[$i]['userid'],$filename);
-        $pdf = null;*/
+        /* $filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'_'.$row[$i]['userid'].'.pdf';
+         $pdf->Output($filename,'F');
+         save_file_name($row[$i]['userid'],$filename);
+         $pdf = null;*/
     }
     $filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'___.pdf';
     $pdf->Output($filename,'F');
@@ -242,12 +242,12 @@ function get_logs($id,$date_from,$date_to)
     $st->execute();
     $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
-        $am_in = explode(':',$sched[0]['am_in']);
-        $am_out =  explode(':',$sched[0]['am_out']);
-        $pm_in =  explode(':',$sched[0]['pm_in']);
-        $pm_out = explode(':',$sched[0]['pm_out']);
+    $am_in = explode(':',$sched[0]['am_in']);
+    $am_out =  explode(':',$sched[0]['am_out']);
+    $pm_in =  explode(':',$sched[0]['pm_in']);
+    $pm_out = explode(':',$sched[0]['pm_out']);
 
-        $query = "SELECT DISTINCT e.userid, datein,
+    $query = "SELECT DISTINCT e.userid, datein,
 
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
@@ -259,17 +259,17 @@ function get_logs($id,$date_from,$date_to)
                     WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
                           AND e.userid = '". $id."'
                     ORDER BY datein ASC";
-        try
-        {
-            $st = $pdo->prepare($query);
-            $st->execute();
-            $row = $st->fetchAll(PDO::FETCH_ASSOC);
-        }catch(PDOException $ex){
-            echo $ex->getMessage();
-            exit();
-        }
+    try
+    {
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $ex){
+        echo $ex->getMessage();
+        exit();
+    }
 
-        return $row;
+    return $row;
 }
 
 
@@ -323,7 +323,6 @@ function save_file_name($userid,$filename)
 
     $pdo = null;
 }
-
 
 
 ?>
