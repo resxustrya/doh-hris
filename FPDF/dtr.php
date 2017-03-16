@@ -190,7 +190,7 @@ if(isset($_POST['from']) and isset($_POST['to'])) {
 }
 
 
-$row = userlist($date_from,$date_to);
+$row = userlist();
 
 if(isset($row) and count($row) > 0)
 {

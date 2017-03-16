@@ -23,11 +23,11 @@ function conn()
     return $pdo;
 }
 
-function userlist($date_from,$date_to)
+function userlist()
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT u.userid,u.fname,u.lname,u.mname FROM dtr_file d INNER JOIN users u ON u.userid = d.userid  WHERE u.usertype != '1' AND d.datein BETWEEN '".$date_from ."' AND '".$date_to ."' ORDER BY u.lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT u.userid,u.fname,u.lname,u.mname FROM users u  WHERE u.usertype != '1' ORDER BY u.userid ASC");
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
