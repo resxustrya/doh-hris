@@ -2,7 +2,7 @@
 <?php
 
 
-require('dbconn.php');
+//require('dbconn.php');
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -95,7 +95,9 @@ class PDF extends FPDF
         $index = 0;
         $log_date = "";
         $log = "";
+
         $logs = get_logs($userid,$date_from,$date_to);
+
 
         if(isset($logs) and count($logs))
         {
@@ -189,15 +191,15 @@ if(isset($_POST['from']) and isset($_POST['to'])) {
     $date_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
     $date_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
 
+
 }
 
 
 $row = userlist();
 
-
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < 2; $i++)
+    for($i = 0; $i < 20; $i++)
     {
         $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid'],$date_from,$date_to);
     }
@@ -206,7 +208,7 @@ if(isset($row) and count($row) > 0)
 $filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'__.pdf';
 
 
-$pdf->Output();
+//$pdf->Output();
 
 //$pdf->Output($filename,'F');
 
@@ -222,13 +224,12 @@ exit();*/
 
 function get_logs($id,$date_from,$date_to)
 {
-
     $pdo = conn();
     $query = "SELECT * FROM work_sched WHERE id = '1'";
     $st = $pdo->prepare($query);
     $st->execute();
     $sched = $st->fetchAll(PDO::FETCH_ASSOC);
-    if(isset($sched)) {
+
         $am_in = explode(':',$sched[0]['am_in']);
         $am_out =  explode(':',$sched[0]['am_out']);
         $pm_in =  explode(':',$sched[0]['pm_in']);
@@ -246,12 +247,53 @@ function get_logs($id,$date_from,$date_to)
                     WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
                           AND e.userid = '". $id."'
                     ORDER BY datein ASC";
+        try
+        {
+            $st = $pdo->prepare($query);
+            $st->execute();
+            $row = $st->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            exit();
+        }
 
-        $st = $pdo->prepare($query);
+        return $row;
+}
+
+
+
+function conn()
+{
+    $pdo = null;
+
+    try{
+        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch (PDOException $err) {
+        $err->getMessage() . "<br/>";
+        die();
+    }
+    return $pdo;
+}
+
+function userlist()
+{
+    $pdo = conn();
+    try {
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
-        return $row;
+        if(isset($row) and count($row) > 0)
+        {
+            $pdo = null;
+            return $row;
+        }
+    }catch(PDOException $ex)
+    {
+        echo $ex->getMessage();
+        exit();
     }
-
 }
+
 ?>

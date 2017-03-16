@@ -27,7 +27,7 @@ function userlist()
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
