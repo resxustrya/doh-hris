@@ -123,10 +123,6 @@
                                     <button type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</button>
                                 </div>
                             </div>
-                            <select name="" id="" onchange="click_onchange()" multiple="multiple">
-                                <option value="">hahahahahaha</option>
-                                <option value="">hehehehe</option>
-                            </select>
                         </form>
                     </div>
                 </div>

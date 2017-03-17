@@ -33,7 +33,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection
@@ -82,22 +81,21 @@
                 var reader = new FileReader();
                 reader.onload = function(progress){
                     var lines = this.result.split('\n');
-                    setTimeout(function(){
-                        for (var line = 0; line < 1;line++) {
-                            if(line == 0 ){
-                                console.log(lines[line]);
-                                var data = lines[line].split(',');
-                                if(data[0].length < 9){
-                                    $("#upload").prop("disabled",true);
-                                }
+
+                    for (var line = 0; line < 1;line++) {
+                        if(line == 0 ){
+                            console.log(lines[line]);
+                            var data = lines[line].split(',');
+                            if(data[0].length < 9){
+                                $("#upload").prop("disabled",true);
                             }
                         }
-                    },600);
+                    }
+
                 };
                 reader.readAsText(file);
             });
         }
-
     </script>
 
 @endsection

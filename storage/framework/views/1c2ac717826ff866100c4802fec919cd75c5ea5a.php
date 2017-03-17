@@ -1,24 +1,12 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="track">
+<div class="modal fade" tabindex="-1" role="dialog" id="new_form">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #9900cc;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class=""><i class="fa fa-line-chart"></i> Track Document</h4>
+                <h4 class=""><i class="fa fa-line-chart"></i> New Work Schedule</h4>
             </div>
         <div class="modal-body">             
-            <table class="table table-hover table-form table-striped">
-                <tr>
-                    <td class="col-sm-3"><label>Route Number</label></td>
-                    <td class="col-sm-1">:</td>
-                    <td class="col-sm-8"><input type="text" readonly id="track_route_no" value="" class="form-control"></td>
-                </tr>
-            </table>
-            <hr />                
-            <div class="track_history"></div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <button type="button" class="btn btn-success" onclick="window.open('<?php echo e(asset('pdf/track')); ?>')"><i class="fa fa-print"></i> Print</button>
+
         </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -40,3 +28,25 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" tabindex="-1" role="dialog" id="delete_time">
+    <div class="modal-dialog modal-lg" role="document" style="width: 20%;">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #9900cc;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i>Delete Attendance</h4>
+            </div>
+            <form action="<?php echo e(asset('delete/attendance')); ?>" method="POST">
+                <input type="hidden" name="dtr_id" value="" id="dtr_id_val">
+                <?php echo e(csrf_field()); ?>
+
+                <div class="modal-body">
+                    Delete attendance ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

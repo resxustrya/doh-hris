@@ -27,6 +27,7 @@ Route::get('dtr/print-monthly',function(){
 });
 
 Route::match(['get','post'], 'print-monthly', 'PrintController@print_monthly');
+Route::get('print-monthly/attendance', 'PrintController@print_pdf');
 Route::match(['get','post'], 'print/employee-attendance', 'PrintController@print_employee');
 
 Route::get('work-schedule' ,'HoursController@create');
@@ -36,6 +37,10 @@ Route::match(['get','post'] , 'edit/attendance/{id?}', 'DtrController@edit_atten
 Route::post('delete/attendance','DtrController@delete');
 Route::get('resetpass', 'PasswordController@change_password');
 Route::post('/', 'PasswordController@save_changes');
+
+
+Route::get('dtr/list/jo', 'GenerateDTRController@list_dtr');
+Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 
 
 //FOR PERSONAL ROUTE GROUP
@@ -109,3 +114,6 @@ Route::get('example','DocumentController@getTest');
 Route::get('phpinfo', function() {
     return phpinfo();
 });
+
+
+Route::get('fpdf', 'PersonalController@rdr_home');

@@ -6,7 +6,7 @@ if(Session::has('lists')){
 ?>
 @extends('layouts.app')
 @section('content')
-    <div class="col-md-12 wrapper">
+    <div class="col-md-12 wrapper" style="height: 200px;">
         <div class="alert alert-jim">
             <h3 class="page-header">Employee monthly attendance
             </h3>
@@ -17,9 +17,14 @@ if(Session::has('lists')){
                             <div id="alert" class="ng-cloak alert alert-warning alert-dismissible col-lg-12" role="alert">
                                 <strong>Warning!</strong><span id="msg"></span>
                             </div>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. Generating attendance report.</strong>
+                                </div>
+                            </div>
                             <div class="col-md-6 col-lg-offset-3">
-                                <form action="{{ asset('print-monthly') }}" method="POST" id="filter">
-                                    {{ csrf_field() }}
+                                <form action="{{ asset('FPDF/dtr.php') }}" method="POST" id="filter" target="_blank">
                                     <div class="btn-group">
                                         <div class="input-group input-daterange" >
                                             <span class="input-group-addon">From</span>
@@ -35,51 +40,6 @@ if(Session::has('lists')){
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
-            <div class="page-divider"></div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        @if(isset($lists) and count($lists) >0)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-list table-hover table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th>Userid</th>
-                                                <th>Name</th>
-                                                <th>Department</th>
-                                                <th>Transaction date</th>
-                                                <th>Transaction time</th>
-                                                <th>Event Type</th>
-                                                <th>Terminal</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($lists as $list)
-                                                <tr>
-                                                    <td>{{ $list->userid }}</td>
-                                                    <td>{{ $list->lastname .", " .$list->lastname }}</td>
-                                                    <td>{{ $list->department }}</td>
-                                                    <td>{{ date("M",strtotime($list->datein)).'. ' . $list->date_d .' , ' .$list->date_y }}</td></td>
-                                                    <td>{{date("h:i A", strtotime($list->time)) }}</td>
-                                                    <td>{{ $list->event }}</td>
-                                                    <td>{{ $list->terminal }}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    {{ $lists->links() }}
-                                </div>
-                            </div>
-                        @else
-                            <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                        @endif
                     </div>
                 </div>
             </div>

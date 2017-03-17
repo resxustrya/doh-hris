@@ -225,6 +225,19 @@ class DocumentController extends Controller
             return $request->all();
         }
     }
+    public function so_pdf()
+    {
+        Session::put('my_id',Auth::user()->id);
+        $users = $this->users();
+        $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
+        $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+        $display = view('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadHTML($display)->setPaper('a4','portrait');
+
+        return $pdf->stream();
+    }
     public function inclusive_name(){
         $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
         foreach($inclusive_name as $row){

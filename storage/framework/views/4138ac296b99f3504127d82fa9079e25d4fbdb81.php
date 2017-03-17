@@ -9,7 +9,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="<?php echo e(asset('so_update')); ?>" method="POST" id="form_route">
+                        <form action="<?php echo e(asset('/')); ?>" method="POST" id="form_route">
                             <?php echo e(csrf_field()); ?>
 
                             <div class="table-responsive">
@@ -125,10 +125,6 @@
                                     <button type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</button>
                                 </div>
                             </div>
-                            <select name="" id="" onchange="click_onchange()" multiple="multiple">
-                                <option value="">hahahahahaha</option>
-                                <option value="">hehehehe</option>
-                            </select>
                         </form>
                     </div>
                 </div>
