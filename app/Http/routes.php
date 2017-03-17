@@ -40,7 +40,7 @@ Route::post('/', 'PasswordController@save_changes');
 
 
 Route::get('dtr/list/jo', 'GenerateDTRController@list_dtr');
-
+Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 
 
 //FOR PERSONAL ROUTE GROUP

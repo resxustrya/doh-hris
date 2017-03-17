@@ -10,7 +10,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-
+use App\pdf_filename;
 class GenerateDTRController extends Controller
 {
     function __construct()
@@ -20,6 +20,12 @@ class GenerateDTRController extends Controller
 
     public function list_dtr(Request $request)
     {
-        return view('dtr.dtr_list_jo');
+        $lists = pdf_filename::where('remember_token','=',null)
+                                ->orderBy('remember_token','ASC')
+                                ->paginate(20);
+        return view('dtr.dtr_list_jo')->with('lists',$lists);
     }
+
+
+
 }

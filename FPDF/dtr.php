@@ -184,6 +184,10 @@ class PDF extends FPDF
 }
 
 
+$pdf = new PDF('P','mm','A4');
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
 if(isset($_POST['from']) and isset($_POST['to'])) {
@@ -205,11 +209,6 @@ if(isset($row) and count($row) > 0)
 {
     for($i = 0; $i < count($row); $i++)
     {
-
-        $pdf = new PDF('P','mm','A4');
-        $pdf->AliasNbPages();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','',12);
 
         $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid'],$date_from,$date_to);
 
@@ -314,6 +313,7 @@ function save_file_name($userid,$filename)
     $time = date("h:i:sa");
     $date = date("Y-m-d");
 
+    $userid = '00001';
     $query = "INSERT INTO generated_pdf(filename,date_created,time_created,userid,created_at,updated_at)";
     $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $userid ."',NOW(),NOW())";
 

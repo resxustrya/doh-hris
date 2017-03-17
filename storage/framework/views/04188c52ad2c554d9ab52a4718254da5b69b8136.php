@@ -11,8 +11,46 @@
             </div>
         </div>
         <div class="clearfix"></div>
+        <div class="page-divider"></div>
         <div class="page-divider">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php if(isset($lists) and count($lists) >0): ?>
+                            <div class="table-responsive">
+                                <table class="table table-list table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Report ID</th>
+                                        <th>Filename</th>
+                                        <th>Date Generated</th>
+                                        <th>Time Generated</th>
+                                        <th><i class="fa fa-cog" aria-hidden="true"></i></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($lists as $list): ?>
+                                        <tr>
+                                            <td><?php echo e($list->id); ?></td>
+                                            <td><?php echo e($list->filename); ?></td>
+                                            <td><?php echo e($list->date_created); ?> </td>
+                                            <td><?php echo e($list->time_created); ?> </td>
+                                            <td>
+                                                <a class="btn btn-success" href="<?php echo e(asset('').'/FPDF/pdf-files/'.$list->filename); ?>">View</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php echo e($lists->links()); ?>
 
+                        <?php else: ?>
+                            <div class="alert alert-danger" role="alert">DTR records are empty.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -30,7 +68,11 @@
     <script>
         function date_modal()
         {
-            $('#generate_dtr').modal('show');
+            $('#generate_dtr').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show : true
+            });
         }
     </script>
 <?php $__env->stopSection(); ?>

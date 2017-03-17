@@ -1,16 +1,20 @@
 
 <?php
 
-$filename = 'attendace-2017-01-16-2017-01-31_0034';
 
-$host = $_SERVER['HTTP_HOST'];
+
+/*$host = $_SERVER['HTTP_HOST'];
 $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
-$address = $protocol.$host.'/'.$uri[1].'/index';
+$address = $protocol.$host.'/'.$uri[1].'/index';*/
 
 
 
 //require('dbconn.php');
+
+
+
+
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -183,52 +187,64 @@ class PDF extends FPDF
     }
 }
 
-
+$pdf = new PDF('P','mm','A4');
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_POST['from']) and isset($_POST['to'])) {
-    $date_from = $_POST['from'];
-    $date_to = $_POST['to'];
+if(isset($_POST['date_range'])) {
 
-    $_from = explode('/',$date_from);
-    $_to = explode('/', $date_to);
-    $date_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
-    $date_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
+    $str = $_POST['date_range'];
+    $temp1 = explode('-',$str);
+    $temp2 = array_slice($temp1, 0, 1);
+    $tmp = implode(',', $temp2);
+    $date_from = date('Y-m-d',strtotime($tmp));
 
+    $temp3 = array_slice($temp1, 1, 1);
+    $tmp = implode(',', $temp3);
+    $date_to = date('Y-m-d',strtotime($tmp));
 
 }
 
 
+$pdf = new PDF('P','mm','A4');
+$pdf->AliasNbPages();
+$pdf->AddPage();
+$pdf->SetFont('Arial','',12);
 $row = userlist();
 
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < count($row); $i++)
-    {
+    for($i = 0; $i < count($row); $i++) {
 
-        $pdf = new PDF('P','mm','A4');
-        $pdf->AliasNbPages();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','',12);
-
-        $pdf->form($row[$i]['fname'].' '.$row[$i]['lname'].' '.$row[$i]['mname'],$row[$i]['userid'],$date_from,$date_to);
+        $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
 
         /* $filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'_'.$row[$i]['userid'].'.pdf';
          $pdf->Output($filename,'F');
-         save_file_name($row[$i]['userid'],$filename);
+
          $pdf = null;*/
     }
-    $filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'___.pdf';
-    $pdf->Output($filename,'F');
 }
 
+$time = rand(1,1000);
 
+$filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
+$file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
+save_file_name($file);
+$pdf->Output($filename,'F');
+
+
+/*$file = 'FPDF/pdf-files/attendace-'.$date_from .'-'.$date_to.'_'.$time .'_.pdf';
+save_file_name($file);
+$filename = __DIR__.'/pdf-files/attendace-'.$date_from .'-'.$date_to.'_'.$time.'_.pdf';
+$pdf->Output($filename,'F');*/
 
 
 $host = $_SERVER['HTTP_HOST'];
 $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
-$address = $protocol.$host.'/'.$uri[1].'/index';
+$address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
 
 header('Location:'.$address);
 exit();
@@ -307,13 +323,13 @@ function userlist()
     }
 }
 
-function save_file_name($userid,$filename)
+function save_file_name($filename)
 {
     $pdo = conn();
 
     $time = date("h:i:sa");
     $date = date("Y-m-d");
-
+    $userid = "0001";
     $query = "INSERT INTO generated_pdf(filename,date_created,time_created,userid,created_at,updated_at)";
     $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $userid ."',NOW(),NOW())";
 
