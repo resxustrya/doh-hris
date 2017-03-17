@@ -20,12 +20,17 @@ class GenerateDTRController extends Controller
 
     public function list_dtr(Request $request)
     {
-        $lists = pdf_filename::where('remember_token','=',null)
-                                ->orderBy('remember_token','ASC')
-                                ->paginate(20);
-        return view('dtr.dtr_list_jo')->with('lists',$lists);
+        $lists = pdf_filename::where('remember_token', '=', null)
+            ->orderBy('remember_token', 'ASC')
+            ->paginate(20);
+        return view('dtr.dtr_list_jo')->with('lists', $lists);
     }
 
-
-
+    public function personal_dtrlist(Request $request)
+    {
+        $lists = pdf_filename::where('remember_token', '=', null)
+            ->orderBy('remember_token', 'ASC')
+            ->paginate(20);
+        return view('dtr.personal_list')->with('lists', $lists);
+    }
 }

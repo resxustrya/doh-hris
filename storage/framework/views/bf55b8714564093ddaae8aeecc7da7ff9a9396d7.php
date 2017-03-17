@@ -140,6 +140,8 @@
 <!-- SELECT CHOOSEN -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
 <script>
+    $('#inclusive1').daterangepicker();
+
 
 </script>
 <?php $__env->startSection('js'); ?>

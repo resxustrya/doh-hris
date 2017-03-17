@@ -12,15 +12,16 @@ class GeneratedPdf extends Migration
      */
     public function up()
     {
-        Schema::create('generated_pdf', function (Blueprint $table) {
+        /*Schema::create('generated_pdf', function (Blueprint $table) {
             $table->increments('id');
             $table->string('filename')->nullable();
+            $table->date('date_from')->nullable();
+            $table->date('date_to')->nullable();
             $table->date('date_created');
             $table->time('time_created');
-            $table->string('userid');
             $table->rememberToken();
             $table->timestamps();
-        });
+        });*/
     }
 
     /**

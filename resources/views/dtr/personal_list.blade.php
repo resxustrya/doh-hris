@@ -1,17 +1,13 @@
+<?php
+use Illuminate\Support\Facades\Auth;
+
+?>
+
 @extends('layouts.app')
 
 @section('content')
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Job Order DTR</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="btn-group">
-                    <button class="btn btn-success" onclick="date_modal();">Generate New
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+        <h2 class="page-header">My DTR</h2>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
         <div class="page-divider">
@@ -24,7 +20,7 @@
                                     <thead>
                                     <tr>
                                         <th>Report ID</th>
-                                        <th>Filename</th>
+                                        <th>Date Range</th>
                                         <th>Date Generated</th>
                                         <th>Time Generated</th>
                                         <th><i class="fa fa-cog" aria-hidden="true"></i></th>
@@ -34,11 +30,11 @@
                                     @foreach($lists as $list)
                                         <tr>
                                             <td>{{ $list->id }}</td>
-                                            <td>{{ $list->filename }}</td>
+                                            <td>{{ $list->date_from }}</td>
                                             <td>{{ $list->date_created }} </td>
                                             <td>{{ $list->time_created }} </td>
                                             <td>
-                                                <a class="btn btn-success" href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
+                                                <a class="btn btn-success" href="{{ asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid ) }}">View</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -67,22 +63,6 @@
 @section('js')
     @@parent
     <script>
-        function date_modal() {
-            $('#generate_dtr').modal({
-                backdrop: 'static',
-                keyboard: false,
-                show: true
-            });
-        }
-        (function(){
-            $('#loading_dtr').hide();
-        })();
-
-        $('#dtr_filter').submit(function(event){
-            $(this).fadeOut(1000);
-            $('#loading_dtr').show();
-        });
-
     </script>
 @endsection
 

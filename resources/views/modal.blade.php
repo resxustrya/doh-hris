@@ -35,6 +35,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i>Delete Attendance</h4>
             </div>
+
             <form action="{{ asset('delete/attendance') }}" method="POST">
                 <input type="hidden" name="dtr_id" value="" id="dtr_id_val">
                 {{ csrf_field() }}
@@ -58,8 +59,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><i class="fa fa-plus"></i>Generate DTR</h4>
             </div>
-            <form action="{{ asset('FPDF/jo_dtr.php') }}" method="POST">
-                <div class="modal-body">
+
+
+            <div class="modal-body">
+                <form action="{{ asset('FPDF/jo_dtr.php') }}" method="POST" id="dtr_filter">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">
@@ -78,9 +81,17 @@
                             </button>
                         </div>
                     </div>
+                </form>
+                <div class="row" id="loading_dtr">
+                    <div class="col-md-12">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. Generating attendance report.</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
-
+            </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -193,53 +193,68 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_POST['date_range'])) {
+if(isset($_GET['id']) and isset($_GET['userid'])) {
+  $id = $_GET['id'];
+  $userid = $_GET['userid'];
+  $emp = userlist($userid);
+  $row = get_dtr($id);
+  if(isset($row) and count($row) > 0 and isset($emp) and count($emp) > 0) {
 
-    $str = $_POST['date_range'];
-    $temp1 = explode('-',$str);
-    $temp2 = array_slice($temp1, 0, 1);
-    $tmp = implode(',', $temp2);
-    $date_from = date('Y-m-d',strtotime($tmp));
+      $date_from = $row[0]['date_from'];
+      $date_to = $row[0]['date_to'];
+      $pdf->form($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to);
+      $pdf->SetTitle($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
 
-    $temp3 = array_slice($temp1, 1, 1);
-    $tmp = implode(',', $temp3);
-    $date_to = date('Y-m-d',strtotime($tmp));
-
+  }
 }
 
-
-$pdf = new PDF('P','mm','A4');
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Arial','',12);
-$pdf->SetTitle('DTR report From : ' . date('l', strtotime($date_from)) .'---'.date('l', strtotime($date_to)));
-
-$row = userlist();
-
-if(isset($row) and count($row) > 0)
-{
-    for($i = 0; $i < 10; $i++) {
-        $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
-    }
-}
-
-$time = rand(1,1000);
-
-$filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
-$file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
-save_file_name($file,$date_from,$date_to);
-$pdf->Output($filename,'F');
+$pdf->Output();
 
 
 
 
-$host = $_SERVER['HTTP_HOST'];
+/*$host = $_SERVER['HTTP_HOST'];
 $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
 
 header('Location:'.$address);
-exit();
+exit();*/
+
+
+
+
+function conn()
+{
+    $pdo = null;
+
+    try{
+        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch (PDOException $err) {
+        $err->getMessage() . "<br/>";
+        die();
+    }
+    return $pdo;
+}
+
+
+function get_dtr($id)
+{
+    $pdo = conn();
+
+    $query = "SELECT * FROM generated_pdf WHERE id = :id";
+    $st = $pdo->prepare($query);
+    $st->bindParam(":id", $id);
+    $st->execute();
+    $row = $st->fetchAll(PDO::FETCH_ASSOC);
+
+    if(isset($row) and count($row) > 0) {
+        return $row;
+    }
+    return null;
+}
 
 
 function get_logs($id,$date_from,$date_to)
@@ -281,26 +296,12 @@ function get_logs($id,$date_from,$date_to)
 }
 
 
-function conn()
-{
-    $pdo = null;
-
-    try{
-        $pdo = new PDO('mysql:host=localhost; dbname=dohdtr','root','');
-        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-    }
-    catch (PDOException $err) {
-        $err->getMessage() . "<br/>";
-        die();
-    }
-    return $pdo;
-}
-
-function userlist()
+function userlist($id)
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' and userid = :id" );
+        $st->bindParam(":id", $id);
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
@@ -314,23 +315,4 @@ function userlist()
         exit();
     }
 }
-
-function save_file_name($filename,$date_from,$date_to)
-{
-    $pdo = conn();
-
-    $time = date("h:i:sa");
-    $date = date("Y-m-d");
-    $userid = "0001";
-    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,userid,created_at,updated_at)";
-    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."','". $userid ."',NOW(),NOW())";
-
-
-    $st = $pdo->prepare($query);
-    $st->execute();
-
-    $pdo = null;
-}
-
-
 ?>
