@@ -2,13 +2,14 @@
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/select2/select2.min.css')); ?>" />
     <script src="<?php echo e(asset('resources/plugin/select2/select2.full.min.js')); ?>"></script>
     <span id="so_append" data-link="<?php echo e(asset('so_append')); ?>"></span>
+    <span id="inclusive_name" data-link="<?php echo e(asset('inclusive_name')); ?>"></span>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3>Office Order</h3>
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="<?php echo e(asset('so_add')); ?>" method="POST" id="form_route">
+                        <form action="<?php echo e(asset('/')); ?>" method="POST" id="form_route">
                             <?php echo e(csrf_field()); ?>
 
                             <div class="table-responsive">
@@ -34,17 +35,20 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Prepared date</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo e(date('m/d/Y')); ?>" name="prepared_date" required></td>
+                                        <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo e($office_order->prepared_date); ?>" name="prepared_date" required></td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="subject" class="form-control" required /></td>
+                                        <td class="col-sm-8"><input type="text" name="subject" value="<?php echo e($office_order->subject); ?>" class="form-control" required /></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
                                             <span>Header Body</span>
-                                            <textarea class="form-control" id="textarea" name="header_body" rows="8" style="resize:none;" required></textarea>
+                                            <textarea class="form-control" id="textarea" name="header_body" rows="8" style="resize:none;" required>
+                                                <?php echo e($office_order->header_body); ?>
+
+                                            </textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -59,31 +63,47 @@
                                         </td>
                                     </tr>
                                     <tbody class="p_inclusive_date">
-                                        <tr>
-                                            <td class="col-sm-3"><label>Inclusive Dates </label></td>
-                                            <td class="col-sm-1">:</td>
-                                            <td class="col-sm-8">
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
+                                    <?php
+                                        $count = 1;
+                                        foreach($inclusive_date as $row):
+                                    ?>
+                                    <tr id="<?php echo e($count); ?>">
+                                        <td class="col-sm-3"><label>Inclusive Dates </label></td>
+                                        <td class="col-sm-1">:</td>
+                                        <td class="col-sm-8">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
                                                 </div>
-                                            </td>
-                                        </tr>
+                                                <input type="text" class="form-control" style="width: 84%;" value="<?php echo e(date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime($row->end))); ?>" id="<?php echo e('inclusive'.$count); ?>" name="inclusive[]" placeholder="Input date range here..." required>
+                                                &nbsp;
+                                                <button type="button" value="<?php echo e($count); ?>" onclick="remove($(this))" class="btn btn-danger" style="color: white" ><span class="fa fa-close"></span> remove</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                        $count++;
+                                        endforeach;
+                                    ?>
+                                    <input type="hidden" value="<?php echo e($count); ?>" id="date_count">
                                     </tbody>
                                     <tr>
                                         <td></td>
                                         <td></td>
                                         <td id="border-top">
-                                            <a onclick="add_inclusive();" href="#">
-                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date</a></p>
+                                            <?php /*<a onclick="add_inclusive();" href="#">
+                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date</p>
+                                            </a>*/ ?>
+                                            <button class="btn btn-primary pull-right" type="button" style="color: white" onclick="add_inclusive();"><i class="fa fa-plus"></i> Add inclusive date</button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
                                             <span>Footer Body</span>
-                                            <textarea class="form-control" id="textarea1" name="footer_body" rows="8" style="resize:none;" required></textarea>
+                                            <textarea class="form-control" id="textarea1" name="footer_body" rows="8" style="resize:none;" required>
+                                                <?php echo e($office_order->footer_body); ?>
+
+                                            </textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -101,7 +121,8 @@
                                 </table>
                                 <div class="modal-footer">
                                     <a href="<?php echo e(asset('/form/so_list')); ?>" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+                                    <button type="submit" class="btn btn-info" style="color: white" ><i class="fa fa-edit"></i> Update</button>
+                                    <button type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</button>
                                 </div>
                             </div>
                         </form>
@@ -129,17 +150,33 @@
         $('.datepickercalendar').datepicker({
             autoclose: true
         });
-        //rusel
-        $('#inclusive1').daterangepicker();
-        var count = 1;
+        for(var i = 1; i <= $("#date_count").val();i++){
+            $('#inclusive'+i).daterangepicker();
+        }
+        var count = $("#date_count").val();
         function add_inclusive(){
             event.preventDefault();
             count++;
             var url = $("#so_append").data('link')+"?count="+count;
             $.get(url,function(result){
-               $(".p_inclusive_date").append(result);
+                $(".p_inclusive_date").append(result);
             });
         }
+        function remove(id){
+            $("#"+id.val()).remove();
+        }
+
+        /*$.get($('#inclusive_name').data('link'),function(result){
+            var array = ['1','2','3'];
+            $('.select2').select2({}).select2('val', array);
+            console.log(result);
+        });*/
+        //$('.select2').val([1,2,3]).change();
+        function click_onchange(){
+            console.log('haha');
+            console.log($(".select2").val());
+        }
+        console.log($('.select2').val())
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

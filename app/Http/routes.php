@@ -74,8 +74,6 @@ Route::get('leave/print/{id}', 'DocumentController@print_leave');
 
 Route::get('list/pdf', 'DocumentController@list_print');
 
-
-Route::match(['get','post'], 'form/so', 'DocumentController@so');
 Route::get('clear', function(){
     Session::flush();
     return redirect('/');
@@ -104,18 +102,20 @@ Route::get('pdf/leave',function() {
     return $pdf->stream();
 });
 
-
-
 /////////RUSEL
+Route::match(['get','post'], 'form/so', 'DocumentController@so');
+Route::match(['get','post'], 'form/so_view', 'DocumentController@so_view');
+Route::match(['get','post'], 'form/so_list', 'DocumentController@so_list');
+Route::get('inclusive_name', 'DocumentController@inclusive_name');
 Route::get('so_append','DocumentController@so_append');
 Route::post('so_add','DocumentController@so_add');
+Route::get('form/info/{route}', 'DocumentController@show');
 /////////CALENDAR
 Route::get('calendar', 'CalendarController@calendar');
 Route::get('calendar_event', 'CalendarController@calendar_event');
-Route::get('example','DocumentController@check_calendar');
+Route::get('example','DocumentController@getTest');
 
 //TEST ROUTES
-
 Route::get('phpinfo', function() {
     return phpinfo();
 });

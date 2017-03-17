@@ -23,11 +23,6 @@ if(isset($lists) and count($lists) > 0) {
                 <div class="container-fluid">
                     <div class="form-group">
                         <div class="input-group">
-                            {{--<span class="input-group-addon">From</span>
-                            <input type="text" class="form-control" name="from" value="2012-04-05">
-                            <span class="input-group-addon">To</span>
-                            <input type="text" class="form-control" name="to" value="2012-04-19">
-                            <span class="input-group-addon"></span>--}}
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
@@ -75,6 +70,8 @@ if(isset($lists) and count($lists) > 0) {
                                             $temp2 = -0;
                                             $condition = -0;
                                             $title = '';
+                                            $am_out = '';
+                                            $ok = false;
                                             $logs = null;
                                             $ok = false;
                                             $index = 0;
@@ -92,14 +89,13 @@ if(isset($lists) and count($lists) > 0) {
                                                         $index = $index + 1;
                                                     }
                                                 }
-                                            ?>
 
-                                            <tr>
-                                                <?php
+                                                $am_out = '';
+                                                $am_in =  personal::get_time($datein, 'IN','AM');
                                                 if(!($logs['am_in'] == '' or $logs['am_in'] == null)){
-
-                                                    //flag for calendar
-                                                    $ok = false;
+                                                        $am_out = personal::get_time($datein, 'OUT', 'AM');
+                                                        //flag for calendar
+                                                        $ok = false;
                                                 } else {
                                                     $condition = floor(strtotime($datein) / (60 * 60 * 24));
                                                     $check_calendar = document::check_calendar();
@@ -127,6 +123,7 @@ if(isset($lists) and count($lists) > 0) {
                                                         }
                                                     }
                                                 }
+
                                                 if($datein == $log_date)
                                                 {
                                                     $am_in = $logs['am_in'];
@@ -145,6 +142,7 @@ if(isset($lists) and count($lists) > 0) {
                                                     $ut = personal::undertime($am_out,$pm_out);
                                                 }
                                                 ?>
+                                            <tr>
                                                 <td class="text-center">{{ $datein }}</td>
                                                 <td class="text-center">{{ personal::day_name($datein) }}</td>
                                                 @if($ok)

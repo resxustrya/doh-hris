@@ -38,7 +38,9 @@
                                          <tr style="background-color:grey;">
                                             <td><b>Date Created</b></td>
                                             <td><b>Application for Leave</b></td>
-                                            <td width="30%"><b><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><b/></td>
+                                            <td width="30%">
+                                                <b><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></b>
+                                            </td>
                                         </tr>
                                     </thead>
                                     <tbody>
