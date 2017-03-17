@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 use App\Leave;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Calendar;
@@ -16,12 +17,36 @@ use Illuminate\Support\Facades\Session;
 use PDO;
 use App\inclusive_name;
 use App\office_order;
+use Illuminate\Support\Facades\DB;
 
 class DocumentController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+        $id = $user->id;
+        $keyword = Session::get('keyword');
+
+        $data['documents'] = Tracking::where('prepared_by',$id)
+            ->where(function($q) use ($keyword){
+                $q->where('route_no','like',"%$keyword%")
+                    ->orwhere('description','like',"%$keyword%");
+            })
+            ->orderBy('id','desc')
+            ->paginate(15);
+        $data['access'] = $this->middleware('access');
+        return view('document.list',$data);
+
+    }
+
+    public function search(Request $request){
+        Session::put('keyword',$request->keyword);
+        return self::index();
     }
 
     public  function leave(Request $request)
@@ -38,7 +63,7 @@ class DocumentController extends Controller
             $leave->firstname = $request->input('firstname');
             $leave->middlename = $request->input('middlename');
             $date_filling = explode('/', $request->input('date_filling'));
-            $leave->date_filling = $date_filling[2].'-'.$date_filling[0].'-'.$date_filling[1];
+            //$leave->date_filling = $date_filling[2].'-'.$date_filling[0].'-'.$date_filling[1];
             $leave->position = $request->input('position');
             $leave->salary = $request->input('salary');
             $leave->leave_type = $request->input('leave_type');
@@ -52,14 +77,14 @@ class DocumentController extends Controller
             $leave->applied_num_days = $request->input('applied_num_days');
 
             $inc_from = explode('/', $request->input('inc_from'));
-            $leave->inc_from = $inc_from[2].'-'.$inc_from[0].'-'.$inc_from[1];
+            //$leave->inc_from = $inc_from[2].'-'.$inc_from[0].'-'.$inc_from[1];
 
             $inc_to = explode('/', $request->input('inc_to'));
-            $leave->inc_to = $inc_to[2].'-'.$inc_to[0].'-'.$inc_to[1];
+            //$leave->inc_to = $inc_to[2].'-'.$inc_to[0].'-'.$inc_to[1];
             $leave->com_requested = $request->input('com_requested');
 
             $credit_date = explode('/', $request->input('credit_date'));
-            $leave->credit_date = $credit_date[2].'-'.$credit_date[0].'-'.$credit_date[1];
+            //$leave->credit_date = $credit_date[2].'-'.$credit_date[0].'-'.$credit_date[1];
             $leave->vication_total = $request->input('vication_total');
             $leave->sick_total = $request->input('sick_total');
             $leave->over_total = $request->input('over_total');
@@ -78,21 +103,8 @@ class DocumentController extends Controller
 
     public function all_leave()
     {
-        $leaves = Leave::paginate(10);
-
+        $leaves = Leave::paginate(15);
         return view('form.list')->with('leaves', $leaves);
-    }
-    public function so(Request $request)
-    {
-        Session::put('my_id',$request->user()->id);
-        if($request->isMethod('get')){
-            $users = $this->users();
-            $division = $this->division();
-            return view('form.office_order',['users'=>$users]);
-        }
-        if($request->isMethod('post')){
-            return $request->all();
-        }
     }
 
     public function get_leave(Request $request, $id)
@@ -120,8 +132,110 @@ class DocumentController extends Controller
         return $pdf->stream();
     }
 
-
     ///RUSEL
+    //PDO
+    public function connect()
+    {
+        return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
+    }
+    public function users()
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM USERS ORDER BY FNAME ASC";
+        $pdo = $db->prepare($sql);
+        $pdo->execute();
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public function division()
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM DIVISION";
+        $pdo = $db->prepare($sql);
+        $pdo->execute();
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public function division_head($head)
+    {
+        $db=$this->connect();
+        $sql="SELECT * FROM DIVISION where head = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($head));
+        $row = $pdo->fetch();
+        $db = null;
+
+        return $row;
+    }
+
+    public function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description) values(?,?,?,?,?)";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no,$doc_type,$prepared_date,$prepared_by,$description));
+        $db=null;
+    }
+
+    public function insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action) values(?,?,?,?,?)";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($route_no,$date_in,$received_by,$delivered_by,$action));
+        $db=null;
+    }
+
+    public function insert_system_logs($user_id,$name,$activity)
+    {
+        $db=$this->connect();
+        $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity) values(?,?,?)";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($user_id,$name,$activity));
+        $db=null;
+    }
+
+    //OFFICE ORDER
+    public function so(Request $request)
+    {
+        Session::put('my_id',$request->user()->id);
+        if($request->isMethod('get')){
+            $users = $this->users();
+            return view('form.office_order',['users'=>$users]);
+        }
+        if($request->isMethod('post')){
+            return $request->all();
+        }
+    }
+    public function so_view(Request $request)
+    {
+        Session::put('my_id',$request->user()->id);
+        if($request->isMethod('get')){
+            $users = $this->users();
+            $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
+
+            $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+            return view('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
+        }
+        if($request->isMethod('post')){
+            return $request->all();
+        }
+    }
+    public function inclusive_name(){
+        $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
+        foreach($inclusive_name as $row){
+            $name[] = $row['user_id'];
+        }
+        return $name;
+    }
+    public function so_list(){
+        $office_order = office_order::orderBy('id','desc')->paginate(10);
+        return view('form.office_order_list',['office_order' => $office_order]);
+    }
     public function so_append(){
         return view('form.office_order_append');
     }
@@ -194,78 +308,32 @@ class DocumentController extends Controller
         $this->insert_system_logs($user_id,$name,$activity);
         Session::put('added',true);
 
-        return redirect()->back();
-    }
-
-    //PDO
-    public function connect()
-    {
-        return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
-    }
-    public function users()
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM USERS ORDER BY FNAME ASC";
-        $pdo = $db->prepare($sql);
-        $pdo->execute();
-        $row = $pdo->fetchAll();
-        $db = null;
-
-        return $row;
-    }
-    public function division()
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM DIVISION";
-        $pdo = $db->prepare($sql);
-        $pdo->execute();
-        $row = $pdo->fetchAll();
-        $db = null;
-
-        return $row;
-    }
-    public function division_head($head)
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM DIVISION where head = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($head));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-
-    public function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
-    {
-        $db=$this->connect();
-        $sql="INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description) values(?,?,?,?,?)";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($route_no,$doc_type,$prepared_date,$prepared_by,$description));
-        $db=null;
-    }
-
-    public function insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action)
-    {
-        $db=$this->connect();
-        $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action) values(?,?,?,?,?)";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($route_no,$date_in,$received_by,$delivered_by,$action));
-        $db=null;
-    }
-
-    public function insert_system_logs($user_id,$name,$activity)
-    {
-        $db=$this->connect();
-        $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity) values(?,?,?)";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($user_id,$name,$activity));
-        $db=null;
+        return redirect('form/so_list');
     }
 
     public static function check_calendar()
     {
-        return inclusive_name::where('user_id',Auth::user()->id)->get();
+        return inclusive_name::where('user_id',Auth::user()->userid)->get();
     }
 
+    public function show($route_no){
+        $info = office_order::where('route_no',$route_no)->first();
+
+        Session::put('route_no', $route_no);
+        return view('document.info',['info' => $info]);
+    }
+
+    public function getTest()
+    {
+        /*$test = new Test();
+        $test->setConnection('mysql1');
+        $connection = $test->find('users');
+
+        return $connection;*/
+
+        /*$db_ext = DB::connection('mysql1');
+        $user = $db_ext->table('tracking_master')->get();
+        return $user;*/
+        return $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+    }
 }

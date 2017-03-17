@@ -1,4 +1,12 @@
 <?php $__env->startSection('content'); ?>
+<?php if(Session::has('message')): ?>
+    <div class="col-md-12 wrapper">
+        <div class="alert alert-success" role="alert">
+            <?php echo e(Session::get('message')); ?>
+
+        </div>
+    </div>
+<?php endif; ?>
 <div class="col-md-12 wrapper">
     <div class="alert alert-jim">
         <h3 class="page-header">Employee Attendance
@@ -33,20 +41,21 @@
                             <table class="table table-list table-hover table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Userid</th>
+                                    <th>DTR ID</th>
                                     <th>Name</th>
                                     <th>Department</th>
                                     <th>Transaction date</th>
                                     <th>Transaction time</th>
                                     <th>Event Type</th>
                                     <th>Terminal</th>
+                                    <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach($lists as $list): ?>
                                     <tr>
-                                        <td><?php echo e($list->userid); ?></td>
-                                        <td><?php echo e($list->firstname .", " .$list->lastname); ?></td>
+                                        <td><?php echo e($list->dtr_id); ?></td>
+                                        <td><?php echo e($list->lastname); ?></td>
                                         <td><?php echo e($list->department); ?> </td>
                                         <td>
                                             <?php echo e(date('l', strtotime($list->datein))); ?>
@@ -57,13 +66,16 @@
                                         <td><?php echo e(date("h:i A", strtotime($list->time))); ?></td>
                                         <td><?php echo e($list->event); ?></td>
                                         <td><?php echo e($list->terminal); ?></td>
+                                        <td>
+                                            <a class="btn btn-default" href="<?php echo e(asset('edit/attendance/' .$list->dtr_id)); ?>">Edit</a>
+                                            <button class="btn btn-danger" onclick="delete_time('<?php echo e($list->dtr_id); ?>');">Delete</button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
                         <?php echo e($lists->links()); ?>
-
 
                     <?php else: ?>
                         <div class="alert alert-danger" role="alert">DTR records are empty.</div>
@@ -83,7 +95,11 @@
     $('.input-daterange input').each(function() {
         $(this).datepicker("clearDates");
     });
-
+    function delete_time(id)
+    {
+        $('#delete_time').modal('show');
+        $('#dtr_id_val').val(id);
+    }
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

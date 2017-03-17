@@ -73,6 +73,8 @@ if(isset($lists) and count($lists) > 0) {
                                             $temp2 = -0;
                                             $condition = -0;
                                             $title = '';
+                                            $am_out = '';
+                                            $ok = false;
                                         ?>
                                         <?php foreach($lists as $list): ?>
                                             <?php if($startday <= $endday): ?>
@@ -82,6 +84,7 @@ if(isset($lists) and count($lists) > 0) {
                                                 ?>
                                                 <tr>
                                                     <?php
+                                                        $am_out = '';
                                                         $am_in =  personal::get_time($datein, 'IN','AM');
                                                         if(!($am_in == '' or $am_in == null)){
                                                             $am_out = personal::get_time($datein, 'OUT', 'AM');
@@ -92,6 +95,7 @@ if(isset($lists) and count($lists) > 0) {
                                                             $check_calendar = document::check_calendar();
                                                             foreach($check_calendar as $check)
                                                             {
+                                                                echo "haha";
                                                                 if(isset(Calendar::where('route_no',$check->route_no)
                                                                                     ->where('start',$datein)
                                                                                     ->first()->title)) {
@@ -109,8 +113,8 @@ if(isset($lists) and count($lists) > 0) {
                                                                     break;
                                                                 }
                                                                 else {
-                                                                    $am_out = '';
                                                                     $ok = false;
+                                                                    $am_out = '';
                                                                 }
                                                             }
                                                         }

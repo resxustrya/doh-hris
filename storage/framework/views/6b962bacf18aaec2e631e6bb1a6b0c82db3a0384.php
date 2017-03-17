@@ -1,4 +1,7 @@
 <ul class="nav navbar-nav">
+    <?php /*<li>
+        <a href="<?php echo e(URL::to('document')); ?>"><i class="fa fa-file-code-o"></i> Create Document</a>
+    </li>*/ ?>
     <li><a href="<?php echo e(url('dashboard')); ?>"><i class="fa fa-home"></i> Dashboard</a></li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
@@ -13,11 +16,9 @@
                     <li class="dropdown-submenu">
                     <li><a href="<?php echo e(asset('form/leave/all')); ?>">Leave</a></li>
                     <li class="divider"></li>
-                    <li><a href="<?php echo e(asset('form/so')); ?>">Office Order</a></li>
+                    <li><a href="<?php echo e(asset('form/so_list')); ?>">Office Order</a></li>
                     <li class="divider"></li>
                     <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="<?php echo e(asset('form/cdo')); ?>">CDO</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="<?php echo e(asset('form/justification/letter')); ?>"></a></li>
                 </ul>
             </li>
             <li class="divider"></li>
