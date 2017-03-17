@@ -1,13 +1,15 @@
-<?php
-use Illuminate\Support\Facades\Auth;
-
-?>
-
-
-
 <?php $__env->startSection('content'); ?>
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Admin Generated DTR</h2>
+        <h2 class="page-header">Filtered DTR</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="btn-group">
+                    <button class="btn btn-success" onclick="date_modal();">Generate New
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="clearfix"></div>
         <div class="page-divider"></div>
         <div class="page-divider">
@@ -20,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
                                     <thead>
                                     <tr>
                                         <th>Report ID</th>
-                                        <th>Date Range</th>
+                                        <th>Filename</th>
                                         <th>Date Generated</th>
                                         <th>Time Generated</th>
                                         <th><i class="fa fa-cog" aria-hidden="true"></i></th>
@@ -30,11 +32,11 @@ use Illuminate\Support\Facades\Auth;
                                     <?php foreach($lists as $list): ?>
                                         <tr>
                                             <td><?php echo e($list->id); ?></td>
-                                            <td><?php echo e($list->date_from); ?></td>
+                                            <td><?php echo e($list->filename); ?></td>
                                             <td><?php echo e($list->date_created); ?> </td>
                                             <td><?php echo e($list->time_created); ?> </td>
                                             <td>
-                                                <a class="btn btn-success" href="<?php echo e(asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid )); ?>">View</a>
+                                                <a class="btn btn-success" href="<?php echo e(asset('').'/FPDF/pdf-files/'.$list->filename); ?>">View</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -64,6 +66,22 @@ use Illuminate\Support\Facades\Auth;
 <?php $__env->startSection('js'); ?>
     @parent
     <script>
+        function date_modal() {
+            $('#generate_dtr').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+            });
+        }
+        (function(){
+            $('#loading_dtr').hide();
+        })();
+
+        $('#dtr_filter').submit(function(event){
+            $(this).fadeOut(1000);
+            $('#loading_dtr').show();
+        });
+
     </script>
 <?php $__env->stopSection(); ?>
 

@@ -6,7 +6,16 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
         <ul class="dropdown-menu">
-            <li><a href="{{ asset('/personal/dtr/list')  }}"><i class="fa fa-unlock"></i>&nbsp;&nbsp; My DTR</a></li>
+            <li class="dropdown-submenu">
+                <a href="#"><i class="fa fa-unlock"></i>&nbsp;&nbsp; My DTR</a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-submenu">
+                    <li><a href="{{ asset('/personal/dtr/list')  }}">Admin generated DTR</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ asset('/personal/dtr/filter/list') }}">My filtered DTR</a></li>
+                    <li class="divider"></li>
+                </ul>
+            </li>
             <li class="divider"></li>
             <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
             <li class="divider"></li>

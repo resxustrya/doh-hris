@@ -39,15 +39,12 @@ Route::get('resetpass', 'PasswordController@change_password');
 Route::post('/', 'PasswordController@save_changes');
 
 
-
-
-
 //DTR
 
 Route::get('dtr/list/jo', 'GenerateDTRController@list_dtr');
 Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 Route::get('/personal/dtr/list', 'GenerateDTRController@personal_dtrlist');
-
+Route::get('/personal/dtr/filter/list','GenerateDTRController@personal_filter_dtrlist');
 //FOR PERSONAL ROUTE GROUP
 
 Route::get('personal/home', function() {
