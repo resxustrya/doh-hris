@@ -36,8 +36,47 @@ class PersonalController extends Controller
         return view('employee.index')->with('lists',$lists);
     }
 
+    public function emp_filtered(Request $request)
+    {
+        return $request->all();
+        if($request->has('filter_range')){
+            $str = $request->input('filter_range');
+            $temp1 = explode('-',$str);
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $date_from = date('Y-m-d',strtotime($tmp));
+
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $date_to = date('Y-m-d',strtotime($tmp));
+
+            Session::put('from',$date_from);
+            Session::put('to', $date_to);
+
+            if(Session::has('from') and Session::has('to')) {
+
+                $f_from = Session::get('from');
+                $f_to = Session::get('to');
+                $lists = DtrDetails::where('userid', $request->user()->userid)
+                    ->where('datein', '>=', $f_from)
+                    ->where('datein', '<=', $f_to)
+                    ->orderBy('datein', 'ASC')
+                    ->paginate(10);
+
+                if(isset($lists) and count($lists) > 0)
+                {
+
+                    return view('employee.index')->with('lists',$lists);
+                }
+
+            }
+        }
+
+
+    }
     public  function search_filter(Request $request)
     {
+
         if($request->has('from') and $request->has('to')){
 
             $_from = explode('/', $request->input('from'));
@@ -56,7 +95,6 @@ class PersonalController extends Controller
                 ->where('datein', '>=', $f_from)
                 ->where('datein', '<=', $f_to)
                 ->orderBy('datein', 'ASC')
-                ->pluck('datein')
                 ->paginate(10);
 
             return view('employee.index')->with('lists',$lists);

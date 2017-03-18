@@ -95,26 +95,27 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color: #9900cc;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><i class="fa fa-plus"></i>Generate DTR</h4>
+                <h4 class="modal-title"><i class="fa fa-plus"></i>Generate DTR (Employee Filtered)</h4>
             </div>
 
 
             <div class="modal-body">
-                <form action="<?php echo e(asset('FPDF/jo_dtr.php')); ?>" method="POST" id="dtr_filter">
+                <form action="<?php echo e(asset('personal/filter')); ?>" method="POST" id="dtr_filter">
+                    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>"/>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="inclusive1" name="date_range" placeholder="Input date range here..." required>
+                                <input type="text" class="form-control" id="inclusive1" name="filter_range" placeholder="Input date range here..." required>
                             </div>
                         </div>
                     </div>
                     <div class="page-divider"></div>
                     <div class="row">
                         <div class="col-md-5 col-lg-offset-4">
-                            <button type="submit" class="btn btn-facebook btn-lg">
+                            <button type="submit" class="btn btn-facebook btn-lg" id="btn_generate">
                                 Generate
                             </button>
                         </div>

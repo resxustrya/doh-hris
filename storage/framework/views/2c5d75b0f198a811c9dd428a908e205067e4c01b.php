@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="btn-group">
-                    <button class="btn btn-success" onclick="date_modal();">Generate New
+                    <button class="btn btn-success" id="date_modal">Generate New
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>
@@ -66,15 +66,38 @@
 <?php $__env->startSection('js'); ?>
     @parent
     <script>
-        function date_modal() {
+
+        $('#date_modal').click(function(){
+
             $('#generate_dtr').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true
             });
-        }
+        });
+
         (function(){
             $('#loading_dtr').hide();
+
+            $('#dtr_filter').submit(function(e){
+                e.preventDefault();
+                var url = $(this).attr('action');
+                var data = {
+                    filter_range : $("input[name='filter_range']").val(),
+                    _token : $("input[name='_token']").val()
+                };
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data : data,
+                    success: function(res) {
+                        $('#generate_dtr').fadeOut(1000);
+                        $('#document_form').modal('show');
+                    }
+                });
+            });
+
         })();
 
         $('#dtr_filter').submit(function(event){

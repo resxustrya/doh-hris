@@ -47,6 +47,8 @@ Route::get('/personal/dtr/list', 'GenerateDTRController@personal_dtrlist');
 Route::get('/personal/dtr/filter/list','GenerateDTRController@personal_filter_dtrlist');
 //FOR PERSONAL ROUTE GROUP
 
+
+
 Route::get('personal/home', function() {
     Session::forget('f_from');
     Session::forget('f_to');
@@ -62,7 +64,11 @@ Route::get('personal/index', 'PersonalController@index');
 
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
-Route::get('personal/filter', 'PersonalController@search_filter');
+Route::post('personal/filter', 'PersonalController@emp_filtered');
+
+
+
+
 //DOCUMENTS
 Route::match(['get','post'],'form/leave','DocumentController@leave');
 Route::get('form/leave/all', 'DocumentController@all_leave');
