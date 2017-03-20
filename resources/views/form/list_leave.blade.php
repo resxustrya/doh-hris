@@ -52,7 +52,7 @@
                                             <td>{{ $leave->leave_type }}</td>
                                             <td>
                                                 <b>
-                                                    <a class="btn btn-info" href="{{ asset('leave/update/' . $leave->id) }}">Update</a>
+                                                    <a class="btn btn-info" href="{{ asset('leave/update/' . $leave->id) }}">Edit</a>
                                                     <a class="btn btn-warning" href="{{ asset('leave/delete/' .$leave->id) }}">Delete</a>
                                                     <a target="_blank" class="btn btn-success" href="{{ asset('leave/print/' .$leave->id) }}">Print</a>
                                                 </b>
@@ -80,10 +80,12 @@
             $(this).datepicker("clearDates");
         });
         $('a[href="#leave').click(function(){
+
             var id = $(this).data('id');
             var url = $(this).data('link');
+
             $.get(url +'/' +id , function(data){
-                $('#document_form').modal('show');
+                $('#leave_form').modal('show');
                 $('.modal-body').html(data);
             });
         });

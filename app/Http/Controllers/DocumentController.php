@@ -100,11 +100,19 @@ class DocumentController extends Controller
 
         }
     }
+    public function edit_leave(Request $request, $id)
+    {
+       $leave = Leave::where('id',$id)->first();
+       if(isset($leave) and count($leave) > 0)  {
+           return view('form.update_leave')->with('leave',$leave);
+       }
+       return redirect('form/leave/all');
+    }
 
     public function all_leave()
     {
         $leaves = Leave::paginate(15);
-        return view('form.list')->with('leaves', $leaves);
+        return view('form.list_leave')->with('leaves', $leaves);
     }
 
     public function get_leave(Request $request, $id)

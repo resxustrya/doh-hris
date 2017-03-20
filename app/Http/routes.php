@@ -74,6 +74,8 @@ Route::match(['get','post'],'form/leave','DocumentController@leave');
 Route::get('form/leave/all', 'DocumentController@all_leave');
 Route::get('leave/get/{id}','DocumentController@get_leave');
 Route::get('leave/print/{id}', 'DocumentController@print_leave');
+Route::get('leave/update/{id}', 'DocumentController@edit_leave');
+
 
 Route::get('list/pdf', 'DocumentController@list_print');
 

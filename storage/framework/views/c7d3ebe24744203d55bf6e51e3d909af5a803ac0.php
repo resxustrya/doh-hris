@@ -18,7 +18,7 @@ if(isset($lists) and count($lists) > 0) {
 ?>
 
 
-<div class="container-fluid">
+<div class="container-fluid" style="overflow: scroll;">
     <div class="row">
         <div class="col-md-12">
             <?php if(isset($lists) and count($lists) >0): ?>
@@ -145,4 +145,13 @@ if(isset($lists) and count($lists) > 0) {
             <?php endif; ?>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+            <button type="submit" class="btn btn-danger">Close</button>
+        </div>
+    </div>
 </div>
+
+
+
