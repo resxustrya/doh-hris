@@ -102,6 +102,7 @@ class DocumentController extends Controller
     }
     public function edit_leave(Request $request, $id)
     {
+
        $leave = Leave::where('id',$id)->first();
        if(isset($leave) and count($leave) > 0)  {
            return view('form.update_leave')->with('leave',$leave);
