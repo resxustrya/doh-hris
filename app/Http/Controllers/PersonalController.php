@@ -1,4 +1,7 @@
 <?php
+
+
+
 /**
  * Created by PhpStorm.
  * User: Lourence
@@ -15,6 +18,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use PDO;
+
+ini_set('max_execution_time', 0);
+ini_set('memory_limit','1000M');
+ini_set('max_input_time','300000');
 class PersonalController extends Controller
 {
     public function __construct()
@@ -38,7 +45,7 @@ class PersonalController extends Controller
 
     public function emp_filtered(Request $request)
     {
-        return $request->all();
+        $row = null;
         if($request->has('filter_range')){
             $str = $request->input('filter_range');
             $temp1 = explode('-',$str);
@@ -50,28 +57,45 @@ class PersonalController extends Controller
             $tmp = implode(',', $temp3);
             $date_to = date('Y-m-d',strtotime($tmp));
 
-            Session::put('from',$date_from);
-            Session::put('to', $date_to);
+            $id = Auth::user()->userid;
+            $pdo = DB::connection()->getPdo();
 
-            if(Session::has('from') and Session::has('to')) {
+            $query = "SELECT * FROM work_sched WHERE id = '1'";
+            $st = $pdo->prepare($query);
+            $st->execute();
+            $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
-                $f_from = Session::get('from');
-                $f_to = Session::get('to');
-                $lists = DtrDetails::where('userid', $request->user()->userid)
-                    ->where('datein', '>=', $f_from)
-                    ->where('datein', '<=', $f_to)
-                    ->orderBy('datein', 'ASC')
-                    ->paginate(10);
+            $am_in = explode(':',$sched[0]['am_in']);
+            $am_out =  explode(':',$sched[0]['am_out']);
+            $pm_in =  explode(':',$sched[0]['pm_in']);
+            $pm_out = explode(':',$sched[0]['pm_out']);
 
-                if(isset($lists) and count($lists) > 0)
+            $query = "SELECT DISTINCT e.userid, datein,
+
+                    (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
+                    (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
+                    (SELECT MIN(t3.time) FROM dtr_file t3 WHERE t3.userid = '". $id."' AND datein = d.datein and t3.time_h >= ". $am_out[0]." and t3.time_h < ". $pm_out[0]." AND t3.event = 'IN' ) as pm_in,
+                    (SELECT MAX(t4.time) FROM dtr_file t4 WHERE t4.userid = '". $id."' AND datein = d.datein and t4.time_h > ". $pm_in[0] ." and t4. time_h < 24) as pm_out
+
+                    FROM dtr_file d LEFT JOIN users e
+                        ON d.userid = e.userid
+                    WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
+                          AND e.userid = '". $id."'
+                    ORDER BY datein ASC";
+            try
+            {
+                $st = $pdo->prepare($query);
+                $st->execute();
+                $row = $st->fetchAll(PDO::FETCH_ASSOC);
+                if(isset($row) and count($row) > 0)
                 {
-
-                    return view('employee.index')->with('lists',$lists);
+                    return view('dtr.filtered')->with('lists',$row)->with('date_from',$date_from)->with('date_to',$date_to);
                 }
-
+            }catch(PDOException $ex){
+                echo $ex->getMessage();
+                exit();
             }
         }
-
 
     }
     public  function search_filter(Request $request)
@@ -158,6 +182,7 @@ class PersonalController extends Controller
     }
     public static function get_time($datein)
     {
+
         $work_sched = Work_sched::where('id',1)->first();
 
         $am_in = explode(':',$work_sched->am_in);

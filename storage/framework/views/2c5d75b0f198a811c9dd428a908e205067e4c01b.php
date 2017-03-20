@@ -81,6 +81,10 @@
 
             $('#dtr_filter').submit(function(e){
                 e.preventDefault();
+
+                $(this).fadeOut(1000);
+                $('#loading_dtr').show();
+
                 var url = $(this).attr('action');
                 var data = {
                     filter_range : $("input[name='filter_range']").val(),
@@ -92,18 +96,15 @@
                     type: 'POST',
                     data : data,
                     success: function(res) {
-                        $('#generate_dtr').fadeOut(1000);
-                        $('#document_form').modal('show');
+                        $('#loading_dtr').hide();
+                        $('#dtr_filter').show();
+                        $('#generate_dtr').fadeOut(1000).modal('hide');
+                        $('#filtered_dtr').modal('show');
+                        $('#filtered_body').html(res);
                     }
                 });
             });
-
         })();
-
-        $('#dtr_filter').submit(function(event){
-            $(this).fadeOut(1000);
-            $('#loading_dtr').show();
-        });
 
     </script>
 <?php $__env->stopSection(); ?>
