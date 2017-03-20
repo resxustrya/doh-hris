@@ -2,6 +2,13 @@
 
 
 @section('content')
+    @if(Session::has('message'))
+        <div class="col-md-12 wrapper">
+            <div class="alert alert-success" role="alert">
+                {{ Session::get('message') }}
+            </div>
+        </div>
+    @endif
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3 class="page-header">Leave Documents

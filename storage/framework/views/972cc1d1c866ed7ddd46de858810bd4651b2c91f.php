@@ -6,7 +6,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="<?php echo e(asset('form/leave')); ?>" method="POST">
+                        <form action="<?php echo e(asset('leave/update/save')); ?>" method="POST">
+                            <input type="hidden" name="id" value="<?php echo e($leave->id); ?>" />
                             <?php echo e(csrf_field()); ?>
 
                             <div class="row">
@@ -244,7 +245,7 @@
                                     <div class="alert alert-success">
                                         <div class="form-group has-success  input-daterange">
                                             <label class="control-label" for="inputSuccess1">(7a) Certification of leave credits <br /> as of :</label>
-                                            <input type="text" class="form-control" name="credit_date" value="2012-04-05">
+                                            <input type="text" class="form-control" name="credit_date" value="<?php echo e($leave->credit_date); ?>">
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
@@ -262,13 +263,13 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" name="vation_total"> days
+                                                                <input type="text" name="vication_total" value="<?php echo e($leave->vication_total); ?>"> days
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="sick_total"> days
+                                                                <input type="text" name="sick_total" value="<?php echo e($leave->sick_total); ?>"> days
                                                             </td>
                                                             <td>
-                                                                <input type="text" name="over_total"> days
+                                                                <input type="text" name="over_total" value="<?php echo e($leave->over_total); ?>"> days
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -295,19 +296,19 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="text" name="a_days_w_pay" size="5"/>
+                                                                <input type="text" name="a_days_w_pay" size="5" value="<?php echo e($leave->a_days_w_pay); ?>"/>
                                                                 day(s) with pay
                                                             </label>
                                                         </div>
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="text" name="a_days_wo_pay" size="5"/>
+                                                                <input type="text" name="a_days_wo_pay" size="5" value="<?php echo e($leave->a_days_wo_pay); ?> "/>
                                                                 day(s) without pay
                                                             </label>
                                                         </div>
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="text" name="a_others" size="5"/>
+                                                                <input type="text" name="a_others" size="5" value="<?php echo e($leave->a_others); ?>" />
                                                                 others (specify)
                                                             </label>
                                                         </div>
@@ -326,7 +327,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="approve" name="reco_approval">
+                                                                <input type="radio" id="checkboxSuccess" value="approve" name="reco_approval" <?php echo e($leave->reco_approval == "approve" ? ' checked' : ''); ?>>
                                                                 Approval
                                                             </label>
                                                         </div>
@@ -334,7 +335,7 @@
                                                     <div class="has-success">
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="radio" id="checkboxSuccess" value="disapprove" name="reco_approval">
+                                                                <input type="radio" id="checkboxSuccess" value="disapprove" name="reco_approval" <?php echo e($leave->reco_approval == "disapprove" ? ' checked' : ''); ?>>
                                                                 Disapproval
                                                             </label>
                                                         </div>
@@ -342,7 +343,7 @@
                                                     <div class="has-success">
                                                         <div class="form-group has-success">
                                                             Due to :
-                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="reco_disaprove_due_to"></textarea>
+                                                            <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="reco_disaprove_due_to"><?php echo e($leave->reco_disaprove_due_to); ?></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -358,7 +359,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <strong>(7d.) DISAPPROVED DUE TO:</strong>
-                                                <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="disaprove_due_to"></textarea>
+                                                <textarea type="text" class="form-control" maxlength="200" id="inputSuccess1" name="disaprove_due_to"><?php echo e($leave->disaprove_due_to); ?></textarea>
                                             </div>
                                         </div>
                                     </div>
