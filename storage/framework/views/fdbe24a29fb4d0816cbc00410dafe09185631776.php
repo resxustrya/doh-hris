@@ -1,6 +1,6 @@
 <?php $__env->startSection('content'); ?>
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Job Order DTR</h2>
+        <h2 class="page-header">Regular employee DTR</h2>
         <div class="row">
             <div class="col-md-4">
                 <div class="btn-group">
@@ -67,7 +67,7 @@
     @parent
     <script>
         function date_modal() {
-            $('#generate_dtr_jo').modal({
+            $('#generate_dtr_regular').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true

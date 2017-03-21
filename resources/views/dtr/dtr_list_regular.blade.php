@@ -1,6 +1,8 @@
-<?php $__env->startSection('content'); ?>
+@extends('layouts.app')
+
+@section('content')
     <div class="alert alert-jim" id="inputText">
-        <h2 class="page-header">Job Order DTR</h2>
+        <h2 class="page-header">Regular employee DTR</h2>
         <div class="row">
             <div class="col-md-4">
                 <div class="btn-group">
@@ -16,7 +18,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <?php if(isset($lists) and count($lists) >0): ?>
+                        @if(isset($lists) and count($lists) >0)
                             <div class="table-responsive">
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
@@ -29,45 +31,44 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php foreach($lists as $list): ?>
+                                    @foreach($lists as $list)
                                         <tr>
-                                            <td><?php echo e($list->id); ?></td>
-                                            <td><?php echo e($list->filename); ?></td>
-                                            <td><?php echo e($list->date_created); ?> </td>
-                                            <td><?php echo e($list->time_created); ?> </td>
+                                            <td>{{ $list->id }}</td>
+                                            <td>{{ $list->filename }}</td>
+                                            <td>{{ $list->date_created }} </td>
+                                            <td>{{ $list->time_created }} </td>
                                             <td>
-                                                <a class="btn btn-success" href="<?php echo e(asset('').'/FPDF/pdf-files/'.$list->filename); ?>">View</a>
+                                                <a class="btn btn-success" href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                            <?php echo e($lists->links()); ?>
-
-                        <?php else: ?>
+                            {{ $lists->links() }}
+                        @else
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                        <?php endif; ?>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('plugin'); ?>
-    <script src="<?php echo e(asset('resources/plugin/daterangepicker/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
+@endsection
+@section('plugin')
+    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
+@endsection
 
-<?php $__env->startSection('css'); ?>
-    <link href="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker-bs3.css')); ?>" rel="stylesheet">
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('js'); ?>
-    @parent
+@section('css')
+    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
+@endsection
+@section('js')
+    @@parent
     <script>
         function date_modal() {
-            $('#generate_dtr_jo').modal({
+            $('#generate_dtr_regular').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true
@@ -83,9 +84,7 @@
         });
 
     </script>
-<?php $__env->stopSection(); ?>
+@endsection
 
 
 
-
-<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

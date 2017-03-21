@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 
+use App\regular_dtr;
 use Illuminate\Http\Request;
 use App\pdf_filename;
 class GenerateDTRController extends Controller
@@ -18,12 +19,20 @@ class GenerateDTRController extends Controller
         $this->middleware('auth');
     }
 
-    public function list_dtr(Request $request)
+    public function list_jo_dtr(Request $request)
     {
         $lists = pdf_filename::where('remember_token', '=', null)
             ->orderBy('date_created', 'ASC')
             ->paginate(20);
         return view('dtr.dtr_list_jo')->with('lists', $lists);
+    }
+
+    public function list_regular_dtr(Request $request)
+    {
+        $lists = regular_dtr::where('remember_token','=',null)
+                ->orderBy('date_created','ASC')
+                ->paginate(20);
+        return view('dtr.dtr_list_regular')->with('lists',$lists);
     }
 
     public function personal_dtrlist(Request $request)

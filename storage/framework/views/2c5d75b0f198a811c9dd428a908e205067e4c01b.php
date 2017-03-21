@@ -69,7 +69,7 @@
 
         $('#date_modal').click(function(){
 
-            $('#generate_dtr').modal({
+            $('#generate_dtr_filter').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true

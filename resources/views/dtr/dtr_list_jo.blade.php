@@ -68,7 +68,7 @@
     @@parent
     <script>
         function date_modal() {
-            $('#generate_dtr').modal({
+            $('#generate_dtr_jo').modal({
                 backdrop: 'static',
                 keyboard: false,
                 show: true
