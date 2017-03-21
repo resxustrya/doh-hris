@@ -108,6 +108,8 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
+
+
         $logs = get_logs($userid,$date_from,$date_to);
 
 
@@ -193,9 +195,9 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_POST['date_range'])) {
+if(isset($_POST['filter_range'])) {
 
-    $str = $_POST['date_range'];
+    $str = $_POST['filter_range'];
     $temp1 = explode('-',$str);
     $temp2 = array_slice($temp1, 0, 1);
     $tmp = implode(',', $temp2);
@@ -218,7 +220,7 @@ $row = userlist();
 
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < 10; $i++) {
+    for($i = 0; $i < count($row); $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
     }
 }
@@ -300,7 +302,8 @@ function userlist()
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT e.userid,e.fname,e.lname,e.mname FROM users e LEFT JOIN dtr_file d ON e.userid = d.userid WHERE e.usertype != '1' and e.emptype = 'JO' ORDER BY e.lname ASC");
+        //$st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
@@ -322,8 +325,8 @@ function save_file_name($filename,$date_from,$date_to)
     $time = date("h:i:sa");
     $date = date("Y-m-d");
     $userid = "0001";
-    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,userid,created_at,updated_at)";
-    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."','". $userid ."',NOW(),NOW())";
+    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at)";
+    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW())";
 
 
     $st = $pdo->prepare($query);

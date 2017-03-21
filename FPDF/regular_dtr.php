@@ -194,9 +194,9 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_POST['date_range'])) {
+if(isset($_POST['filter_range'])) {
 
-    $str = $_POST['date_range'];
+    $str = $_POST['filter_range'];
     $temp1 = explode('-',$str);
     $temp2 = array_slice($temp1, 0, 1);
     $tmp = implode(',', $temp2);
@@ -251,12 +251,13 @@ function get_logs($id,$date_from,$date_to)
     $st->execute();
     $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
-    $am_in = explode(':',$sched[0]['am_in']);
-    $am_out =  explode(':',$sched[0]['am_out']);
-    $pm_in =  explode(':',$sched[0]['pm_in']);
-    $pm_out = explode(':',$sched[0]['pm_out']);
+    if(isset($sched) and count($sched) > 0) {
+        $am_in = explode(':',$sched[0]['am_in']);
+        $am_out =  explode(':',$sched[0]['am_out']);
+        $pm_in =  explode(':',$sched[0]['pm_in']);
+        $pm_out = explode(':',$sched[0]['pm_out']);
 
-    $query = "SELECT DISTINCT e.userid, datein,
+        $query = "SELECT DISTINCT e.userid, datein,
 
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
@@ -268,17 +269,19 @@ function get_logs($id,$date_from,$date_to)
                     WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
                           AND e.userid = '". $id."'
                     ORDER BY datein ASC";
-    try
-    {
-        $st = $pdo->prepare($query);
-        $st->execute();
-        $row = $st->fetchAll(PDO::FETCH_ASSOC);
-    }catch(PDOException $ex){
-        echo $ex->getMessage();
-        exit();
+        try
+        {
+            $st = $pdo->prepare($query);
+            $st->execute();
+            $row = $st->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $ex){
+            echo $ex->getMessage();
+            exit();
+        }
+
+        return $row;
     }
 
-    return $row;
 }
 
 
@@ -301,7 +304,7 @@ function userlist()
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and emptype = 'REG' ORDER BY lname ASC");
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
