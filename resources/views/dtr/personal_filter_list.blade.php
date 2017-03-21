@@ -78,13 +78,13 @@
         });
 
         (function(){
-            $('#loading_dtr').hide();
+            $('#loading_filter').hide();
 
             $('#dtr_filter').submit(function(e){
                 e.preventDefault();
 
                 $(this).fadeOut(1000);
-                $('#loading_dtr').show();
+                $('#loading_filter').show();
 
                 var url = $(this).attr('action');
                 var data = {
@@ -97,7 +97,7 @@
                     type: 'POST',
                     data : data,
                     success: function(res) {
-                        $('#loading_dtr').hide();
+                        $('#loading_filter').hide();
                         $('#dtr_filter').show();
                         $('#generate_dtr').fadeOut(1000).modal('hide');
                         $('#filtered_dtr').modal('show');
@@ -106,7 +106,7 @@
                 });
             });
         })();
-
+        $('#inclusive1').daterangepicker();
     </script>
 @endsection
 

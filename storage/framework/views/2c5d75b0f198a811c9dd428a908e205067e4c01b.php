@@ -105,7 +105,7 @@
                 });
             });
         })();
-
+        $('#inclusive1').daterangepicker();
     </script>
 <?php $__env->stopSection(); ?>
 

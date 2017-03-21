@@ -117,7 +117,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="row" id="loading_dtr">
+                <div class="row" id="loading_filter">
                     <div class="col-md-12">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
@@ -141,15 +141,14 @@
             </div>
 
             <div class="modal-body">
-                <form action="{{ asset('personal/filter') }}" method="POST" id="dtr_filter">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                <form action="{{ asset('FPDF/jo_dtr.php') }}" method="POST" id="dtr_filter">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="inclusive1" name="filter_range" placeholder="Input date range here..." required>
+                                <input type="text" class="form-control" id="inclusive2" name="filter_range" placeholder="Input date range here..." required>
                             </div>
                         </div>
                     </div>
@@ -162,7 +161,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="row" id="loading_dtr">
+                <div class="row" id="jo_loading">
                     <div class="col-md-12">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
@@ -186,7 +185,7 @@
             </div>
 
             <div class="modal-body">
-                <form action="{{ asset('personal/filter') }}" method="POST" id="dtr_filter">
+                <form action="{{ asset('FPDF/regular_dtr.php') }}" method="POST" id="dtr_filter">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                     <div class="row">
                         <div class="col-md-12">
@@ -194,7 +193,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input type="text" class="form-control" id="inclusive1" name="filter_range" placeholder="Input date range here..." required>
+                                <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
                             </div>
                         </div>
                     </div>
@@ -207,7 +206,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="row" id="loading_dtr">
+                <div class="row" id="loading_reg">
                     <div class="col-md-12">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">

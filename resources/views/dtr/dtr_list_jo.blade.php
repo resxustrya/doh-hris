@@ -54,7 +54,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('plugin')
     <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
@@ -75,14 +74,14 @@
             });
         }
         (function(){
-            $('#loading_dtr').hide();
+            $('#jo_loading').hide();
         })();
 
         $('#dtr_filter').submit(function(event){
             $(this).fadeOut(1000);
-            $('#loading_dtr').show();
+            $('#jo_loading').show();
         });
-
+        $('#inclusive2').daterangepicker();
     </script>
 @endsection
 

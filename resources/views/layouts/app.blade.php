@@ -140,7 +140,7 @@
 <!-- SELECT CHOOSEN -->
 <script src="{{ asset('resources/plugin/chosen/chosen.jquery.js') }}"></script>
 <script>
-    $('#inclusive1').daterangepicker();
+
 
 
 </script>

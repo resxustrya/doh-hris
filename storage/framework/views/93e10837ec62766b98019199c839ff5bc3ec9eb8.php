@@ -53,7 +53,6 @@
             </div>
         </div>
     </div>
-
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('plugin'); ?>
     <script src="<?php echo e(asset('resources/plugin/daterangepicker/moment.min.js')); ?>"></script>
@@ -74,14 +73,14 @@
             });
         }
         (function(){
-            $('#loading_dtr').hide();
+            $('#jo_loading').hide();
         })();
 
         $('#dtr_filter').submit(function(event){
             $(this).fadeOut(1000);
-            $('#loading_dtr').show();
+            $('#jo_loading').show();
         });
-
+        $('#inclusive2').daterangepicker();
     </script>
 <?php $__env->stopSection(); ?>
 

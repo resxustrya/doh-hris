@@ -126,3 +126,15 @@ Route::get('phpinfo', function() {
 
 
 Route::get('fpdf', 'PersonalController@rdr_home');
+
+Route::get('emptype', function() {
+    $et = new \App\emp_type();
+    $et->code = 'JO';
+    $et->description = 'JOB ORDER';
+    $et->save();
+
+    $et = new \App\emp_type();
+    $et->code = 'REG';
+    $et->description = 'REGULAR';
+    $et->save();
+});

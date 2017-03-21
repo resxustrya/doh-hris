@@ -74,14 +74,14 @@
             });
         }
         (function(){
-            $('#loading_dtr').hide();
+            $('#loading_reg').hide();
         })();
 
         $('#dtr_filter').submit(function(event){
             $(this).fadeOut(1000);
-            $('#loading_dtr').show();
+            $('#loading_reg').show();
         });
-
+        $('#inclusive3').daterangepicker();
     </script>
 <?php $__env->stopSection(); ?>
 
