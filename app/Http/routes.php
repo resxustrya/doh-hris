@@ -128,13 +128,15 @@ Route::get('phpinfo', function() {
 Route::get('fpdf', 'PersonalController@rdr_home');
 
 Route::get('emptype', function() {
-    $et = new \App\emp_type();
-    $et->code = 'JO';
-    $et->description = 'JOB ORDER';
-    $et->save();
-
-    $et = new \App\emp_type();
-    $et->code = 'REG';
-    $et->description = 'REGULAR';
-    $et->save();
+    Schema::create('generated_pdf', function (Blueprint $table) {
+        $table->increments('id');
+        $table->string('filename')->nullable();
+        $table->date('date_from')->nullable();
+        $table->date('date_to')->nullable();
+        $table->date('date_created');
+        $table->time('time_created');
+        $table->string('generated',10)->nullable();
+        $table->rememberToken();
+        $table->timestamps();
+    });
 });

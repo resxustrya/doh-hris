@@ -112,6 +112,7 @@ class PDF extends FPDF
         $logs = get_logs($userid,$date_from,$date_to);
 
 
+
         if(isset($logs) and count($logs))
         {
             for($r1 = $startday; $r1 <= $endday; $r1++)
@@ -220,7 +221,6 @@ if(isset($row) and count($row) > 0)
     for($i = 0; $i < count($row); $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
     }
-
 }
 
 $time = rand(1,1000);
@@ -323,8 +323,8 @@ function save_file_name($filename,$date_from,$date_to)
     $time = date("h:i:sa");
     $date = date("Y-m-d");
     $userid = "0001";
-    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at)";
-    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW())";
+    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type)";
+    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'JO')";
 
 
     $st = $pdo->prepare($query);

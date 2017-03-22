@@ -55,14 +55,14 @@
         </div>
     </div>
     <div class="modal fade" tabindex="-1" role="dialog" id="generate_dtr_filter">
-        <div class="modal-dialog modal-lg" role="document" style="width: 30%;">
+        <div class="modal-dialog modal-md" role="document" id="size">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #9900cc;">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"><i class="fa fa-plus"></i>Generate DTR (Filter DTR)</h4>
                 </div>
-
                 <div class="modal-body">
+                    <div id="response"></div>
                     <form action="{{ asset('personal/filter') }}" method="POST" id="dtr_filter">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <div class="row">
@@ -98,21 +98,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="leave_form">
-        <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #9900cc;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><i class="fa fa-plus"></i>Filtered DTR</h4>
-                </div>
-                <div class="modal-body" id="filtered_body">
-
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
 @endsection
 @section('plugin')
     <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
@@ -127,7 +112,10 @@
     <script>
 
         $('#date_modal').click(function(){
-
+            $('#dtr_filter').show();
+            $('#loading_filter').hide();
+            $('#response').hide();
+            $('#size').removeClass('modal-lg').addClass('modal-md');
             $('#generate_dtr_filter').modal({
                 backdrop: 'static',
                 keyboard: false,
@@ -155,11 +143,11 @@
                     type: 'POST',
                     data : data,
                     success: function(res) {
+                        $('#size').removeClass('modal-md').addClass('modal-lg');
+                        $('#dtr_filter').hide();
                         $('#loading_filter').hide();
-                        $('#dtr_filter').show();
-                        $('#generate_dtr').fadeOut(1000).modal('hide');
-                        $('#filtered_dtr').modal('show');
-                        $('#filtered_body').html(res);
+                        $('#response').show();
+                        $('#response').html(res);
                     }
                 });
             });

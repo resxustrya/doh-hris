@@ -9,11 +9,9 @@ $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
 
-
 //require('dbconn.php');
 
-echo "Hello Regular";
-exit();
+
 
 
 require('fpdf.php');
@@ -109,7 +107,10 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
+
+
         $logs = get_logs($userid,$date_from,$date_to);
+
 
 
         if(isset($logs) and count($logs))
@@ -135,8 +136,6 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
-                    // $late = personal::late($am_in, $pm_in);
-                    // $ut = personal::undertime($am_out,$pm_out);
                 } else {
                     $am_in = '';
                     $am_out = '';
@@ -217,9 +216,10 @@ $pdf->SetTitle('DTR report From : ' . date('l', strtotime($date_from)) .'---'.da
 
 $row = userlist();
 
+
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < 10; $i++) {
+    for($i = 0; $i < count($row); $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
     }
 }
@@ -251,13 +251,12 @@ function get_logs($id,$date_from,$date_to)
     $st->execute();
     $sched = $st->fetchAll(PDO::FETCH_ASSOC);
 
-    if(isset($sched) and count($sched) > 0) {
-        $am_in = explode(':',$sched[0]['am_in']);
-        $am_out =  explode(':',$sched[0]['am_out']);
-        $pm_in =  explode(':',$sched[0]['pm_in']);
-        $pm_out = explode(':',$sched[0]['pm_out']);
+    $am_in = explode(':',$sched[0]['am_in']);
+    $am_out =  explode(':',$sched[0]['am_out']);
+    $pm_in =  explode(':',$sched[0]['pm_in']);
+    $pm_out = explode(':',$sched[0]['pm_out']);
 
-        $query = "SELECT DISTINCT e.userid, datein,
+    $query = "SELECT DISTINCT e.userid, datein,
 
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,
@@ -269,19 +268,17 @@ function get_logs($id,$date_from,$date_to)
                     WHERE d.datein BETWEEN '". $date_from. "' AND '" . $date_to . "'
                           AND e.userid = '". $id."'
                     ORDER BY datein ASC";
-        try
-        {
-            $st = $pdo->prepare($query);
-            $st->execute();
-            $row = $st->fetchAll(PDO::FETCH_ASSOC);
-        }catch(PDOException $ex){
-            echo $ex->getMessage();
-            exit();
-        }
-
-        return $row;
+    try
+    {
+        $st = $pdo->prepare($query);
+        $st->execute();
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $ex){
+        echo $ex->getMessage();
+        exit();
     }
 
+    return $row;
 }
 
 
@@ -304,7 +301,8 @@ function userlist()
 {
     $pdo = conn();
     try {
-        $st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and emptype = 'REG' ORDER BY lname ASC");
+        $st = $pdo->prepare("SELECT DISTINCT e.userid,e.fname,e.lname,e.mname FROM users e LEFT JOIN dtr_file d ON e.userid = d.userid WHERE e.usertype != '1' and e.emptype = 'REG' ORDER BY e.lname ASC");
+        //$st = $pdo->prepare("SELECT DISTINCT userid,fname,lname,mname FROM users WHERE usertype != '1' and userid !='Unknown User' ORDER BY lname ASC");
         $st->execute();
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
         if(isset($row) and count($row) > 0)
@@ -326,8 +324,8 @@ function save_file_name($filename,$date_from,$date_to)
     $time = date("h:i:sa");
     $date = date("Y-m-d");
     $userid = "0001";
-    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,userid,created_at,updated_at)";
-    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."','". $userid ."',NOW(),NOW())";
+    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type)";
+    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'REG')";
 
 
     $st = $pdo->prepare($query);

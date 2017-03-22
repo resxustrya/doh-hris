@@ -108,13 +108,14 @@
     <div class="loading"></div>
         @yield('content')
     <div class="clearfix"></div>
+    @include('modal')
 </div> <!-- /container -->
 <footer class="footer">
     <div class="container">
         <p>Copyright &copy; 2017 DOH-RO7 All rights reserved</p>
     </div>
 </footer>
-@include('modal')
+
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

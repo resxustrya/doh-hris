@@ -19,6 +19,7 @@ class GeneratedPdf extends Migration
             $table->date('date_to')->nullable();
             $table->date('date_created');
             $table->time('time_created');
+            $table->string('type')->nullable();
             $table->string('generated',10)->nullable();
             $table->rememberToken();
             $table->timestamps();

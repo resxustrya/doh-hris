@@ -19,7 +19,7 @@ if(isset($lists) and count($lists) > 0) {
 
 
 
-@if(isset($lists) and count($lists) >0)
+<?php if(isset($lists) and count($lists) >0): ?>
     <div class="table-responsive">
         <table class="table table-list table-hover table-striped">
             <thead>
@@ -55,7 +55,7 @@ if(isset($lists) and count($lists) > 0) {
             $index = 0;
             $log_date = "";
             ?>
-            @for($d = $startday; $d <= $endday; $d++)
+            <?php for($d = $startday; $d <= $endday; $d++): ?>
                 <?php
                 $d >= 1 && $d < 10 ? $zero='0' : $zero = '';
                 $datein = $day1[0]."-".$day1[1]."-".$zero.$d;
@@ -121,27 +121,27 @@ if(isset($lists) and count($lists) > 0) {
                 }
                 ?>
                 <tr>
-                    <td class="text-center">{{ $datein }}</td>
-                    <td class="text-center">{{ personal::day_name($datein) }}</td>
-                    @if($ok)
-                        <td class="text-center" colspan="4">{{ isset($am_out) ? $am_out : '' }}</td>
-                    @else
-                        <td class="text-center">{{ isset($am_in) ? $am_in : '' }}</td>
-                        <td class="text-center">{{ isset($am_out) ? $am_out : '' }}</td>
-                        <td class="text-center">{{ isset($pm_in) ? $pm_in : '' }}</td>
-                        <td class="text-center">{{ isset($pm_out) ? $pm_out : '' }}</td>
-                    @endif
-                    <td class="text-center">{{ isset($late) ? $late : '' }}</td>
-                    <td class="text-center">{{ isset($ut) ? $ut : '' }}</td>
+                    <td class="text-center"><?php echo e($datein); ?></td>
+                    <td class="text-center"><?php echo e(personal::day_name($datein)); ?></td>
+                    <?php if($ok): ?>
+                        <td class="text-center" colspan="4"><?php echo e(isset($am_out) ? $am_out : ''); ?></td>
+                    <?php else: ?>
+                        <td class="text-center"><?php echo e(isset($am_in) ? $am_in : ''); ?></td>
+                        <td class="text-center"><?php echo e(isset($am_out) ? $am_out : ''); ?></td>
+                        <td class="text-center"><?php echo e(isset($pm_in) ? $pm_in : ''); ?></td>
+                        <td class="text-center"><?php echo e(isset($pm_out) ? $pm_out : ''); ?></td>
+                    <?php endif; ?>
+                    <td class="text-center"><?php echo e(isset($late) ? $late : ''); ?></td>
+                    <td class="text-center"><?php echo e(isset($ut) ? $ut : ''); ?></td>
                 </tr>
-            @endfor
+            <?php endfor; ?>
             </tbody>
         </table>
     </div>
 
-@else
+<?php else: ?>
     <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-@endif
+<?php endif; ?>
 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
 

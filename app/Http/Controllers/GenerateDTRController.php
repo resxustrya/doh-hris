@@ -21,7 +21,7 @@ class GenerateDTRController extends Controller
 
     public function list_jo_dtr(Request $request)
     {
-        $lists = pdf_filename::where('remember_token', '=', null)
+        $lists = pdf_filename::where('type','JO')
             ->orderBy('date_created', 'ASC')
             ->paginate(20);
         return view('dtr.dtr_list_jo')->with('lists', $lists);
@@ -29,7 +29,7 @@ class GenerateDTRController extends Controller
 
     public function list_regular_dtr(Request $request)
     {
-        $lists = regular_dtr::where('remember_token','=',null)
+        $lists = pdf_filename::where('type','REG')
                 ->orderBy('date_created','ASC')
                 ->paginate(20);
         return view('dtr.dtr_list_regular')->with('lists',$lists);
@@ -45,8 +45,7 @@ class GenerateDTRController extends Controller
 
     public function personal_filter_dtrlist(Request $request)
     {
-        $lists = pdf_filename::where('access','=','1')
-                            ->orderBy('date_created','ASC')
+        $lists = pdf_filename::orderBy('date_created','ASC')
                             ->paginate(20);
         return view('dtr.personal_filter_list')->with('lists',$lists);
     }
