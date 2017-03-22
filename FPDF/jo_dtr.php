@@ -9,7 +9,6 @@ $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
 
-
 //require('dbconn.php');
 
 
@@ -136,8 +135,6 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
-                    // $late = personal::late($am_in, $pm_in);
-                    // $ut = personal::undertime($am_out,$pm_out);
                 } else {
                     $am_in = '';
                     $am_out = '';
@@ -223,6 +220,7 @@ if(isset($row) and count($row) > 0)
     for($i = 0; $i < count($row); $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
     }
+
 }
 
 $time = rand(1,1000);

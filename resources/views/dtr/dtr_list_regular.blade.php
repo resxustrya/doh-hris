@@ -54,6 +54,49 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" tabindex="-1" role="dialog" id="generate_dtr_regular">
+        <div class="modal-dialog modal-lg" role="document" style="width: 30%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #9900cc;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><i class="fa fa-plus"></i>Generate DTR (Regular Employee)</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form action="{{ asset('FPDF/regular_dtr.php') }}" method="POST" id="dtr_filter">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control" id="inclusive3" name="filter_range" placeholder="Input date range here..." required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-divider"></div>
+                        <div class="row">
+                            <div class="col-md-5 col-lg-offset-4">
+                                <button type="submit" class="btn btn-facebook btn-lg" id="btn_generate">
+                                    Generate
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row" id="loading_reg">
+                        <div class="col-md-12">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <strong class="text-center" style="font-size: medium;font-weight: bold;">Please wait. Generating attendance report.</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 @endsection
 @section('plugin')
