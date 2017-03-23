@@ -14,7 +14,7 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <td class="col-md-1"><img height="130" width="130" src="<?php echo e(asset('resources/img/ro7.png')); ?>" /></td>
+                                        <td class="col-md-1"><img height="130" width="130" src="<?php echo e(asset('resources/img/doh.png')); ?>" /></td>
                                         <td class="col-lg-10" style="text-align: center;">
                                             Repulic of the Philippines <br />
                                             <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br />
@@ -100,7 +100,7 @@
                                     </tr>
                                 </table>
                                 <div class="modal-footer">
-                                    <a href="<?php echo e(asset('/')); ?>" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
+                                    <a href="<?php echo e(asset('/form/so_list')); ?>" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
                                     <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
                                 </div>
                             </div>

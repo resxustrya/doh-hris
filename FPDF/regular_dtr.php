@@ -13,7 +13,6 @@ $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
 
 
-
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -36,10 +35,10 @@ class PDF extends FPDF
         $this->SetFont('Arial','',8);
         $this->SetX(10);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
-        $this->SetX(60);
+        $this->SetX(70);
         $this->Cell(40,10,'Printed : '. date('Y-m-d'),0);
 
-        $this->SetX(120);
+        $this->SetX(112);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
         $this->SetX(-40);
         $this->Cell(40,10,'Printed : '.date('Y-m-d') ,0);
@@ -49,9 +48,9 @@ class PDF extends FPDF
         $this->SetXY(35,15);
         $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-        $this->SetFont('Arial','B',10);
-        $this->SetXY(10,22);
-        $this->Cell(40,10,'Name : '.$name,0);
+        $this->SetFont('Arial','BU',10);
+        $this->SetXY(25,22);
+        $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
 
         $this->SetFont('Arial','',10);
         $this->SetXY(10,28);
@@ -68,16 +67,15 @@ class PDF extends FPDF
 
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(145,15);
+        $this->SetXY(135,15);
         $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-        $this->SetFont('Arial','B',10);
-        $this->SetXY(120,22);
-        $this->SetFillColor(200,220,255);
-        $this->Cell(40,10,'Name : '.$name,0);
+        $this->SetFont('Arial','BU',10);
+        $this->SetXY(135,22);
+        $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(120,28);
+        $this->SetXY(112,28);
         $this->Cell(40,10,'For the month of',0);
 
         $this->SetFont('Arial','',10);
@@ -85,9 +83,8 @@ class PDF extends FPDF
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(120,33);
+        $this->SetXY(112,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
-
 
 
         $this->SetFont('Arial','',9);
@@ -153,7 +150,7 @@ class PDF extends FPDF
                 $this->Cell($w[2],6,$pm_in,'',0,'R');
                 $this->Cell($w[3],6,$pm_out,'',0,'R');
 
-                $this->Cell(37);
+                $this->Cell(30);
                 $this->Cell(5,6,$r1,'');
                 $this->Cell(7,6,$day_name,'');
                 $this->Cell($w[1],6,$am_in,'');
@@ -166,11 +163,11 @@ class PDF extends FPDF
         }
 
         $this->SetFont('Arial','',9);
-        $this->SetXY(120,42);
+        $this->SetXY(112,42);
         $this->Cell(89,8,'                     AM                              PM              UNDERTIME',1);
 
         $this->SetFont('Arial','',7.5);
-        $this->SetXY(120,50);
+        $this->SetXY(112,50);
         $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
         $this->Ln(500);
 
@@ -219,12 +216,12 @@ $row = userlist();
 
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < count($row); $i++) {
+    for($i = 0; $i < 20; $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
     }
 }
 
-$time = rand(1,1000);
+$time = rand(1,10000);
 
 $filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 $file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
@@ -232,12 +229,10 @@ save_file_name($file,$date_from,$date_to);
 $pdf->Output($filename,'F');
 
 
-
-
 $host = $_SERVER['HTTP_HOST'];
 $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
-$address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
+$address = $protocol.$host.'/'.$uri[1].'/dtr/list/regular';
 
 header('Location:'.$address);
 exit();

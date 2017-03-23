@@ -172,6 +172,8 @@ class PDF extends FPDF
         $this->SetFont('Arial','',7.5);
         $this->SetXY(120,50);
         $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
+
+
         $this->Ln(500);
 
 
