@@ -90,15 +90,15 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',9);
         $this->SetXY(10,42);
-        $this->Cell(89,8,'                     AM                             PM              UNDERTIME',1);
+        $this->Cell(89,5,'                     AM                             PM              UNDERTIME',1);
 
 
         $this->SetFont('Arial','',7.5);
-        $this->SetXY(10,50);
-        $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
+        $this->SetXY(10,47);
+        $this->Cell(89,5,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
 
         $this->SetFont('Arial', '', 7.5);
-        $this->SetXY(10,65);
+        $this->SetXY(10,54);
 
         $w = array(10,15,15,15,15);
         $index = 0;
@@ -144,20 +144,20 @@ class PDF extends FPDF
                 }
 
 
-                $this->Cell(5,6,$r1,'');
-                $this->Cell(7,6,$day_name,'');
-                $this->Cell($w[1],6,$am_in,'');
-                $this->Cell($w[1],6,$am_out,'');
-                $this->Cell($w[2],6,$pm_in,'',0,'R');
-                $this->Cell($w[3],6,$pm_out,'',0,'R');
+                $this->Cell(5,5,$r1,'');
+                $this->Cell(7,5,$day_name,'');
+                $this->Cell($w[1],5,$am_in,'');
+                $this->Cell($w[1],5,$am_out,'');
+                $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->Cell($w[3],5,$pm_out,'',0,'R');
 
                 $this->Cell(30);
-                $this->Cell(5,6,$r1,'');
-                $this->Cell(7,6,$day_name,'');
-                $this->Cell($w[1],6,$am_in,'');
-                $this->Cell($w[1],6,$am_out,'');
-                $this->Cell($w[2],6,$pm_in,'',0,'R');
-                $this->Cell($w[3],6,$pm_out,'',0,'R');
+                $this->Cell(5,5,$r1,'');
+                $this->Cell(7,5,$day_name,'');
+                $this->Cell($w[1],5,$am_in,'');
+                $this->Cell($w[1],5,$am_out,'');
+                $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->Cell($w[3],5,$pm_out,'',0,'R');
 
                 $this->Ln();
             }
@@ -165,11 +165,11 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',9);
         $this->SetXY(112,42);
-        $this->Cell(89,8,'                     AM                              PM              UNDERTIME',1);
+        $this->Cell(89,5,'                     AM                              PM              UNDERTIME',1);
 
         $this->SetFont('Arial','',7.5);
-        $this->SetXY(112,50);
-        $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
+        $this->SetXY(112,47);
+        $this->Cell(89,5,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
         $this->Ln(500);
 
 
@@ -179,13 +179,31 @@ class PDF extends FPDF
 // Page footer
     function Footer()
     {
-        $this->SetFont('Arial','BU',10);
-        $this->SetXY(50,-149);
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(50,-175);
+        $this->Cell(10,10,'                                                                                             ',0,0,'C');
+
+        $this->SetFont('Arial','',9);
+        $this->SetXY(20,-170);
+        $this->Cell(10,10,'TOTAL',0,0,'C');
+
+        $this->SetFont('Arial','',7);
+        $this->SetXY(10,-163);
+        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(150,-175);
         $this->Cell(10,10,'                                                                                        ',0,0,'C');
 
         $this->SetFont('Arial','',9);
-        $this->SetXY(20,-145);
+        $this->SetXY(120    ,-170);
         $this->Cell(10,10,'TOTAL',0,0,'C');
+
+
+        $this->SetFont('Arial','',7);
+        $this->SetXY(110,-163);
+        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+
 
     }
 }
