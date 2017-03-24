@@ -22,6 +22,7 @@ ini_set('max_input_time','300000');
 class PDF extends FPDF
 {
 
+    private $empname = "";
 // Page header
     function form($name,$userid,$date_from,$date_to)
     {
@@ -175,13 +176,21 @@ class PDF extends FPDF
 
     }
 
+    function SetEmpname($empname)
+    {
+        $this->empname = $empname;
+    }
+    function GetName()
+    {
+        return $this->empname;
+    }
 
 // Page footer
     function Footer()
     {
         $this->SetFont('Arial','BU',8);
-        $this->SetXY(50,-175);
-        $this->Cell(10,10,'                                                                                             ',0,0,'C');
+        $this->SetXY(47,-175);
+        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
 
         $this->SetFont('Arial','',9);
         $this->SetXY(20,-170);
@@ -191,9 +200,19 @@ class PDF extends FPDF
         $this->SetXY(10,-163);
         $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
 
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(47,-150);
+        $this->Cell(10,10,'                              '. $this->GetName() .'                                    ',0,0,'C');
+
+        $this->SetFont('Arial','',8);
+        $this->SetXY(47,-147);
+        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
+
+
         $this->SetFont('Arial','BU',8);
         $this->SetXY(150,-175);
-        $this->Cell(10,10,'                                                                                        ',0,0,'C');
+        $this->Cell(10,10,'                                                                                                                 ',0,0,'C');
 
         $this->SetFont('Arial','',9);
         $this->SetXY(120    ,-170);
@@ -204,6 +223,14 @@ class PDF extends FPDF
         $this->SetXY(110,-163);
         $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
 
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(150,-150);
+        $this->Cell(10,10,'                              '. $this->GetName() .'                                     ',0,0,'C');
+
+        $this->SetFont('Arial','',8);
+        $this->SetXY(150,-147);
+        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
 
     }
 }
@@ -241,6 +268,7 @@ if(isset($row) and count($row) > 0)
 {
     for($i = 0; $i < 1; $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
+        $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
     }
 }
 $pdf->Output();
