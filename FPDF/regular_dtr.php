@@ -319,8 +319,8 @@ function save_file_name($filename,$date_from,$date_to)
     $time = date("h:i:sa");
     $date = date("Y-m-d");
     $userid = "0001";
-    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type)";
-    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'REG')";
+    $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type,is_filtered)";
+    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'REG','0')";
 
 
     $st = $pdo->prepare($query);

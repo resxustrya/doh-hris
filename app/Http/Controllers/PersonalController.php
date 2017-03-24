@@ -12,6 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\DtrDetails;
+use App\pdf_filename;
 use App\Work_sched;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,6 +129,8 @@ class PersonalController extends Controller
     {
         return view('print.personal');
     }
+
+
     public function filter(Request $request)
     {
         $lists = null;
@@ -179,6 +182,32 @@ class PersonalController extends Controller
     {
 
         return date('D', strtotime($datein));
+    }
+
+    public function personal_filter_dtrlist(Request $request)
+    {
+
+        $lists = pdf_filename::where('is_filtered','1')
+                            ->where('empid', Auth::user()->userid)
+                            ->orderBy('date_created','ASC')
+                            ->paginate(20);
+        return view('dtr.personal_filter_list')->with('lists',$lists);
+    }
+    public function save_filtered(Request $request)
+    {
+
+        $pdf = new pdf_filename();
+        $pdf->date_from = $request->input('date_from');
+        $pdf->date_to = $request->input('date_to');
+        $pdf->type = Auth::user()->emptype;
+        $pdf->empid = Auth::user()->userid;
+        $pdf->is_filtered = "1";
+        $pdf->date_created =   date("Y-m-d");
+        $pdf->time_created = date("h:i:sa");
+
+        $pdf->save();
+
+        return redirect('personal/dtr/filter/list');
     }
     public static function get_time($datein)
     {

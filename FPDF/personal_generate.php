@@ -14,7 +14,6 @@ $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
 
 
-
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -23,6 +22,7 @@ ini_set('max_input_time','300000');
 class PDF extends FPDF
 {
 
+    private $empname = "";
 // Page header
     function form($name,$userid,$date_from,$date_to)
     {
@@ -37,10 +37,10 @@ class PDF extends FPDF
         $this->SetFont('Arial','',8);
         $this->SetX(10);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
-        $this->SetX(60);
+        $this->SetX(70);
         $this->Cell(40,10,'Printed : '. date('Y-m-d'),0);
 
-        $this->SetX(120);
+        $this->SetX(112);
         $this->Cell(40,10,'Civil Service Form No. 43',0);
         $this->SetX(-40);
         $this->Cell(40,10,'Printed : '.date('Y-m-d') ,0);
@@ -50,9 +50,9 @@ class PDF extends FPDF
         $this->SetXY(35,15);
         $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-        $this->SetFont('Arial','B',10);
-        $this->SetXY(10,22);
-        $this->Cell(40,10,'Name : '.$name,0);
+        $this->SetFont('Arial','BU',10);
+        $this->SetXY(25,22);
+        $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
 
         $this->SetFont('Arial','',10);
         $this->SetXY(10,28);
@@ -69,16 +69,15 @@ class PDF extends FPDF
 
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(145,15);
+        $this->SetXY(135,15);
         $this->Cell(40,10,'DAILY TIME RECORD',0);
 
-        $this->SetFont('Arial','B',10);
-        $this->SetXY(120,22);
-        $this->SetFillColor(200,220,255);
-        $this->Cell(40,10,'Name : '.$name,0);
+        $this->SetFont('Arial','BU',10);
+        $this->SetXY(135,22);
+        $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(120,28);
+        $this->SetXY(112,28);
         $this->Cell(40,10,'For the month of',0);
 
         $this->SetFont('Arial','',10);
@@ -86,29 +85,31 @@ class PDF extends FPDF
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
         $this->SetFont('Arial','',10);
-        $this->SetXY(120,33);
+        $this->SetXY(112,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
-
 
 
         $this->SetFont('Arial','',9);
         $this->SetXY(10,42);
-        $this->Cell(89,8,'                     AM                             PM              UNDERTIME',1);
+        $this->Cell(89,5,'                     AM                             PM              UNDERTIME',1);
 
 
         $this->SetFont('Arial','',7.5);
-        $this->SetXY(10,50);
-        $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
+        $this->SetXY(10,47);
+        $this->Cell(89,5,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
 
         $this->SetFont('Arial', '', 7.5);
-        $this->SetXY(10,65);
+        $this->SetXY(10,54);
 
         $w = array(10,15,15,15,15);
         $index = 0;
         $log_date = "";
         $log = "";
 
+
+
         $logs = get_logs($userid,$date_from,$date_to);
+
 
 
         if(isset($logs) and count($logs))
@@ -134,8 +135,6 @@ class PDF extends FPDF
                     $pm_in = $log['pm_in'];
                     $pm_out = $log['pm_out'];
 
-                    // $late = personal::late($am_in, $pm_in);
-                    // $ut = personal::undertime($am_out,$pm_out);
                 } else {
                     $am_in = '';
                     $am_out = '';
@@ -146,48 +145,113 @@ class PDF extends FPDF
                 }
 
 
-                $this->Cell(5,6,$r1,'');
-                $this->Cell(7,6,$day_name,'');
-                $this->Cell($w[1],6,$am_in,'');
-                $this->Cell($w[1],6,$am_out,'');
-                $this->Cell($w[2],6,$pm_in,'',0,'R');
-                $this->Cell($w[3],6,$pm_out,'',0,'R');
+                $this->Cell(5,5,$r1,'');
+                $this->Cell(7,5,$day_name,'');
+                $this->Cell($w[1],5,$am_in,'');
+                $this->Cell($w[1],5,$am_out,'');
+                $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->Cell($w[3],5,$pm_out,'',0,'R');
 
-                $this->Cell(37);
-                $this->Cell(5,6,$r1,'');
-                $this->Cell(7,6,$day_name,'');
-                $this->Cell($w[1],6,$am_in,'');
-                $this->Cell($w[1],6,$am_out,'');
-                $this->Cell($w[2],6,$pm_in,'',0,'R');
-                $this->Cell($w[3],6,$pm_out,'',0,'R');
+                $this->Cell(30);
+                $this->Cell(5,5,$r1,'');
+                $this->Cell(7,5,$day_name,'');
+                $this->Cell($w[1],5,$am_in,'');
+                $this->Cell($w[1],5,$am_out,'');
+                $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->Cell($w[3],5,$pm_out,'',0,'R');
 
                 $this->Ln();
             }
         }
 
         $this->SetFont('Arial','',9);
-        $this->SetXY(120,42);
-        $this->Cell(89,8,'                     AM                              PM              UNDERTIME',1);
+        $this->SetXY(112,42);
+        $this->Cell(89,5,'                     AM                              PM              UNDERTIME',1);
 
         $this->SetFont('Arial','',7.5);
-        $this->SetXY(120,50);
-        $this->Cell(89,8,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
-
-
+        $this->SetXY(112,47);
+        $this->Cell(89,5,'  DAY     ARRIVAL | DEPARTURE   ARRIVAL | DEPARTURE   LATE | UT',1);
         $this->Ln(500);
 
 
     }
 
+    function SetEmpname($empname)
+    {
+        $this->empname = $empname;
+    }
+    function GetName()
+    {
+        return $this->empname;
+    }
 
 // Page footer
     function Footer()
     {
-        $this->SetY(-15);
-        $this->SetFont('Arial','I',8);
-        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(47,-175);
+        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
+
+        $this->SetFont('Arial','',9);
+        $this->SetXY(20,-170);
+        $this->Cell(10,10,'TOTAL',0,0,'C');
+
+        $this->SetFont('Arial','',7);
+        $this->SetXY(10,-163);
+        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(47,-150);
+        $this->Cell(10,10,'                              '. $this->GetName() .'                                    ',0,0,'C');
+
+        $this->SetFont('Arial','',8);
+        $this->SetXY(47,-146);
+        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(47,-139);
+        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
+
+        $this->SetFont('Arial','',8);
+        $this->SetXY(47,-135);
+        $this->Cell(10,10,'IN-CHARGE',0,0,'C');
+
+
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(150,-175);
+        $this->Cell(10,10,'                                                                                                                 ',0,0,'C');
+
+        $this->SetFont('Arial','',9);
+        $this->SetXY(120    ,-170);
+        $this->Cell(10,10,'TOTAL',0,0,'C');
+
+
+        $this->SetFont('Arial','',7);
+        $this->SetXY(110,-163);
+        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(150,-150);
+        $this->Cell(10,10,'                              '. $this->GetName() .'                                     ',0,0,'C');
+
+        $this->SetFont('Arial','',8);
+        $this->SetXY(150,-146);
+        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
+
+
+        $this->SetFont('Arial','BU',8);
+        $this->SetXY(150,-139);
+        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
+
+        $this->SetFont('Arial','',8);
+        $this->SetXY(150,-135);
+        $this->Cell(10,10,'IN-CHARGE',0,0,'C');
     }
 }
+
 
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
@@ -205,8 +269,8 @@ if(isset($_GET['id']) and isset($_GET['userid'])) {
       $date_from = $row[0]['date_from'];
       $date_to = $row[0]['date_to'];
       $pdf->form($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname'], $emp[0]['userid'], $date_from, $date_to);
+      $pdf->SetEmpname($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
       $pdf->SetTitle($emp[0]['fname'] . ' ' . $emp[0]['lname'] . ' ' . $emp[0]['mname']);
-
   }
 }
 

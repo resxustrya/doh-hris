@@ -45,7 +45,7 @@ Route::get('dtr/list/jo', 'GenerateDTRController@list_jo_dtr');
 Route::get('dtr/list/regular', 'GenerateDTRController@list_regular_dtr');
 Route::get('dtr/download/{id}', 'GenerateDTRController@download_dtr');
 Route::get('/personal/dtr/list', 'GenerateDTRController@personal_dtrlist');
-Route::get('/personal/dtr/filter/list','GenerateDTRController@personal_filter_dtrlist');
+Route::get('/personal/dtr/filter/list','PersonalController@personal_filter_dtrlist');
 //FOR PERSONAL ROUTE GROUP
 
 Route::get('personal/home', function() {
@@ -64,7 +64,7 @@ Route::get('personal/index', 'PersonalController@index');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
 Route::post('personal/filter', 'PersonalController@emp_filtered');
-
+Route::post('personal/filter/save', 'PersonalController@save_filtered');
 
 
 

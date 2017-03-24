@@ -138,11 +138,19 @@ if(isset($lists) and count($lists) > 0) {
             </tbody>
         </table>
     </div>
-
 @else
     <div class="alert alert-danger" role="alert">DTR records are empty.</div>
 @endif
-<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<div class="modal-footer">
+    <form action="{{ asset('personal/filter/save') }}" method="POST">
+        <input type="hidden" name="date_from" value="{{ $date_from }}" />
+        <input type="hidden" name="date_to" value="{{ $date_to }}" />
+        {{ csrf_field() }}
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+        <button type="submit" href="{{ asset('') }}" class="btn btn-success"><i class="fa fa-barcode"></i> Save</button>
+    </form>
+
+</div>
 
 
 

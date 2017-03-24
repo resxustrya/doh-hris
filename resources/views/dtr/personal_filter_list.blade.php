@@ -24,7 +24,6 @@
                                     <thead>
                                     <tr>
                                         <th>Report ID</th>
-                                        <th>Filename</th>
                                         <th>Date Generated</th>
                                         <th>Time Generated</th>
                                         <th><i class="fa fa-cog" aria-hidden="true"></i></th>
@@ -34,11 +33,10 @@
                                     @foreach($lists as $list)
                                         <tr>
                                             <td>{{ $list->id }}</td>
-                                            <td>{{ $list->filename }}</td>
                                             <td>{{ $list->date_created }} </td>
                                             <td>{{ $list->time_created }} </td>
                                             <td>
-                                                <a class="btn btn-success" href="{{ asset('').'/FPDF/pdf-files/'.$list->filename }}">View</a>
+                                                <a class="btn btn-success" href="{{ asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid ) }}">View</a>
                                             </td>
                                         </tr>
                                     @endforeach

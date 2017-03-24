@@ -21,6 +21,8 @@ class GeneratedPdf extends Migration
             $table->time('time_created');
             $table->string('type')->nullable();
             $table->string('generated',10)->nullable();
+            $table->string('is_filtered',10)->nullable();
+            $table->string('empid', 10)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

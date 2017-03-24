@@ -138,11 +138,20 @@ if(isset($lists) and count($lists) > 0) {
             </tbody>
         </table>
     </div>
-
 <?php else: ?>
     <div class="alert alert-danger" role="alert">DTR records are empty.</div>
 <?php endif; ?>
-<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<div class="modal-footer">
+    <form action="<?php echo e(asset('personal/filter/save')); ?>" method="POST">
+        <input type="hidden" name="date_from" value="<?php echo e($date_from); ?>" />
+        <input type="hidden" name="date_to" value="<?php echo e($date_to); ?>" />
+        <?php echo e(csrf_field()); ?>
+
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+        <button type="submit" href="<?php echo e(asset('')); ?>" class="btn btn-success"><i class="fa fa-barcode"></i> Save</button>
+    </form>
+
+</div>
 
 
 

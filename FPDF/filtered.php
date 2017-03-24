@@ -11,7 +11,8 @@ $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
 //require('dbconn.php');
 
-
+echo "Hello World";
+exit();
 
 
 require('fpdf.php');
@@ -393,7 +394,7 @@ function save_file_name($filename,$date_from,$date_to)
     $date = date("Y-m-d");
     $userid = "0001";
     $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type,is_filtered)";
-    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'JO','0')";
+    $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'JO','1')";
 
 
     $st = $pdo->prepare($query);
