@@ -48,7 +48,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','B',10);
         $this->SetXY(10,22);
-        $this->Cell(40,10,'Name : '.$name,0);
+        $this->Cell(40,10,'Name : '.$name,1,1,'C');
 
         $this->SetFont('Arial','',10);
         $this->SetXY(10,28);
@@ -70,7 +70,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','B',10);
         $this->SetXY(120,22);
-        $this->SetFillColor(200,220,255);
+
         $this->Cell(40,10,'Name : '.$name,0);
 
         $this->SetFont('Arial','',10);

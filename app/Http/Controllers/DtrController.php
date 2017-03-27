@@ -37,10 +37,16 @@ class DtrController extends Controller
                 $dtr = file_get_contents($file);
                 $data = explode(PHP_EOL,$dtr);
                 for($i = 1; $i < count($data); $i++) {
-                    try{
+                    try
+                    {
                         $employee = explode(',', $data[$i]);
                         $details = new DtrDetails();
-                        if(! ((isset($employee[0]) and $employee[0] == 'Unknown User') and ( isset($employee[1]) and $employee[1] == "" or $employee[1] == null))){
+
+                        $id = trim($employee[0], "\" ");
+                        $id = ltrim($id, "\" ");
+
+
+                        if($id != 'Unknown User'){
                             $details->userid = array_key_exists(0, $employee) == true ? trim($employee[0], "\" ") : null;
                             $details->firstname = array_key_exists(1, $employee) == true ? trim($employee[1], "\" ") : null;
                             $details->lastname = array_key_exists(2, $employee) == true ? trim($employee[2], "\" ") : null;
@@ -86,8 +92,16 @@ class DtrController extends Controller
                                 $user->userid = $details->userid;
                                 $user->username = $details->userid;
                                 $user->password = Hash::make($details->userid);
+
                                 $user->usertype = 0;
+
+                                if(strlen($id)> 5) {
+                                    $user->emptype = 'REG';
+                                } else {
+                                    $user->emptype = 'JO';
+                                }
                                 $user->save();
+
                             }
                         }
                     } catch (Exception $ex) {
@@ -95,7 +109,7 @@ class DtrController extends Controller
                         continue;
                     }
                 }
-                return redirect('index');
+               return redirect('index');
             }
         }
     }

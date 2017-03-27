@@ -15,7 +15,6 @@ class PDF extends FPDF
     {
 
 
-
         $this->SetFont('Arial','',9);
         $this->SetXY(10,42);
         $this->Cell(89,8,'                     AM                             PM              UNDERTIME',1);
@@ -73,9 +72,7 @@ class PDF extends FPDF
 // Page footer
     function Footer()
     {
-        $this->SetY(-15);
-        $this->SetFont('Arial','I',8);
-        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+
     }
 }
 

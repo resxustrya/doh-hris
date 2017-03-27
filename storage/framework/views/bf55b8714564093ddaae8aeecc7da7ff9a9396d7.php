@@ -111,7 +111,7 @@
 </div> <!-- /container -->
 <footer class="footer">
     <div class="container">
-        <p>Copyright &copy; 2016 DOH-RO7 All rights reserved</p>
+        <p>Copyright &copy; 2017 DOH-RO7 All rights reserved</p>
     </div>
 </footer>
 <?php echo $__env->make('modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
@@ -140,6 +140,8 @@
 <!-- SELECT CHOOSEN -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
 <script>
+
+
 
 </script>
 <?php $__env->startSection('js'); ?>
