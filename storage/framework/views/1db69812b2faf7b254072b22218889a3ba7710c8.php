@@ -22,7 +22,7 @@
                                     <thead>
                                     <tr>
                                         <th>Report ID</th>
-                                        <th>Filename</th>
+                                        <th>Inclusive Dates</th>
                                         <th>Date Generated</th>
                                         <th>Time Generated</th>
                                         <th><i class="fa fa-cog" aria-hidden="true"></i></th>
@@ -32,8 +32,8 @@
                                     <?php foreach($lists as $list): ?>
                                         <tr>
                                             <td><?php echo e($list->id); ?></td>
-                                            <td><?php echo e($list->filename); ?></td>
-                                            <td><?php echo e($list->date_created); ?> </td>
+                                            <td><?php echo e(date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to ))); ?></td>
+                                            <td><?php echo e(date("M-d-y",strtotime($list->date_created))); ?> </td>
                                             <td><?php echo e($list->time_created); ?> </td>
                                             <td>
                                                 <a class="btn btn-success" href="<?php echo e(asset('').'/FPDF/pdf-files/'.$list->filename); ?>">View</a>

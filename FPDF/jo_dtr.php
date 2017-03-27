@@ -54,15 +54,15 @@ class PDF extends FPDF
         $this->SetXY(25,22);
         $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(10,28);
         $this->Cell(40,10,'For the month of',0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(60,28);
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(10,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
 
@@ -76,15 +76,15 @@ class PDF extends FPDF
         $this->SetXY(135,22);
         $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(112,28);
         $this->Cell(40,10,'For the month of',0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(170,28);
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(112,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
 
@@ -288,17 +288,14 @@ if(isset($row) and count($row) > 0)
         $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
     }
 }
-$pdf->Output();
 
 
-
-/*$time = rand(1,1000);
+$time = rand(1,1000);
 
 $filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 $file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 save_file_name($file,$date_from,$date_to);
 $pdf->Output($filename,'F');
-
 
 
 
@@ -308,7 +305,7 @@ $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
 
 header('Location:'.$address);
-exit();*/
+exit();
 
 
 function get_logs($id,$date_from,$date_to)

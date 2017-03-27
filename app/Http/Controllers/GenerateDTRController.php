@@ -22,8 +22,9 @@ class GenerateDTRController extends Controller
     public function list_jo_dtr(Request $request)
     {
         $lists = pdf_filename::where('type','JO')
-            ->orderBy('date_created', 'ASC')
-            ->paginate(20);
+                                ->where('is_filtered','!=','1')
+                                ->orderBy('date_created', 'ASC')
+                                ->paginate(20);
         return view('dtr.dtr_list_jo')->with('lists', $lists);
     }
 
