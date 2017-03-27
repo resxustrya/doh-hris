@@ -67,7 +67,6 @@
                                         <td>{{ $list->terminal }}</td>
                                         <td>
                                             <a class="btn btn-default" href="{{ asset('edit/attendance/' .$list->dtr_id) }}">Edit</a>
-                                            <button class="btn btn-danger" onclick="delete_time('{{ $list->dtr_id }}');">Delete</button>
                                         </td>
                                     </tr>
                                 @endforeach
