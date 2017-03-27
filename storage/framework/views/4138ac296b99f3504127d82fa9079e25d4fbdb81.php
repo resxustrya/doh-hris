@@ -122,7 +122,7 @@
                                 <div class="modal-footer">
                                     <a href="<?php echo e(asset('/form/so_list')); ?>" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
                                     <button type="submit" class="btn btn-info" style="color: white" ><i class="fa fa-edit"></i> Update</button>
-                                    <button type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</button>
+                                    <a href="<?php echo e(asset('/form/so_pdf')); ?>" target="_blank" type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</a>
                                 </div>
                             </div>
                         </form>

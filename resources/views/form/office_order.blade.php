@@ -39,7 +39,7 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="subject" class="form-control" required /></td>
+                                        <td class="col-sm-8"><textarea name="subject" class="form-control" style="resize:none;" required></textarea></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">

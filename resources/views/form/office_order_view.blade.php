@@ -40,7 +40,7 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="subject" value="{{ $office_order->subject }}" class="form-control" required /></td>
+                                        <td class="col-sm-8"><textarea name="subject" class="form-control" style="resize:none;" required>{{ $office_order->subject }}</textarea></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
@@ -120,7 +120,7 @@
                                 <div class="modal-footer">
                                     <a href="{{ asset('/form/so_list') }}" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
                                     <button type="submit" class="btn btn-info" style="color: white" ><i class="fa fa-edit"></i> Update</button>
-                                    <button type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</button>
+                                    <a href="{{ asset('/form/so_pdf') }}" target="_blank" type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</a>
                                 </div>
                             </div>
                         </form>
