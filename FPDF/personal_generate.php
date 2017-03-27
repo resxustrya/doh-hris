@@ -54,15 +54,15 @@ class PDF extends FPDF
         $this->SetXY(25,22);
         $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(10,28);
         $this->Cell(40,10,'For the month of',0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(60,28);
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(10,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
 
@@ -76,15 +76,15 @@ class PDF extends FPDF
         $this->SetXY(135,22);
         $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(112,28);
         $this->Cell(40,10,'For the month of',0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(170,28);
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(112,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
 
@@ -250,6 +250,7 @@ class PDF extends FPDF
         $this->SetXY(150,-135);
         $this->Cell(10,10,'IN-CHARGE',0,0,'C');
     }
+
 }
 
 

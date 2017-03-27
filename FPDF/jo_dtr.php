@@ -270,8 +270,23 @@ if(isset($_POST['filter_range'])) {
     $tmp = implode(',', $temp3);
     $date_to = date('Y-m-d',strtotime($tmp));
 
-}
 
+    if(!validateDate($date_from) and !validateDate($date_to)) {
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = explode('/',$_SERVER['REQUEST_URI']);
+        $protocol = 'http://';
+        $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
+
+        header('Location:'.$address);
+        exit();
+    }
+
+}
+function validateDate($date)
+{
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
 
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
