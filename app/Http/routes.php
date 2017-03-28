@@ -60,7 +60,7 @@ Route::get('personal/monthly',function() {
 });
 
 Route::get('personal/index', 'PersonalController@index');
-
+Route::get('/personal/search/filter', 'PersonalController@search_filter');
 Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
 Route::post('personal/filter', 'PersonalController@emp_filtered');
