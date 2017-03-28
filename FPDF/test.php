@@ -28,7 +28,7 @@ class PDF extends FPDF
         $this->SetXY(10,65);
 
         $w = array(10,15,15, 15, 15);
-        for($i = 0; $i < 15; $i++)
+        for($i = 1; $i <=20; $i++)
         {
 
             $this->Cell($w[0],6,'L'.$i,'');
@@ -36,8 +36,13 @@ class PDF extends FPDF
             $this->Cell($w[1],6,$i.':22:22','');
             $this->Cell($w[2],6,$i.':22:22','',0,'R');
             $this->Cell($w[3],6,$i.':22:22','',0,'R');
-
             $this->Ln();
+
+            if($i == 20 )
+            {
+                $this->SetFont('Arial','BU',9);
+                $this->Cell(10,3,$i.'                                                                    ',2,1,'R');
+            }
         }
 
 
@@ -55,7 +60,7 @@ class PDF extends FPDF
         $this->SetXY(120,65);
         $w = array(10,15,15, 15, 15);
 
-        for($i = 0; $i < 15; $i++)
+        for($i = 1; $i <= 20; $i++)
         {
             if($i > 0){
                 $this->Cell(110);
@@ -65,15 +70,12 @@ class PDF extends FPDF
             $this->Cell($w[1],6,$i.':22:22','');
             $this->Cell($w[2],6,$i.':22:22','',0,'R');
             $this->Cell($w[3],6,$i.':22:22','',0,'R');
-
             $this->Ln();
+
         }
     }
 // Page footer
-    function Footer()
-    {
 
-    }
 }
 
 
@@ -83,16 +85,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_GET['from']) and isset($_GET['to'])) {
-    $date_from = $_GET['from'];
-    $date_to = $_GET['to'];
 
-    $_from = explode('/',$date_from);
-    $_to = explode('/', $date_to);
-    $date_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
-    $date_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
-
-}
 $pdf->form();
 
 
