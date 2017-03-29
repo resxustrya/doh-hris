@@ -161,6 +161,41 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
 
                 $this->Ln();
+                if($r1 == $endday)
+                {
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',9);
+                    $this->Cell(10,6,'TOTAL',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',7);
+                    $this->MultiCell(80,2, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,10,'                                     LOURENCE                                                     ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',8);
+                    $this->SetX(50);
+                    $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',8);
+                    $this->SetX(40);
+                    $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+                    $this->Ln();
+                }
             }
         }
 

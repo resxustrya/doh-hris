@@ -161,6 +161,45 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
 
                 $this->Ln();
+                if($r1 == $endday)
+                {
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',9);
+                    $this->Cell(10,6,'TOTAL',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',7);
+                    $this->MultiCell(80,2, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,10,'                                     '. $this->GetName() .'                                                     ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',8);
+                    $this->SetX(50);
+                    $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',8);
+                    $this->SetX(40);
+                    $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+
+
+
+
+
+                }
             }
         }
 
@@ -186,70 +225,7 @@ class PDF extends FPDF
     }
 
 // Page footer
-    function Footer()
-    {
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(47,-175);
-        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
 
-        $this->SetFont('Arial','',9);
-        $this->SetXY(20,-170);
-        $this->Cell(10,10,'TOTAL',0,0,'C');
-
-        $this->SetFont('Arial','',7);
-        $this->SetXY(10,-163);
-        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(47,-150);
-        $this->Cell(10,10,'                              '. $this->GetName() .'                                    ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(47,-146);
-        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(47,-139);
-        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(47,-135);
-        $this->Cell(10,10,'IN-CHARGE',0,0,'C');
-
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(150,-175);
-        $this->Cell(10,10,'                                                                                                                 ',0,0,'C');
-
-        $this->SetFont('Arial','',9);
-        $this->SetXY(120    ,-170);
-        $this->Cell(10,10,'TOTAL',0,0,'C');
-
-
-        $this->SetFont('Arial','',7);
-        $this->SetXY(110,-163);
-        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(150,-150);
-        $this->Cell(10,10,'                              '. $this->GetName() .'                                     ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(150,-146);
-        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(150,-139);
-        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(150,-135);
-        $this->Cell(10,10,'IN-CHARGE',0,0,'C');
-    }
 
 }
 
