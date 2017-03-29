@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 use App\Leave;
+use App\Users;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -52,11 +53,19 @@ class DocumentController extends Controller
     public  function leave(Request $request)
     {
         if($request->isMethod('get')){
-            return view('form.form_leave');
+            $user = Users::where('userid','=',Auth::user()->userid)->first();
+            return view('form.form_leave')->with('user',$user);
         }
         if($request->isMethod('post')) {
 
+
             $leave = new Leave();
+
+
+
+
+
+
             $leave->userid = $request->user()->id;
             $leave->office_agency = $request->input('office_agency');
             $leave->lastname = $request->input('lastname');
@@ -64,6 +73,8 @@ class DocumentController extends Controller
             $leave->middlename = $request->input('middlename');
             $date_filling = explode('/', $request->input('date_filling'));
             $leave->date_filling = $date_filling[2].'-'.$date_filling[0].'-'.$date_filling[1];
+
+
             $leave->position = $request->input('position');
             $leave->salary = $request->input('salary');
             $leave->leave_type = $request->input('leave_type');
@@ -76,13 +87,21 @@ class DocumentController extends Controller
             $leave->out_patient_specify = $request->input('out_patient_specify');
             $leave->applied_num_days = $request->input('applied_num_days');
 
-            $inc_from = explode('/', $request->input('inc_from'));
-            $leave->inc_from = $inc_from[2].'-'.$inc_from[0].'-'.$inc_from[1];
 
-            $inc_to = explode('/', $request->input('inc_to'));
-            $leave->inc_to = $inc_to[2].'-'.$inc_to[0].'-'.$inc_to[1];
+            $temp1 = explode('-',$request->input('inc_date'));
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $date_from = date('Y-m-d',strtotime($tmp));
+
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $date_to = date('Y-m-d',strtotime($tmp));
+
+            $leave->inc_from = $date_from;
+            $leave->inc_to = $date_to;
+
+
             $leave->com_requested = $request->input('com_requested');
-
             $credit_date = explode('/', $request->input('credit_date'));
             $leave->credit_date = $credit_date[2].'-'.$credit_date[0].'-'.$credit_date[1];
             $leave->vication_total = $request->input('vication_total');
@@ -134,13 +153,24 @@ class DocumentController extends Controller
             $leave->out_patient_specify = $request->input('out_patient_specify');
             $leave->applied_num_days = $request->input('applied_num_days');
 
-            $leave->inc_from = $request->input('inc_from');
+
+            $temp1 = explode('-',$request->input('inc_date'));
+            $temp2 = array_slice($temp1, 0, 1);
+            $tmp = implode(',', $temp2);
+            $date_from = date('Y-m-d',strtotime($tmp));
+
+            $temp3 = array_slice($temp1, 1, 1);
+            $tmp = implode(',', $temp3);
+            $date_to = date('Y-m-d',strtotime($tmp));
+
+            $leave->inc_from = $date_from;
+            $leave->inc_to = $date_to;
 
 
-            $leave->inc_to =$request->input('inc_to');
+            return $leave->inc_from . " : " . $leave->inc_to;
+
+
             $leave->com_requested = $request->input('com_requested');
-
-
             $leave->credit_date = $request->input('credit_date');
             $leave->vication_total = $request->input('vication_total');
             $leave->sick_total = $request->input('sick_total');

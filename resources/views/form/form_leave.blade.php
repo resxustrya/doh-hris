@@ -21,19 +21,19 @@
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">(2.)  Last Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="lastname">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="lastname" value="{{ $user->lname }}">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">First Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="firstname">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="firstname" value="{{ $user->fname }}">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group has-success">
                                         <label class="control-label" for="inputSuccess1">Middle Name</label>
-                                        <input type="text" class="form-control" id="inputSuccess1" name="middlename">
+                                        <input type="text" class="form-control" id="inputSuccess1" name="middlename" value="{{ $user->mname }}">
                                     </div>
                                 </div>
                             </div>
@@ -141,12 +141,11 @@
                                         <input type="text" name="applied_num_days" />
                                         <div class="form-group">
                                             <label class="control-label" for="inputSuccess1">Inclusive Dates :</label>
-                                            <div class="input-group input-daterange">
-                                                <span class="input-group-addon">From</span>
-                                                <input type="text" class="form-control" name="inc_from" value="2012-04-05">
-                                                <span class="input-group-addon">To</span>
-                                                <input type="text" class="form-control" name="inc_to" value="2012-04-19">
-                                                <span class="input-group-addon"></span>
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control" id="inc_date" name="inc_date" placeholder="Input date range here..." required>
                                             </div>
                                         </div>
                                     </div>
@@ -403,5 +402,6 @@
         $('.input-daterange input').each(function() {
             $(this).datepicker("clearDates");
         });
+        $('#inc_date').daterangepicker();
     </script>
 @endsection

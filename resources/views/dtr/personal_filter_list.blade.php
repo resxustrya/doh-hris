@@ -24,16 +24,19 @@
                                     <thead>
                                     <tr>
                                         <th>Report ID</th>
+                                        <th>Inclusive Dates</th>
                                         <th>Date Generated</th>
                                         <th>Time Generated</th>
                                         <th><i class="fa fa-cog" aria-hidden="true"></i></th>
+                                    </tr>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($lists as $list)
                                         <tr>
                                             <td>{{ $list->id }}</td>
-                                            <td>{{ $list->date_created }} </td>
+                                            <td>{{ date("M-d-y",strtotime($list->date_from ))." to ".date("M-d-y",strtotime($list->date_to )) }}</td>
+                                            <td>{{ date("M-d-y",strtotime($list->date_created)) }} </td>
                                             <td>{{ $list->time_created }} </td>
                                             <td>
                                                 <a class="btn btn-success" href="{{ asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid) }}">View</a>

@@ -14,7 +14,6 @@ class PDF extends FPDF
     function form()
     {
 
-
         $this->SetFont('Arial','',9);
         $this->SetXY(10,42);
         $this->Cell(89,8,'                     AM                             PM              UNDERTIME',1);
@@ -27,18 +26,6 @@ class PDF extends FPDF
         $this->SetFont('Arial', '', 7.5);
         $this->SetXY(10,65);
 
-        $w = array(10,15,15, 15, 15);
-        for($i = 0; $i < 15; $i++)
-        {
-
-            $this->Cell($w[0],6,'L'.$i,'');
-            $this->Cell($w[1],6,$i.':22:22','');
-            $this->Cell($w[1],6,$i.':22:22','');
-            $this->Cell($w[2],6,$i.':22:22','',0,'R');
-            $this->Cell($w[3],6,$i.':22:22','',0,'R');
-
-            $this->Ln();
-        }
 
 
 
@@ -55,25 +42,93 @@ class PDF extends FPDF
         $this->SetXY(120,65);
         $w = array(10,15,15, 15, 15);
 
-        for($i = 0; $i < 15; $i++)
+        for($i = 1; $i <= 15; $i++)
         {
-            if($i > 0){
-                $this->Cell(110);
-            }
+
             $this->Cell($w[0],6,'R'.$i,'');
+            $this->Cell($w[1],6,$i.':22:22','');
             $this->Cell($w[1],6,$i.':22:22','');
             $this->Cell($w[1],6,$i.':22:22','');
             $this->Cell($w[2],6,$i.':22:22','',0,'R');
             $this->Cell($w[3],6,$i.':22:22','',0,'R');
 
+
+            $this->Cell(30);
+            $this->Cell($w[0],6,'R'.$i,'');
+            $this->Cell($w[1],6,$i.':22:22','');
+            $this->Cell($w[1],6,$i.':22:22','');
+            $this->Cell($w[2],6,$i.':22:22','',0,'R');
+            $this->Cell($w[3],6,$i.':22:22','',0,'R');
             $this->Ln();
+
+            if($i == 15)
+            {
+                $this->SetFont('Arial','BU',8);
+                $this->SetX(50);
+                $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+
+                $this->SetX(160);
+                $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                $this->Ln();
+
+                $this->SetFont('Arial','',9);
+                $this->Cell(10,7,'TOTAL',0,0,'C');
+
+                $this->SetX(120);
+                $this->Cell(10,7,'TOTAL',0,0,'C');
+                $this->Ln();
+
+                $this->SetFont('Arial','',7);
+                $this->SetX(45);
+                $this->Cell(10,3,'      I CERTIFY on my honor that the above entry is true and correct report',0,0,'C');
+                $this->SetX(155);
+                $this->Cell(10,3,'      I CERTIFY on my honor that the above entry is true and correct report',0,0,'C');
+                $this->Ln();
+                $this->SetX(40);
+                $this->Cell(10,3,'              of the hours work performed, record of which was made daily at the time',0,0,'C');
+                $this->SetX(150);
+                $this->Cell(10,3,'              of the hours work performed, record of which was made daily at the time',0,0,'C');
+                $this->Ln();
+                $this->SetX(25);
+                $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+                $this->SetX(135);
+                $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+                $this->Ln();
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetX(50);
+                $this->Cell(5,10,'                                     LOURENCE                                                     ',0,0,'C');
+                $this->SetX(160);
+                $this->Cell(5,10,'                                     LOURENCE                                                     ',0,0,'C');
+                $this->Ln();
+
+                $this->SetFont('Arial','',8);
+                $this->SetX(50);
+                $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                $this->SetX(160);
+                $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                $this->Ln();
+
+                $this->SetFont('Arial','BU',8);
+                $this->SetX(50);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                $this->SetX(160);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                $this->Ln();
+
+                $this->SetFont('Arial','',8);
+                $this->SetX(40);
+                $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+                $this->SetX(150);
+                $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+            }
+
+
+
         }
     }
 // Page footer
-    function Footer()
-    {
 
-    }
 }
 
 
@@ -83,16 +138,7 @@ $pdf->AddPage();
 $pdf->SetFont('Arial','',12);
 $date_from = '';
 $date_to = '';
-if(isset($_GET['from']) and isset($_GET['to'])) {
-    $date_from = $_GET['from'];
-    $date_to = $_GET['to'];
 
-    $_from = explode('/',$date_from);
-    $_to = explode('/', $date_to);
-    $date_from = $_from[2].'-'.$_from[0].'-'.$_from[1];
-    $date_to = $_to[2].'-'.$_to[0].'-'.$_to[1];
-
-}
 $pdf->form();
 
 

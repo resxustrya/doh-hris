@@ -54,15 +54,15 @@ class PDF extends FPDF
         $this->SetXY(25,22);
         $this->Cell(60,10,'                  '.$name.'                  ',0,1,'C');
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(10,28);
         $this->Cell(40,10,'For the month of',0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(60,28);
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(10,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
 
@@ -76,15 +76,15 @@ class PDF extends FPDF
         $this->SetXY(135,22);
         $this->Cell(40,10,'                  '.$name.'                  ',0,1,'C');
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(112,28);
         $this->Cell(40,10,'For the month of',0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(170,28);
         $this->Cell(40,10,'ID No.  '.$userid,0);
 
-        $this->SetFont('Arial','',10);
+        $this->SetFont('Arial','',8);
         $this->SetXY(112,33);
         $this->Cell(40,10,'Official hours for (days A.M. P.M. arrival and departure)',0);
 
@@ -161,6 +161,67 @@ class PDF extends FPDF
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
 
                 $this->Ln();
+                if($r1 == $endday)
+                {
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+
+                    $this->SetX(153);
+                    $this->Cell(5,0,'                                                                                                             ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',9);
+                    $this->Cell(10,7,'TOTAL',0,0,'C');
+
+                    $this->SetX(113);
+                    $this->Cell(10,7,'TOTAL',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',7);
+                    $this->SetX(45);
+                    $this->Cell(10,3,'      I CERTIFY on my honor that the above entry is true and correct report',0,0,'C');
+                    $this->SetX(148);
+                    $this->Cell(10,3,'      I CERTIFY on my honor that the above entry is true and correct report',0,0,'C');
+                    $this->Ln();
+                    $this->SetX(40);
+                    $this->Cell(10,3,'              of the hours work performed, record of which was made daily at the time',0,0,'C');
+                    $this->SetX(144);
+                    $this->Cell(10,3,'              of the hours work performed, record of which was made daily at the time',0,0,'C');
+                    $this->Ln();
+                    $this->SetX(25);
+                    $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+                    $this->SetX(129);
+                    $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,10,'                                                                                                              ',0,0,'C');
+                    $this->SetX(153);
+                    $this->Cell(5,10,'                                                                                                              ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',8);
+                    $this->SetX(49);
+                    $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                    $this->SetX(153);
+                    $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','BU',8);
+                    $this->SetX(50);
+                    $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                    $this->SetX(153);
+                    $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                    $this->Ln();
+
+                    $this->SetFont('Arial','',8);
+                    $this->SetX(40);
+                    $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+                    $this->SetX(150);
+                    $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+                }
             }
         }
 
@@ -270,8 +331,23 @@ if(isset($_POST['filter_range'])) {
     $tmp = implode(',', $temp3);
     $date_to = date('Y-m-d',strtotime($tmp));
 
-}
 
+    if(!validateDate($date_from) and !validateDate($date_to)) {
+        $host = $_SERVER['HTTP_HOST'];
+        $uri = explode('/',$_SERVER['REQUEST_URI']);
+        $protocol = 'http://';
+        $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
+
+        header('Location:'.$address);
+        exit();
+    }
+
+}
+function validateDate($date)
+{
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
+}
 
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
@@ -288,17 +364,14 @@ if(isset($row) and count($row) > 0)
         $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
     }
 }
-$pdf->Output();
 
 
-
-/*$time = rand(1,1000);
+$time = rand(1,1000);
 
 $filename = __DIR__.'/pdf-files/'.$time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 $file =  $time.'-dtr-'.$date_from .'-'.$date_to.'_.pdf';
 save_file_name($file,$date_from,$date_to);
 $pdf->Output($filename,'F');
-
 
 
 
@@ -308,7 +381,7 @@ $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/dtr/list/jo';
 
 header('Location:'.$address);
-exit();*/
+exit();
 
 
 function get_logs($id,$date_from,$date_to)
@@ -391,7 +464,6 @@ function save_file_name($filename,$date_from,$date_to)
 
     $time = date("h:i:sa");
     $date = date("Y-m-d");
-    $userid = "0001";
     $query = "INSERT INTO generated_pdf(filename,date_created,time_created,date_from,date_to,created_at,updated_at,type,is_filtered)";
     $query .= " VALUES('".$filename . "','" . $date . "','" . $time . "','". $date_from. "','".$date_to ."',NOW(),NOW(),'JO','0')";
 
