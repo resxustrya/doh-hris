@@ -420,7 +420,6 @@ function check_inclusive_name($id)
     return $row;
 }
 
-//RUSEL
 function check_calendar($route_no)
 {
     $db = conn();
