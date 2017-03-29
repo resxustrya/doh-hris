@@ -53,7 +53,7 @@
                                         <td class="col-sm-8">
                                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 @foreach($users as $row)
-                                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                                    <option value="{{ $row['username'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                                 @endforeach
                                             </select>
                                         </td>

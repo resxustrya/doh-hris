@@ -53,7 +53,7 @@
                                         <td class="col-sm-8">
                                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 <?php foreach($users as $row): ?>
-                                                    <option value="<?php echo e($row['id']); ?>"><?php echo e($row['fname'].' '.$row['mname'].' '.$row['lname']); ?></option>
+                                                    <option value="<?php echo e($row['username']); ?>"><?php echo e($row['fname'].' '.$row['mname'].' '.$row['lname']); ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </td>
