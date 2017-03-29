@@ -79,27 +79,47 @@ class PDF extends FPDF
                 $this->Ln();
 
                 $this->SetFont('Arial','',7);
-                $this->MultiCell(80,2, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
-                $this->MultiCell(80,2, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
+                $this->SetX(45);
+                $this->Cell(10,3,'      I CERTIFY on my honor that the above entry is true and correct report',0,0,'C');
+                $this->SetX(155);
+                $this->Cell(10,3,'      I CERTIFY on my honor that the above entry is true and correct report',0,0,'C');
+                $this->Ln();
+                $this->SetX(40);
+                $this->Cell(10,3,'              of the hours work performed, record of which was made daily at the time',0,0,'C');
+                $this->SetX(150);
+                $this->Cell(10,3,'              of the hours work performed, record of which was made daily at the time',0,0,'C');
+                $this->Ln();
+                $this->SetX(25);
+                $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
+                $this->SetX(135);
+                $this->Cell(10,2,'     of arrival and departure from the office.',0,0,'C');
                 $this->Ln();
 
                 $this->SetFont('Arial','BU',8);
                 $this->SetX(50);
+                $this->Cell(5,10,'                                     LOURENCE                                                     ',0,0,'C');
+                $this->SetX(160);
                 $this->Cell(5,10,'                                     LOURENCE                                                     ',0,0,'C');
                 $this->Ln();
 
                 $this->SetFont('Arial','',8);
                 $this->SetX(50);
                 $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
+                $this->SetX(160);
+                $this->Cell(10,0,'Verified as to the prescribed office hours',0,0,'C');
                 $this->Ln();
 
                 $this->SetFont('Arial','BU',8);
                 $this->SetX(50);
                 $this->Cell(5,10,'                                                                                                             ',0,0,'C');
+                $this->SetX(160);
+                $this->Cell(5,10,'                                                                                                             ',0,0,'C');
                 $this->Ln();
 
                 $this->SetFont('Arial','',8);
                 $this->SetX(40);
+                $this->Cell(10,0,'IN-CHARGE',0,0,'C');
+                $this->SetX(150);
                 $this->Cell(10,0,'IN-CHARGE',0,0,'C');
             }
 
