@@ -1,18 +1,13 @@
 
 <?php
-
-
-
 /*$host = $_SERVER['HTTP_HOST'];
 $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
-
-
 //require('dbconn.php');
 
-
+use Illuminate\Support\Facades\Session;
 
 require('fpdf.php');
 ini_set('max_execution_time', 0);
@@ -21,7 +16,6 @@ ini_set('max_input_time','300000');
 
 class PDF extends FPDF
 {
-
     private $empname = "";
 // Page header
     function form($name,$userid,$date_from,$date_to)
@@ -106,11 +100,16 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
-
-
         $logs = get_logs($userid,$date_from,$date_to);
 
-
+        $temp1 = -0;
+        $temp2 = -0;
+        $condition = -0;
+        $title = '';
+        $am_in = '';
+        $am_out = '';
+        $pm_in = '';
+        $pm_out = '';
 
         if(isset($logs) and count($logs))
         {
@@ -127,7 +126,6 @@ class PDF extends FPDF
                     }
                 }
                 $day_name = date('D', strtotime($datein));
-
                 if($datein == $log_date)
                 {
                     $am_in = $log['am_in'];
@@ -144,21 +142,48 @@ class PDF extends FPDF
                     //$ut = personal::undertime($am_out,$pm_out);
                 }
 
-
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
+
+                $am_in == '' ? ($am_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                 $this->Cell($w[1],5,$am_in,'');
+                $this->SetTextColor(0,0,0);
+
+                $am_out == '' ? ($am_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
                 $this->Cell($w[1],5,$am_out,'');
+                $this->SetTextColor(0,0,0);
+
+                $pm_in == '' ? ($pm_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->SetTextColor(0,0,0);
+
+                $pm_out == '' ? ($pm_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
+                $this->SetTextColor(0,0,0);
 
                 $this->Cell(30);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
+
+                $am_in == 'sono.1234' ? ($am_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[1],5,$am_in,'');
+                $this->SetTextColor(0,0,0);
+
+                $am_out == 'sono.1234' ? ($am_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[1],5,$am_out,'');
+                $this->SetTextColor(0,0,0);
+
+                $pm_in == 'sono.1234' ? ($pm_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->SetTextColor(0,0,0);
+
+                $pm_out == 'sono.1234' ? ($pm_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
+                $this->SetTextColor(0,0,0);
 
                 $this->Ln();
             }
@@ -379,6 +404,48 @@ function userlist($id)
     {
         echo $ex->getMessage();
         exit();
+    }
+}
+
+//RUSEL
+function check_inclusive_name($id)
+{
+    $db = conn();
+    $sql = 'SELECT * FROM inclusive_name where user_id = ?';
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($id));
+    $row = $pdo->fetchAll();
+    $db = null;
+
+    return $row;
+}
+
+//RUSEL
+function check_calendar($route_no)
+{
+    $db = conn();
+    $sql = 'SELECT * FROM calendar where route_no = ?';
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($route_no));
+    $row = $pdo->fetch();
+    $db = null;
+
+    return $row;
+}
+
+function look_calendar($datein,$userid,$temp1,$temp2){
+    $condition = floor(strtotime($datein) / (60 * 60 * 24));
+    foreach(check_inclusive_name($userid) as $check)
+    {
+        if(check_calendar($check['route_no'])) {
+            $title = check_calendar($check['route_no']);
+
+            $temp1 = floor(strtotime($title['start']) / (60 * 60 * 24));
+            $temp2 = floor(strtotime($title['end']) / (60 * 60 * 24));
+        }
+        if($condition < $temp2 and $condition > $temp1 and $title != ''){
+            return 'sono.1234';
+        }
     }
 }
 ?>

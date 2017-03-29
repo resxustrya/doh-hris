@@ -108,13 +108,14 @@
     <div class="loading"></div>
         <?php echo $__env->yieldContent('content'); ?>
     <div class="clearfix"></div>
+    <?php echo $__env->make('modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 </div> <!-- /container -->
 <footer class="footer">
     <div class="container">
         <p>Copyright &copy; 2017 DOH-RO7 All rights reserved</p>
     </div>
 </footer>
-<?php echo $__env->make('modal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
@@ -140,7 +141,7 @@
 <!-- SELECT CHOOSEN -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
 <script>
-    $('#inclusive1').daterangepicker();
+
 
 
 </script>

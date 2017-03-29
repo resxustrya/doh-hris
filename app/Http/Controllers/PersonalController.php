@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use PDO;
+use App\Http\Controllers\DocumentController;
 
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
@@ -191,7 +192,8 @@ class PersonalController extends Controller
                             ->where('empid', Auth::user()->userid)
                             ->orderBy('date_created','ASC')
                             ->paginate(20);
-        return view('dtr.personal_filter_list')->with('lists',$lists);
+
+        return view('dtr.personal_filter_list',['lists'=>$lists]);
     }
     public function save_filtered(Request $request)
     {
@@ -401,4 +403,5 @@ class PersonalController extends Controller
     {
         require('FPDF/dtr.php');
     }
+
 }

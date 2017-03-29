@@ -60,14 +60,15 @@
                                     </tr>
                                     <tbody class="p_inclusive_date">
                                         <tr>
-                                            <td class="col-sm-3"><label>Inclusive Dates </label></td>
+                                            <td class="col-sm-3"><label>Inclusive Date and Area </label></td>
                                             <td class="col-sm-1">:</td>
                                             <td class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
+                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" required>
+                                                    <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
                                                 </div>
                                             </td>
                                         </tr>

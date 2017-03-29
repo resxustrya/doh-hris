@@ -118,7 +118,7 @@ Route::get('form/info/{route}', 'DocumentController@show');
 /////////CALENDAR
 Route::get('calendar', 'CalendarController@calendar');
 Route::get('calendar_event', 'CalendarController@calendar_event');
-Route::get('example','DocumentController@getTest');
+Route::get('example','DocumentController@check_calendar');
 
 //TEST ROUTES
 Route::get('phpinfo', function() {

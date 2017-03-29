@@ -16,6 +16,7 @@ class CreateCalendar extends Migration
             $table->text('title');
             $table->text('start');
             $table->text('end');
+            $table->text('area');
             $table->text('backgroundColor');
             $table->text('borderColor');
             $table->text('status');

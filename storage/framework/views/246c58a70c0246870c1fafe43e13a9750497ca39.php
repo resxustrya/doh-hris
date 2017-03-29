@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="alert alert-jim" id="inputText">
         <h2 class="page-header">Filtered DTR</h2>
         <div class="row">
@@ -18,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        @if(isset($lists) and count($lists) >0)
+                        <?php if(isset($lists) and count($lists) >0): ?>
                             <div class="table-responsive">
                                 <table class="table table-list table-hover table-striped">
                                     <thead>
@@ -30,23 +28,24 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($lists as $list)
+                                    <?php foreach($lists as $list): ?>
                                         <tr>
-                                            <td>{{ $list->id }}</td>
-                                            <td>{{ $list->date_created }} </td>
-                                            <td>{{ $list->time_created }} </td>
+                                            <td><?php echo e($list->id); ?></td>
+                                            <td><?php echo e($list->date_created); ?> </td>
+                                            <td><?php echo e($list->time_created); ?> </td>
                                             <td>
-                                                <a class="btn btn-success" href="{{ asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid) }}">View</a>
+                                                <a class="btn btn-success" href="<?php echo e(asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid)); ?>">View</a>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
-                            {{ $lists->links() }}
-                        @else
+                            <?php echo e($lists->links()); ?>
+
+                        <?php else: ?>
                             <div class="alert alert-danger" role="alert">DTR records are empty.</div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -61,8 +60,8 @@
                 </div>
                 <div class="modal-body">
                     <div id="response"></div>
-                    <form action="{{ asset('personal/filter') }}" method="POST" id="dtr_filter">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                    <form action="<?php echo e(asset('personal/filter')); ?>" method="POST" id="dtr_filter">
+                        <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>"/>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="input-group">
@@ -96,17 +95,17 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-@endsection
-@section('plugin')
-    <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
-    <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('plugin'); ?>
+    <script src="<?php echo e(asset('resources/plugin/daterangepicker/moment.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
 
-@section('css')
-    <link href="{{ asset('resources/plugin/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet">
-@endsection
-@section('js')
-    @@parent
+<?php $__env->startSection('css'); ?>
+    <link href="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker-bs3.css')); ?>" rel="stylesheet">
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
+    @parent
     <script>
 
         $('#date_modal').click(function(){
@@ -152,7 +151,9 @@
         })();
         $('#inclusive1').daterangepicker();
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
+
+<?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

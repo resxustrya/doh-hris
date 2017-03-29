@@ -11,7 +11,7 @@ use App\Designation;
     <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
     <style>
         html {
-            margin: 30px;
+            margin: 50px;
             font-size:x-small;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
@@ -139,16 +139,24 @@ use App\Designation;
                     <td><b>Areas</b></td>
                     <td width="20%" id="border"></td>
                 </tr>
+                @foreach($inclusive_date as $row)
                 <tr>
                     <td width="20%" id="border"></td>
-                    <td>March 20, 2017</td>
-                    <td>Cebu City</td>
+                        <td>{{ date('d M Y',strtotime($row->start)).' - '.date('d M Y',strtotime($row->end)) }}</td>
+                    <td>{{ $row->area }}</td>
                     <td width="20%" id="border"></td>
                 </tr>
+                @endforeach
             </table>
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
                     <td colspan="3" id="border">{!! nl2br($office_order->footer_body) !!}</td>
+                </tr>
+                <tr>
+                    <td id="border"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" id="border"><b><u>{{ $office_order->approved_by }}</u></b><br>Director III</td>
                 </tr>
             </table>
         </div>

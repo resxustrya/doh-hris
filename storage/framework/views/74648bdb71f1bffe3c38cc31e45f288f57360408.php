@@ -68,7 +68,6 @@
                                         <td><?php echo e($list->terminal); ?></td>
                                         <td>
                                             <a class="btn btn-default" href="<?php echo e(asset('edit/attendance/' .$list->dtr_id)); ?>">Edit</a>
-                                            <button class="btn btn-danger" onclick="delete_time('<?php echo e($list->dtr_id); ?>');">Delete</button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

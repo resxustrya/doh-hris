@@ -40,7 +40,7 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="subject" value="<?php echo e($office_order->subject); ?>" class="form-control" required /></td>
+                                        <td class="col-sm-8"><textarea name="subject" class="form-control" style="resize:none;" required><?php echo e($office_order->subject); ?></textarea></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
@@ -75,7 +75,8 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control" style="width: 84%;" value="<?php echo e(date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime($row->end))); ?>" id="<?php echo e('inclusive'.$count); ?>" name="inclusive[]" placeholder="Input date range here..." required>
+                                                <input type="text" class="form-control" style="width: 40%;" value="<?php echo e(date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime($row->end))); ?>" id="<?php echo e('inclusive'.$count); ?>" name="inclusive[]" placeholder="Input date range here..." required>
+                                                <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required><?php echo e($row->area); ?></textarea>
                                                 &nbsp;
                                                 <button type="button" value="<?php echo e($count); ?>" onclick="remove($(this))" class="btn btn-danger" style="color: white" ><span class="fa fa-close"></span> remove</button>
                                             </div>
