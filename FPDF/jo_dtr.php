@@ -246,71 +246,7 @@ class PDF extends FPDF
         return $this->empname;
     }
 
-// Page footer
-    function Footer()
-    {
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(47,-175);
-        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
 
-        $this->SetFont('Arial','',9);
-        $this->SetXY(20,-170);
-        $this->Cell(10,10,'TOTAL',0,0,'C');
-
-        $this->SetFont('Arial','',7);
-        $this->SetXY(10,-163);
-        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(47,-150);
-        $this->Cell(10,10,'                              '. $this->GetName() .'                                    ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(47,-146);
-        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(47,-139);
-        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(47,-135);
-        $this->Cell(10,10,'IN-CHARGE',0,0,'C');
-
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(150,-175);
-        $this->Cell(10,10,'                                                                                                                 ',0,0,'C');
-
-        $this->SetFont('Arial','',9);
-        $this->SetXY(120    ,-170);
-        $this->Cell(10,10,'TOTAL',0,0,'C');
-
-
-        $this->SetFont('Arial','',7);
-        $this->SetXY(110,-163);
-        $this->MultiCell(80,4, '        I CERTIFY on my honor that above entry is true and correct report of the hours work performed, record of which was made daily at the time of arrival and departure from the office.');
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(150,-150);
-        $this->Cell(10,10,'                              '. $this->GetName() .'                                     ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(150,-146);
-        $this->Cell(10,10,'Verified as to the prescribed office hours',0,0,'C');
-
-
-        $this->SetFont('Arial','BU',8);
-        $this->SetXY(150,-139);
-        $this->Cell(10,10,'                                                                                                             ',0,0,'C');
-
-        $this->SetFont('Arial','',8);
-        $this->SetXY(150,-135);
-        $this->Cell(10,10,'IN-CHARGE',0,0,'C');
-    }
 }
 
 $pdf = new PDF('P','mm','A4');
@@ -359,7 +295,7 @@ $row = userlist();
 
 if(isset($row) and count($row) > 0)
 {
-    for($i = 0; $i < 1; $i++) {
+    for($i = 0; $i < count($row); $i++) {
         $pdf->form($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname'], $row[$i]['userid'], $date_from, $date_to);
         $pdf->SetEmpname($row[$i]['fname'] . ' ' . $row[$i]['lname'] . ' ' . $row[$i]['mname']);
     }
@@ -397,7 +333,7 @@ function get_logs($id,$date_from,$date_to)
     $pm_in =  explode(':',$sched[0]['pm_in']);
     $pm_out = explode(':',$sched[0]['pm_out']);
 
-    $query = "SELECT DISTINCT e.userid, datein,
+    $query = "SELECT DISTINCT e.userid, datein,d.terminal,d.remark,
 
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,

@@ -369,7 +369,7 @@ function get_logs($id,$date_from,$date_to)
     $pm_in =  explode(':',$sched[0]['pm_in']);
     $pm_out = explode(':',$sched[0]['pm_out']);
 
-    $query = "SELECT DISTINCT e.userid, datein,
+    $query = "SELECT DISTINCT e.userid, datein,d.terminal,d.remark,
 
                     (SELECT MIN(t1.time) FROM dtr_file t1 WHERE t1.userid = '". $id."' and datein = d.datein and t1.time_h < ". $am_out[0] .") as am_in,
                     (SELECT MAX(t2.time) FROM dtr_file t2 WHERE t2.userid = '". $id."' and datein = d.datein and t2.time_h < ". $pm_in[0]." AND t2.event = 'OUT') as am_out,

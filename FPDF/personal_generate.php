@@ -102,6 +102,8 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
+
+
         $logs = get_logs($userid,$date_from,$date_to);
 
         $temp1 = -0;
@@ -112,7 +114,6 @@ class PDF extends FPDF
         $am_out = '';
         $pm_in = '';
         $pm_out = '';
-
         if(isset($logs) and count($logs))
         {
             for($r1 = $startday; $r1 <= $endday; $r1++)
