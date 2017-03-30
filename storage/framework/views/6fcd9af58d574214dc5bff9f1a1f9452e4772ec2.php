@@ -8,7 +8,7 @@ use App\Designation;
 <html>
 <title>Purchase Request</title>
 <head>
-    <link href="{{ asset('resources/assets/css/print.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('resources/assets/css/print.css')); ?>" rel="stylesheet">
     <style>
         html {
             margin: 50px;
@@ -79,14 +79,14 @@ use App\Designation;
     <hr>
     <div style="position:absolute; left: 30%;" class="align">
         <?php echo DNS1D::getBarcodeHTML(Session::get('route_no'),"C39E",1,28) ?>
-        <font class="route_no">{{ Session::get('route_no') }}</font>
+        <font class="route_no"><?php echo e(Session::get('route_no')); ?></font>
     </div>
 </div>
     <body>
         <div class="new-times-roman">
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
+                    <td id="border" class="align"><img src="<?php echo e(asset('resources/img/doh.png')); ?>" width="100"></td>
                     <td width="90%" id="border">
                         <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
                             Republic of the Philippines<br>
@@ -96,26 +96,26 @@ use App\Designation;
                             Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
                         </div>
                     </td>
-                    <td id="border" class="align"><img src="{{ asset('resources/img/ro7.png') }}" width="100"></td>
+                    <td id="border" class="align"><img src="<?php echo e(asset('resources/img/ro7.png')); ?>" width="100"></td>
                 </tr>
             </table>
             <hr>
 
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td colspan="3" id="border">{{ date('d M Y',strtotime($office_order->prepared_date)) }}</td>
+                    <td colspan="3" id="border"><?php echo e(date('d M Y',strtotime($office_order->prepared_date))); ?></td>
                 </tr>
                 <tr>
                     <td colspan="3" id="border"><b>OFFICE ORDER</b></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border">No.SAMPLE 1234567{{ $office_order->so_no.'s,'.date('Y',strtotime($office_order->prepared_date)) }}</td>
+                    <td colspan="3" id="border">No.SAMPLE 1234567<?php echo e($office_order->so_no.'s,'.date('Y',strtotime($office_order->prepared_date))); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border"><b>SUBJECT:</b> <u>{{ $office_order->subject }}</u></td>
+                    <td colspan="3" id="border"><b>SUBJECT:</b> <u><?php echo e($office_order->subject); ?></u></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border">{!! nl2br($office_order->header_body) !!}</td>
+                    <td colspan="3" id="border"><?php echo nl2br($office_order->header_body); ?></td>
                 </tr>
                 <tr>
                     <td class="align" id="border">Name</td>
@@ -123,14 +123,14 @@ use App\Designation;
                     <td class="align" id="border">Base Station</td>
                 </tr>
                 <?php $count = 0; ?>
-                @foreach($inclusive_name as $row)
+                <?php foreach($inclusive_name as $row): ?>
                 <?php $count++; ?>
                 <tr>
-                    <td class="align" id="border">{{ $count.'.' }} Rusel T. Tayong</td>
+                    <td class="align" id="border"><?php echo e($count.'.'); ?> Rusel T. Tayong</td>
                     <td class="align" id="border">PHA/PROGRAMMER</td>
                     <td class="align" id="border">Bohol City</td>
                 </tr>
-                @endforeach
+                <?php endforeach; ?>
             </table>
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
@@ -139,24 +139,24 @@ use App\Designation;
                     <td><b>Areas</b></td>
                     <td width="20%" id="border"></td>
                 </tr>
-                @foreach($inclusive_date as $row)
+                <?php foreach($inclusive_date as $row): ?>
                 <tr>
                     <td width="20%" id="border"></td>
-                        <td>{{ date('d M Y',strtotime($row->start)).' - '.date('d M Y',strtotime($row->end)) }}</td>
-                    <td>{{ $row->area }}</td>
+                        <td><?php echo e(date('d M Y',strtotime($row->start)).' - '.date('d M Y',strtotime($row->end))); ?></td>
+                    <td><?php echo e($row->area); ?></td>
                     <td width="20%" id="border"></td>
                 </tr>
-                @endforeach
+                <?php endforeach; ?>
             </table>
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td colspan="3" id="border">{!! nl2br($office_order->footer_body) !!}</td>
+                    <td colspan="3" id="border"><?php echo nl2br($office_order->footer_body); ?></td>
                 </tr>
                 <tr>
                     <td id="border"></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border"><b><u>{{ $office_order->approved_by }}</u></b><br>Director III</td>
+                    <td colspan="3" id="border"><b><u><?php echo e($office_order->approved_by); ?></u></b><br>Director III</td>
                 </tr>
             </table>
         </div>

@@ -110,6 +110,7 @@ Route::get('pdf/leave',function() {
 Route::match(['get','post'], 'form/so', 'DocumentController@so');
 Route::match(['get','post'], 'form/so_view', 'DocumentController@so_view');
 Route::match(['get','post'], 'form/so_list', 'DocumentController@so_list');
+Route::get('form/so_pdf','DocumentController@so_pdf');
 Route::get('inclusive_name', 'DocumentController@inclusive_name');
 Route::get('so_append','DocumentController@so_append');
 Route::post('so_add','DocumentController@so_add');
@@ -117,7 +118,7 @@ Route::get('form/info/{route}', 'DocumentController@show');
 /////////CALENDAR
 Route::get('calendar', 'CalendarController@calendar');
 Route::get('calendar_event', 'CalendarController@calendar_event');
-Route::get('example','DocumentController@getTest');
+Route::get('example','DocumentController@check_calendar');
 
 //TEST ROUTES
 Route::get('phpinfo', function() {

@@ -40,7 +40,7 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="subject" value="{{ $office_order->subject }}" class="form-control" required /></td>
+                                        <td class="col-sm-8"><textarea name="subject" class="form-control" style="resize:none;" required>{{ $office_order->subject }}</textarea></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
@@ -56,7 +56,7 @@
                                         <td class="col-sm-8">
                                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 @foreach($users as $row)
-                                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                                    <option value="{{ $row['username'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -74,7 +74,8 @@
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control" style="width: 84%;" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime($row->end)) }}" id="{{ 'inclusive'.$count }}" name="inclusive[]" placeholder="Input date range here..." required>
+                                                <input type="text" class="form-control" style="width: 40%;" value="{{ date('m/d/Y',strtotime($row->start)).' - '.date('m/d/Y',strtotime($row->end)) }}" id="{{ 'inclusive'.$count }}" name="inclusive[]" placeholder="Input date range here..." required>
+                                                <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required>{{ $row->area }}</textarea>
                                                 &nbsp;
                                                 <button type="button" value="{{ $count }}" onclick="remove($(this))" class="btn btn-danger" style="color: white" ><span class="fa fa-close"></span> remove</button>
                                             </div>
@@ -120,7 +121,7 @@
                                 <div class="modal-footer">
                                     <a href="{{ asset('/form/so_list') }}" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
                                     <button type="submit" class="btn btn-info" style="color: white" ><i class="fa fa-edit"></i> Update</button>
-                                    <button type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</button>
+                                    <a href="{{ asset('/form/so_pdf') }}" target="_blank" type="submit" class="btn btn-danger" style="color: white" ><i class="fa fa-file"></i> Generate PDF</a>
                                 </div>
                             </div>
                         </form>

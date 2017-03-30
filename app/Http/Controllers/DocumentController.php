@@ -317,13 +317,17 @@ class DocumentController extends Controller
         Session::put('my_id',Auth::user()->id);
         $users = $this->users();
         $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
+        $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
-        $display = view('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
+        $display = view('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'inclusive_name'=>$inclusive_name]);
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHTML($display)->setPaper('a4','portrait');
 
-        return $pdf->stream();
+        if(Session::get('route_no'))
+            return $pdf->stream();
+        else
+            return redirect('/');
     }
     public function inclusive_name(){
         $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
@@ -385,6 +389,7 @@ class DocumentController extends Controller
             $so->title = $request->get('subject');
             $so->start = $start_date;
             $so->end = $end_date;
+            $so->area = $request->get('area')[$count];
             $so->backgroundColor = 'rgb(216, 27, 96)';
             $so->borderColor = 'rgb(216, 27, 96)';
             $so->status = 0;

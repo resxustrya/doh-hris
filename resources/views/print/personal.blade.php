@@ -73,7 +73,6 @@ if(isset($lists) and count($lists) > 0) {
                                             $am_out = '';
                                             $ok = false;
                                             $logs = null;
-                                            $ok = false;
                                             $index = 0;
                                             $log_date = "";
                                         ?>
