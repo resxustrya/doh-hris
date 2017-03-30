@@ -291,7 +291,7 @@ class DocumentController extends Controller
     {
         Session::put('my_id',$request->user()->id);
         if($request->isMethod('get')){
-            $users = $this->users();
+            $users = User::all();
             return view('form.office_order',['users'=>$users]);
         }
         if($request->isMethod('post')){
@@ -302,9 +302,8 @@ class DocumentController extends Controller
     {
         Session::put('my_id',$request->user()->id);
         if($request->isMethod('get')){
-            $users = $this->users();
+            $users = User::all();
             $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
-
             $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
             return view('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
         }
