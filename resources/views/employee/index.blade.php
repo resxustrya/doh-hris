@@ -40,6 +40,8 @@
                                         <th>Transaction time</th>
                                         <th>Event Type</th>
                                         <th>Terminal</th>
+                                        <th>Remarks</th>
+                                        <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -55,6 +57,10 @@
                                             <td>{{ date("h:i A", strtotime($list->time)) }}</td>
                                             <td>{{ $list->event }}</td>
                                             <td>{{ $list->terminal }}</td>
+                                            <td>{{ $list->remark }}</td>
+                                            <td>
+                                                <a class="btn btn-default" href="{{ asset('edit/personal/attendance/' .$list->dtr_id) }}">Edit</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>

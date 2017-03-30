@@ -65,7 +65,7 @@ Route::get('personal/print/monthly', 'PersonalController@print_monthly');
 Route::post('personal/print/filter' ,'PersonalController@filter');
 Route::post('personal/filter', 'PersonalController@emp_filtered');
 Route::post('personal/filter/save', 'PersonalController@save_filtered');
-
+Route::match(['get','post'], 'edit/personal/attendance/{id?}', 'PersonalController@edit_attendance');
 
 
 //DOCUMENTS
