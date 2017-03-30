@@ -56,7 +56,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',8);
         $this->SetXY(10,28);
-        $this->Cell(40,10,'For the month of',0);
+        $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
 
         $this->SetFont('Arial','',8);
         $this->SetXY(60,28);
@@ -78,7 +78,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',8);
         $this->SetXY(112,28);
-        $this->Cell(40,10,'For the month of',0);
+        $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
 
         $this->SetFont('Arial','',8);
         $this->SetXY(170,28);
