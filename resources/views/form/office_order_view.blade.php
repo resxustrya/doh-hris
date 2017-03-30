@@ -56,7 +56,7 @@
                                         <td class="col-sm-8">
                                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 @foreach($users as $row)
-                                                    <option value="{{ $row['username'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                                    <option value="{{ $row['userid'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -165,16 +165,10 @@
             $("#"+id.val()).remove();
         }
 
-        /*$.get($('#inclusive_name').data('link'),function(result){
-            var array = ['1','2','3'];
-            $('.select2').select2({}).select2('val', array);
+        $.get($('#inclusive_name').data('link'),function(result){
+            $('.select2').select2({}).select2('val', result);
             console.log(result);
-        });*/
-        //$('.select2').val([1,2,3]).change();
-        function click_onchange(){
-            console.log('haha');
-            console.log($(".select2").val());
-        }
-        console.log($('.select2').val())
+        });
+        //var array = ['0019','0031'];
     </script>
 @endsection

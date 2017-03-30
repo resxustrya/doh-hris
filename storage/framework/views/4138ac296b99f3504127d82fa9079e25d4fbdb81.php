@@ -57,7 +57,7 @@
                                         <td class="col-sm-8">
                                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 <?php foreach($users as $row): ?>
-                                                    <option value="<?php echo e($row['id']); ?>"><?php echo e($row['fname'].' '.$row['mname'].' '.$row['lname']); ?></option>
+                                                    <option value="<?php echo e($row['userid']); ?>"><?php echo e($row['fname'].' '.$row['mname'].' '.$row['lname']); ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </td>
@@ -167,17 +167,11 @@
             $("#"+id.val()).remove();
         }
 
-        /*$.get($('#inclusive_name').data('link'),function(result){
-            var array = ['1','2','3'];
-            $('.select2').select2({}).select2('val', array);
+        $.get($('#inclusive_name').data('link'),function(result){
+            $('.select2').select2({}).select2('val', result);
             console.log(result);
-        });*/
-        //$('.select2').val([1,2,3]).change();
-        function click_onchange(){
-            console.log('haha');
-            console.log($(".select2").val());
-        }
-        console.log($('.select2').val())
+        });
+        //var array = ['0019','0031'];
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
