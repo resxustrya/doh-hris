@@ -20,7 +20,7 @@
                 </ul>
             </li>
             <li class="divider"></li>
-            <li><a href="<?php echo e(url('calendar')); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
+            <li><a href="<?php echo e(url('calendar')); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Holiday</a></li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-cog"></i>&nbsp;&nbsp; Settings</a>

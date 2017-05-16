@@ -1,22 +1,20 @@
 <?php
 $total = 0;
 $item_no = 1;
-use App\Users;
-use App\Designation;
 ?>
         <!DOCTYPE html>
 <html>
-<title>Purchase Request</title>
+<title>Office Order</title>
 <head>
     <link href="<?php echo e(asset('resources/assets/css/print.css')); ?>" rel="stylesheet">
     <style>
         html {
-            margin: 50px;
+            margin-top: 10px;
+            margin-right: 50px;
+            margin-left: 50px;
+            margin-bottom: 50px;
             font-size:x-small;
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-        body {
-            margin-bottom: 50px;
         }
         #border{
             border-collapse: collapse;
@@ -61,7 +59,7 @@ use App\Designation;
             position: fixed;
         }
         .footer {
-            bottom: 45px;
+            bottom: 15px;
         }
         .pagenum:before {
             content: counter(page);
@@ -103,32 +101,34 @@ use App\Designation;
 
             <table class="letter-head" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td colspan="3" id="border"><?php echo e(date('d M Y',strtotime($office_order->prepared_date))); ?></td>
+                    <td colspan="4" id="border"><?php echo e(date('d M Y',strtotime($office_order->prepared_date))); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border"><b>OFFICE ORDER</b></td>
+                    <td colspan="4" id="border"><b>OFFICE ORDER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</b></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border">No.SAMPLE 1234567<?php echo e($office_order->so_no.'s,'.date('Y',strtotime($office_order->prepared_date))); ?></td>
+                    <td colspan="4" id="border">No.<h2 style="display: inline;"><u>&nbsp;&nbsp;&nbsp;<?php echo e(sprintf('%04u',$office_order->id)); ?>&nbsp;&nbsp;&nbsp;</u></h2><?php echo e('s,'.date('Y',strtotime($office_order->prepared_date))); ?>&nbsp;&nbsp;<b>)</b></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border"><b>SUBJECT:</b> <u><?php echo e($office_order->subject); ?></u></td>
+                    <td colspan="4" id="border"><b>SUBJECT:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><?php echo e($office_order->subject); ?></u></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border"><?php echo nl2br($office_order->header_body); ?></td>
+                    <td colspan="4" id="border"><?php echo nl2br($office_order->header_body); ?></td>
                 </tr>
                 <tr>
-                    <td class="align" id="border">Name</td>
-                    <td class="align" id="border">Designation</td>
-                    <td class="align" id="border">Base Station</td>
+                    <td width="20%" id="border"></td>
+                    <td id="border"><b>Name</b></td>
+                    <td id="border"><b>Designation</b></td>
+                    <td width="20%" id="border"></td>
                 </tr>
                 <?php $count = 0; ?>
-                <?php foreach($inclusive_name as $row): ?>
+                <?php foreach($name as $row): ?>
                 <?php $count++; ?>
                 <tr>
-                    <td class="align" id="border"><?php echo e($count.'.'); ?> Rusel T. Tayong</td>
-                    <td class="align" id="border">PHA/PROGRAMMER</td>
-                    <td class="align" id="border">Bohol City</td>
+                    <td width="20%" id="border"></td>
+                    <td id="border"><?php echo e($count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname']); ?></td>
+                    <td id="border"><?php echo e(\App\Http\Controllers\DocumentController::designation_search($row['designation'])['description']); ?></td>
+                    <td width="20%" id="border"></td>
                 </tr>
                 <?php endforeach; ?>
             </table>
@@ -142,7 +142,7 @@ use App\Designation;
                 <?php foreach($inclusive_date as $row): ?>
                 <tr>
                     <td width="20%" id="border"></td>
-                        <td><?php echo e(date('d M Y',strtotime($row->start)).' - '.date('d M Y',strtotime($row->end))); ?></td>
+                    <td><?php echo e(date('M d, Y',strtotime($row->start)).' to '.date('M d, Y',strtotime('-1 day',strtotime($row->end)))); ?></td>
                     <td><?php echo e($row->area); ?></td>
                     <td width="20%" id="border"></td>
                 </tr>
@@ -156,7 +156,17 @@ use App\Designation;
                     <td id="border"></td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="border"><b><u><?php echo e($office_order->approved_by); ?></u></b><br>Director III</td>
+                    <td colspan="3" id="border">
+                        <b><u>
+                            <?php echo e($office_order->approved_by); ?>
+
+                        </u></b><br>
+                        <?php if($office_order->approved_by == 'Jaime S. Bernadas, MD, MGM, CESO III'): ?>
+                            Director IV
+                        <?php else: ?>
+                            Director III
+                        <?php endif; ?>
+                    </td>
                 </tr>
             </table>
         </div>

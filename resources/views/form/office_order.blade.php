@@ -1,15 +1,14 @@
 @extends('layouts.app')
 @section('content')
-    <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/select2/select2.min.css') }}" />
-    <script src="{{ asset('resources/plugin/select2/select2.full.min.js') }}"></script>
     <span id="so_append" data-link="{{ asset('so_append') }}"></span>
+    <span id="inclusive_name_page" data-link="{{ asset('inclusive_name_page') }}"></span>
     <div class="col-md-12 wrapper">
         <div class="alert alert-jim">
             <h3>Office Order</h3>
             <div class="container">
                 <div class="row">
                     <div class="col-md-11">
-                        <form action="{{ asset('so_add') }}" method="POST" id="form_route">
+                        <form action="{{ asset('so_add') }}" method="POST" id="form_route" class="form-submit">
                             {{ csrf_field() }}
                             <div class="table-responsive">
                                 <table class="table">
@@ -37,38 +36,38 @@
                                         <td class="col-sm-8"><input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required></td>
                                     </tr>
                                     <tr>
-                                        <td class="col-sm-3"><label>Subject</label></td>
+                                        <td class="col-sm-3"><label>Subject:</label><small style="color:red;">required field</small></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><textarea name="subject" class="form-control" style="resize:none;" required></textarea></td>
+                                        <td class="col-sm-8"><textarea name="subject" id="subject" class="form-control" style="resize:none;" required></textarea></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            <span>Header Body</span>
+                                            <span><label>Header Body:</label><small style="color:red;">required field</small></span>
                                             <textarea class="form-control" id="textarea" name="header_body" rows="8" style="resize:none;" required></textarea>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="col-sm-3"><label>Inclusive Name</label></td>
+                                        <td class="col-sm-3"><label>Inclusive Name</label><small style="color:red;">required field</small></td>
                                         <td class="col-sm-1">:</td>
                                         <td class="col-sm-8">
-                                            <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
+                                            <select class="form-control select2" id="inclusive_name" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 @foreach($users as $row)
-                                                    <option value="{{ $row['userid'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
+                                                    <option value="{{ $row['id'] }}">{{ $row['fname'].' '.$row['mname'].' '.$row['lname'] }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                     </tr>
                                     <tbody class="p_inclusive_date">
                                         <tr>
-                                            <td class="col-sm-3"><label>Inclusive Date and Area </label></td>
+                                            <td class="col-sm-3"><label>Inclusive Date and Area:</label><small style="color:red;">required</small></td>
                                             <td class="col-sm-1">:</td>
                                             <td class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" required>
-                                                    <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
+                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" readonly>
+                                                    <textarea name="area[]" id="area1" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
                                                 </div>
                                             </td>
                                         </tr>
@@ -78,31 +77,36 @@
                                         <td></td>
                                         <td id="border-top">
                                             <a onclick="add_inclusive();" href="#">
-                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date</a></p>
+                                                <p class="pull-right"><i class="fa fa-plus"></i> Add Inclusive date</p>
+                                            </a>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            <span>Footer Body</span>
+                                            <label>Entitled Body:</label><small style="color:red;">required field</small>
                                             <textarea class="form-control" id="textarea1" name="footer_body" rows="8" style="resize:none;" required></textarea>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="col-sm-3"><label>To be approve by:</label></td>
+                                        <td class="col-sm-3"><label>To be approve by:</label><small style="color:red;">required field</small></td>
                                         <td class="col-sm-1">:</td>
                                         <td class="col-sm-8">
-                                            <input type="text" name="approved_by" value="Ruben S. Siapno,MD,MPH" class="form-control" readonly/>
+                                            <select name="approved_by" id="approved_by" class="form-control" onchange="approved($(this))" required>
+                                                <option value="">Select Name</option>
+                                                <option value="Jaime S. Bernadas, MD, MGM, CESO III">Jaime S. Bernadas, MD, MGM, CESO III</option>
+                                                <option value="Ruben S. Siapno,MD,MPH">Ruben S. Siapno,MD,MPH</option>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3"><label>Designation</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" value="Director III" class="form-control" readonly/></td>
+                                        <td class="col-sm-8"><input type="text" id="director" class="form-control" readonly/></td>
                                     </tr>
                                 </table>
                                 <div class="modal-footer">
                                     <a href="{{ asset('/form/so_list') }}" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
-                                    <button type="submit" class="btn btn-success"><i class="fa fa-send"></i> Submit</button>
+                                    <button type="submit" onclick="check_textarea()" class="btn btn-success btn-submit" style="color:white"><i class="fa fa-send"></i> Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -140,6 +144,40 @@
             $.get(url,function(result){
                $(".p_inclusive_date").append(result);
             });
+        }
+
+        function remove(id){
+            $("#"+id.val()).remove();
+        }
+
+        $.get($('#inclusive_name_page').data('link'),function(result){
+            $('.select2').select2({}).select2('val', result);
+            console.log(result);
+        });
+
+        $('.form-submit').on('submit',function(){
+            $('.btn-submit').attr("disabled", true);
+        });
+
+        function approved(data){
+            if(data.val() == 'Jaime S. Bernadas, MD, MGM, CESO III')
+                $("#director").val('Director IV');
+            else if(data.val() == 'Ruben S. Siapno,MD,MPH')
+                $("#director").val('Director III');
+            else
+                $("#director").val('');
+        }
+
+        function check_textarea(){
+            //console.log($('iframe').contents().find('.wysihtml5-editor').text());
+            if($("#subject").val() && $("#inclusive_name").val() && $("#inclusive1").val() && $("#area1").val() && $("#approved_by").val()){
+                if(!$("#textarea").val() || !$("#textarea1").val()){
+                    Lobibox.alert('error', //AVAILABLE TYPES: "error", "info", "success", "warning"
+                    {
+                        msg: 'Please input all required field'
+                    });
+                }
+            }
         }
     </script>
 @endsection

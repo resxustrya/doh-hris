@@ -13,11 +13,8 @@
                     <li><a href="<?php echo e(asset('/personal/dtr/list')); ?>">Admin generated DTR</a></li>
                     <li class="divider"></li>
                     <li><a href="<?php echo e(asset('/personal/dtr/filter/list')); ?>">My filtered DTR</a></li>
-                    <li class="divider"></li>
                 </ul>
             </li>
-            <li class="divider"></li>
-            <li><a href="<?php echo e(url('calendar')); ?>"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Leave/CDO/SO</a>

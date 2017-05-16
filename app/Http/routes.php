@@ -107,18 +107,45 @@ Route::get('pdf/leave',function() {
 });
 
 /////////RUSEL
+Route::match(['get','post'], 'form/track/{route_no}', 'DocumentController@track');
+Route::match(['get','post'], 'form/sov1', 'DocumentController@sov1');
 Route::match(['get','post'], 'form/so', 'DocumentController@so');
 Route::match(['get','post'], 'form/so_view', 'DocumentController@so_view');
 Route::match(['get','post'], 'form/so_list', 'DocumentController@so_list');
 Route::get('form/so_pdf','DocumentController@so_pdf');
-Route::get('inclusive_name', 'DocumentController@inclusive_name');
+Route::get('inclusive_name_page', 'DocumentController@inclusive_name_page');
+Route::get('inclusive_name_view', 'DocumentController@inclusive_name_view');
 Route::get('so_append','DocumentController@so_append');
 Route::post('so_add','DocumentController@so_add');
+Route::post('so_addv1','DocumentController@so_addv1');
+Route::post('so_update','DocumentController@so_update');
+Route::post('so_updatev1','DocumentController@so_updatev1');
+Route::post('so_delete','DocumentController@so_delete');
 Route::get('form/info/{route}', 'DocumentController@show');
 /////////CALENDAR
-Route::get('calendar', 'CalendarController@calendar');
-Route::get('calendar_event', 'CalendarController@calendar_event');
+Route::get('calendar','CalendarController@calendar');
+Route::get('calendar_holiday','CalendarController@calendar_holiday');
+Route::post('calendar_save','CalendarController@calendar_save');
+Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
+Route::post('calendar_update','CalendarController@calendar_update');
+
 Route::get('example','DocumentController@check_calendar');
+Route::get('designation','DocumentController@designation_search');
+
+
+Route::get('pdf/v1/{size}', function($size){
+    $display = view("pdf.pdf",['size'=>$size]);
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display);
+    return $pdf->setPaper($size, 'portrait')->stream();
+});
+Route::get('pdf/track', function(){
+    $display = view("pdf.track");
+    $pdf = App::make('dompdf.wrapper');
+    $pdf->loadHTML($display);
+    return $pdf->stream();
+});
+
 
 //TEST ROUTES
 Route::get('phpinfo', function() {

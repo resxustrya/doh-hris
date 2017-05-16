@@ -20,7 +20,7 @@ class CreateOfficeOrder extends Migration
             $table->text('approved_by');
             $table->text('prepared_by');
             $table->text('prepared_date');
-            $table->text('status');
+            $table->text('version');
             $table->rememberToken();
             $table->timestamps();
         });

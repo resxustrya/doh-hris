@@ -1,3 +1,28 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="track">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:darkmagenta;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class=""><i class="fa fa-line-chart"></i> Track Document</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-form table-striped">
+                    <tr>
+                        <td class="col-sm-3"><label>Route Number</label></td>
+                        <td class="col-sm-1">:</td>
+                        <td class="col-sm-8"><input type="text" readonly id="track_route_no" value="" class="form-control"></td>
+                    </tr>
+                </table>
+                <hr />
+                <div class="track_history"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                <button type="button" class="btn btn-success" style="background-color:darkmagenta;color:white;" onclick="window.open('{{ asset('pdf/track') }}')"><i class="fa fa-print"></i> Print</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="leave_form">
     <div class="modal-dialog modal-lg" role="document" style="width: 90%;">
@@ -52,7 +77,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="document_info">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: darkmagenta;color: white">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" >&times;</span></button>
@@ -78,12 +103,85 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="{{ asset('document/update') }}" method="post">
+                <form action="{{ asset('so_delete') }}" method="post">
                     {{ csrf_field() }}
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                     <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
                 </form>
             </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="form_type" style="z-index:999991;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: darkmagenta">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-file-pdf-o"></i> Select Form Type</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-xs-4" style="left: 10%">
+                    <a href="#document_form" data-dismiss="modal" data-link="{{ asset('form/sov1') }}" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        <i>Form V1</i>
+                    </a>
+                </div>
+                <div class="col-xs-4" style="left: 25%;">
+                    <a href="so" class="text-info">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        <i>Form V2</i>
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="document_form">
+    <div id="my_modal" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: darkmagenta">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-plus"></i> Create Document</h4>
+            </div>
+            <div class="modal_content"><center><img src="{{ asset('resources/img/spin.gif') }}" width="150" style="padding:20px;"></center></div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="paperSize" style="z-index:999991;">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: darkmagenta">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4><i class="fa fa-file-pdf-o"></i> Select Paper Size</h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/letter') }}" class="text-success" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Letter
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/a4') }}" class="text-info" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        A4
+                    </a>
+                </div>
+                <div class="col-xs-4">
+                    <a href="{{ asset('pdf/v1/legal') }}" class="text-warning" target="_blank">
+                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                        Legal
+                    </a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

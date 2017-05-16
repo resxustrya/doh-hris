@@ -50,7 +50,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',8);
         $this->SetXY(10,28);
-        $this->Cell(40,10,'For the month of',0);
+        $this->Cell(40,10,'For the month of           '.date('m-Y'),0);
 
         $this->SetFont('Arial','',8);
         $this->SetXY(60,28);
@@ -72,7 +72,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',8);
         $this->SetXY(112,28);
-        $this->Cell(40,10,'For the month of',0);
+        $this->Cell(40,10,'For the month of           '.date('m-Y'),0);
 
         $this->SetFont('Arial','',8);
         $this->SetXY(170,28);
@@ -102,8 +102,6 @@ class PDF extends FPDF
 
         $logs = get_logs($userid,$date_from,$date_to);
 
-        $temp1 = -0;
-        $temp2 = -0;
         $condition = -0;
         $title = '';
         $am_in = '';
@@ -145,22 +143,30 @@ class PDF extends FPDF
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
-                $am_in == '' ? ($am_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                $am_in == '' ? ($am_in = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
                 $this->Cell($w[1],5,$am_in,'');
                 $this->SetTextColor(0,0,0);
 
-                $am_out == '' ? ($am_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
-                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
+                $am_out == '' ? ($am_out = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
+                $text_red = false;
+                if(look_holiday($datein) and $am_in == '' and $am_out == '' and $pm_in == '' and $pm_out == '') {
+                    $am_out = look_holiday($datein);
+                    $this->SetTextColor(255,0,0);
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $text_red = true;
+                }
+                elseif($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
                 $this->Cell($w[1],5,$am_out,'');
                 $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
-                $pm_in == '' ? ($pm_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                $pm_in == '' ? ($pm_in = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
-                $pm_out == '' ? ($pm_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                $pm_out == '' ? ($pm_out = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
                 if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
@@ -169,19 +175,21 @@ class PDF extends FPDF
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
-                $am_in == 'sono.1234' ? ($am_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                look_calendar($datein,$userid) and $am_in == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[1],5,$am_in,'');
-                $this->SetTextColor(0,0,0);
 
-                $am_out == 'sono.1234' ? ($am_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                if($text_red) {
+                    $this->SetTextColor(255, 0, 0);
+                    $this->SetFont('Arial', 'I', 7.5);
+                }
+                look_calendar($datein,$userid) and $am_out == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[1],5,$am_out,'');
-                $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
-                $pm_in == 'sono.1234' ? ($pm_in = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                look_calendar($datein,$userid) and $pm_in == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
-                $this->SetTextColor(0,0,0);
 
-                $pm_out == 'sono.1234' ? ($pm_out = look_calendar($datein,$userid,$temp1,$temp2) AND $this->SetTextColor(255,0,0)) : $this->SetTextColor(0,0,0);
+                look_calendar($datein,$userid) and $pm_out == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
 
@@ -329,7 +337,6 @@ function conn()
     return $pdo;
 }
 
-
 function get_dtr($id)
 {
     $pdo = conn();
@@ -407,6 +414,22 @@ function userlist($id)
 }
 
 //RUSEL
+
+function dts_con()
+{
+    $pdo = null;
+
+    try{
+        $pdo = new PDO('mysql:host=localhost; dbname=dtsv3.0','root','');
+        $pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch (PDOException $err) {
+        $err->getMessage() . "<br/>";
+        die();
+    }
+    return $pdo;
+}
+
 function check_inclusive_name($id)
 {
     $db = conn();
@@ -419,10 +442,22 @@ function check_inclusive_name($id)
     return $row;
 }
 
-function check_calendar($route_no)
+function approved_rdard()
+{
+    $db = dts_con();
+    $sql = 'SELECT * FROM USERS where section = 36';
+    $pdo = $db->prepare($sql);
+    $pdo->execute();
+    $row = $pdo->fetchAll();
+    $db = null;
+
+    return $row;
+}
+
+function so_no($route_no)
 {
     $db = conn();
-    $sql = 'SELECT * FROM calendar where route_no = ?';
+    $sql = 'SELECT id FROM OFFICE_ORDER where route_no = ?';
     $pdo = $db->prepare($sql);
     $pdo->execute(array($route_no));
     $row = $pdo->fetch();
@@ -431,19 +466,87 @@ function check_calendar($route_no)
     return $row;
 }
 
-function look_calendar($datein,$userid,$temp1,$temp2){
-    $condition = floor(strtotime($datein) / (60 * 60 * 24));
-    foreach(check_inclusive_name($userid) as $check)
-    {
-        if(check_calendar($check['route_no'])) {
-            $title = check_calendar($check['route_no']);
+function approved_record($route_no,$received_by)
+{
+    $db = dts_con();
+    $sql = 'SELECT * FROM TRACKING_DETAILS where route_no = ? and received_by = ?';
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($route_no,$received_by));
+    $row = $pdo->fetchAll();
+    $db = null;
 
-            $temp1 = floor(strtotime($title['start']) / (60 * 60 * 24));
-            $temp2 = floor(strtotime($title['end']) / (60 * 60 * 24));
+    return $row;
+}
+
+function check_calendar($route_no)
+{
+    $db = conn();
+    $sql = 'SELECT * FROM calendar where route_no = ?';
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($route_no));
+    $row = $pdo->fetchAll();
+    $db = null;
+
+    return $row;
+}
+
+function check_holiday()
+{
+    $db = conn();
+    $sql = 'SELECT title,start,end FROM calendar where status = 1';
+    $pdo = $db->prepare($sql);
+    $pdo->execute();
+    $row = $pdo->fetchAll();
+    $db = null;
+
+    return $row;
+}
+
+function look_holiday($datein){
+    $condition = floor(strtotime($datein) / (60 * 60 * 24));
+    foreach(check_holiday() as $holiday) {
+        if($holiday){
+            $holiday_start = floor(strtotime($holiday['start']) / (60 * 60 * 24));
+            $holiday_end = floor(strtotime($holiday['end']) / (60 * 60 * 24));
         }
-        if($condition < $temp2 and $condition > $temp1 and $title != ''){
-            return 'sono.1234';
+        if($condition >= $holiday_start and $condition < $holiday_end and $holiday['title'] != ''){
+            return $holiday['title'];
         }
     }
 }
+
+function look_calendar($datein,$userid){
+    $condition = floor(strtotime($datein) / (60 * 60 * 24));
+    foreach(check_inclusive_name(user_search($userid)['id']) as $check)
+    {
+        foreach(approved_rdard() as $record)
+        {
+            foreach(approved_record($check['route_no'],$record['id']) as $details)
+            {
+                foreach(check_calendar($details['route_no']) as $calendar){
+                    if($calendar) {
+                        $calendar_start = floor(strtotime($calendar['start']) / (60 * 60 * 24));
+                        $calendar_end = floor(strtotime($calendar['end']) / (60 * 60 * 24));
+                    }
+                    if($condition >= $calendar_start and $condition < $calendar_end and $calendar['title'] != ''){
+                        return 'sono.'.sprintf('%04d',so_no($details['route_no'])['id']);
+                    }
+                }
+            }
+        }
+    }
+}
+
+function user_search($id)
+{
+    $db= dts_con();
+    $sql="SELECT * FROM USERS WHERE USERNAME = ?";
+    $pdo = $db->prepare($sql);
+    $pdo->execute(array($id));
+    $row = $pdo->fetch();
+    $db = null;
+
+    return $row;
+}
+
 ?>

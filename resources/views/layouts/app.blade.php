@@ -30,7 +30,13 @@
     <script src="{{ asset('resources/angular/angular.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/datepicer/css/bootstrap-datepicker3.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/assets/datepicer/css/bootstrap-datepicker3.standalone.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/Lobibox old/lobibox.css') }}" />
+    {{--<link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/Lobibox/dist/css/lobibox.css') }}" />--}}
     <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
+
+    <!-- SELECT 2 -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/select2/select2.min.css') }}" />
+    <script src="{{ asset('resources/plugin/select2/select2.full.min.js') }}"></script>
     <title>
         @yield('title','Home')
     </title>
@@ -119,6 +125,9 @@
         <!-- Bootstrap core JavaScript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<!-- LOBIBOX JS -->
+<script src="{{ asset('resources/plugin/Lobibox/dist/js/Lobibox.js') }}"></script>
+<script src="{{ asset('resources/plugin/Lobibox old/Lobibox.js') }}"></script>
 <!-- DATE RANGE SELECT -->
 <script src="{{ asset('resources/plugin/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('resources/plugin/daterangepicker/daterangepicker.js') }}"></script>

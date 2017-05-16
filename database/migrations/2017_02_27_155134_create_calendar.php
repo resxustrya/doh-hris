@@ -12,6 +12,7 @@ class CreateCalendar extends Migration
         }
         Schema::create('calendar', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('event_id');
             $table->text('route_no');
             $table->text('title');
             $table->text('start');

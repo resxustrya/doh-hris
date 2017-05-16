@@ -13,11 +13,8 @@
                     <li><a href="{{ asset('/personal/dtr/list')  }}">Admin generated DTR</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ asset('/personal/dtr/filter/list') }}">My filtered DTR</a></li>
-                    <li class="divider"></li>
                 </ul>
             </li>
-            <li class="divider"></li>
-            <li><a href="{{ url('calendar') }}"><i class="fa fa-calendar"></i>&nbsp;&nbsp; Calendar</a></li>
             <li class="divider"></li>
             <li class="dropdown-submenu">
                 <a href="#" data-toggle="dropdown"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;&nbsp; Leave/CDO/SO</a>
