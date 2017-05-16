@@ -78,7 +78,7 @@
         </table>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
-            <button type="submit" class="btn btn-success btn-submit" onclick="sample();" style="color:white;"><i class="fa fa-send"></i> Submit</button>
+            <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
         </div>
     </div>
 </form>
@@ -90,14 +90,8 @@
     $(function(){
         $("body").delegate("#inclusive1","focusin",function(){
             $(this).daterangepicker();
-            $(this).attr("readonly","true");
         });
     });
-    function sample(){
-        $("body").delegate("#inclusive1","focusin",function(){
-            $(this).attr("required","true");
-        });
-    }
     var count = 1;
     function add_inclusive(){
         event.preventDefault();

@@ -44,7 +44,34 @@ class PersonalController extends Controller
             ->paginate(20);
         return view('employee.index')->with('lists',$lists);
     }
+    public function edit_attendance(Request $request,$id = null)
+    {
 
+        if($request->isMethod('get')) {
+            if(isset($id)) {
+                Session::put('dtr_id',$id);
+            }
+            $dtr = DtrDetails::where('dtr_id', $id)->first();
+            return view('employee.edit_attendance')->with('dtr',$dtr);
+        }
+        if($request->isMethod('post')) {
+            if(Session::has('dtr_id')) {
+                $dtr_id = Session::get('dtr_id');
+                $dtr = DtrDetails::where('dtr_id', $dtr_id)->first();
+                $dtr->time = $request->input('time');
+                $time = explode(':', $request->input('time'));
+                $dtr->time_h = array_key_exists(0, $time) == true ?trim($time[0], "\" ") : null;
+                $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
+                $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
+                $dtr->event = $request->input('event');
+                $dtr->terminal = $request->input('terminal');
+                $dtr->remark = $request->input('remarks');
+                $dtr->save();
+                Session::forget('dtr_id');
+                return redirect('personal/index');
+            }
+        }
+    }
     public function emp_filtered(Request $request)
     {
         $row = null;

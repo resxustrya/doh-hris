@@ -232,6 +232,8 @@ class DtrController extends Controller
                 $dtr->time_m = array_key_exists(1, $time) == true ?trim($time[1], "\" ") : null;
                 $dtr->time_s = array_key_exists(2, $time) == true ? trim($time[2], "\" ") : null;
                 $dtr->event = $request->input('event');
+                $dtr->terminal = $request->input('terminal');
+                $dtr->remark = $request->input('remarks');
                 $dtr->save();
                 Session::forget('dtr_id');
                 return redirect('home');

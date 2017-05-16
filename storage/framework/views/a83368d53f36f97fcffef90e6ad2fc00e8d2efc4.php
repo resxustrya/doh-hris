@@ -37,7 +37,7 @@
                                             <td><?php echo e(date("M-d-y",strtotime($list->date_created))); ?> </td>
                                             <td><?php echo e($list->time_created); ?> </td>
                                             <td>
-                                                <a class="btn btn-success" href="<?php echo e(asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid )); ?>">View</a>
+                                                <a class="btn btn-success" href="<?php echo e(asset('FPDF/personal_generate.php?id='.$list->id.'&userid='.Auth::user()->userid)); ?>">View</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

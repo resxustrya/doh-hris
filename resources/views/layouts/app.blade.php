@@ -152,7 +152,6 @@
 <script>
 
 
-
 </script>
 @section('js')
 

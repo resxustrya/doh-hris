@@ -27,6 +27,8 @@ class PDF extends FPDF
         $startday = floor($day1[2]);
         $endday = $day2[2];
 
+        //echo date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0];
+
 
         $this->SetFont('Arial','',8);
         $this->SetX(10);
@@ -50,7 +52,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',8);
         $this->SetXY(10,28);
-        $this->Cell(40,10,'For the month of           '.date('m-Y'),0);
+        $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
 
         $this->SetFont('Arial','',8);
         $this->SetXY(60,28);
@@ -72,7 +74,7 @@ class PDF extends FPDF
 
         $this->SetFont('Arial','',8);
         $this->SetXY(112,28);
-        $this->Cell(40,10,'For the month of           '.date('m-Y'),0);
+        $this->Cell(40,10,'For the month of : '.date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0],0);
 
         $this->SetFont('Arial','',8);
         $this->SetXY(170,28);
@@ -100,6 +102,8 @@ class PDF extends FPDF
         $log_date = "";
         $log = "";
 
+
+
         $logs = get_logs($userid,$date_from,$date_to);
 
         $condition = -0;
@@ -108,7 +112,6 @@ class PDF extends FPDF
         $am_out = '';
         $pm_in = '';
         $pm_out = '';
-
         if(isset($logs) and count($logs))
         {
             for($r1 = $startday; $r1 <= $endday; $r1++)

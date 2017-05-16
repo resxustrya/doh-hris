@@ -39,7 +39,7 @@
                                     <tr>
                                         <td class="col-sm-3"><label>Subject</label></td>
                                         <td class="col-sm-1">:</td>
-                                        <td class="col-sm-8"><input type="text" name="subject" class="form-control" required /></td>
+                                        <td class="col-sm-8"><textarea name="subject" class="form-control" style="resize:none;" required></textarea></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">
@@ -53,21 +53,22 @@
                                         <td class="col-sm-8">
                                             <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                                                 <?php foreach($users as $row): ?>
-                                                    <option value="<?php echo e($row['id']); ?>"><?php echo e($row['fname'].' '.$row['mname'].' '.$row['lname']); ?></option>
+                                                    <option value="<?php echo e($row['userid']); ?>"><?php echo e($row['fname'].' '.$row['mname'].' '.$row['lname']); ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </td>
                                     </tr>
                                     <tbody class="p_inclusive_date">
                                         <tr>
-                                            <td class="col-sm-3"><label>Inclusive Dates </label></td>
+                                            <td class="col-sm-3"><label>Inclusive Date and Area </label></td>
                                             <td class="col-sm-1">:</td>
                                             <td class="col-sm-8">
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." required>
+                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" required>
+                                                    <textarea name="area[]" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
                                                 </div>
                                             </td>
                                         </tr>
