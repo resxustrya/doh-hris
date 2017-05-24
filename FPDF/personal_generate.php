@@ -5,14 +5,11 @@ $uri = explode('/',$_SERVER['REQUEST_URI']);
 $protocol = 'http://';
 $address = $protocol.$host.'/'.$uri[1].'/index';*/
 
-//require('dbconn.php');
-
-use Illuminate\Support\Facades\Session;
-
 require('fpdf.php');
 ini_set('max_execution_time', 0);
 ini_set('memory_limit','1000M');
 ini_set('max_input_time','300000');
+
 
 class PDF extends FPDF
 {
@@ -28,7 +25,6 @@ class PDF extends FPDF
         $endday = $day2[2];
 
         //echo date("M",strtotime($date_from)).' '. $day1[2].'-'.$day2[2].'  '.$day2[0];
-
 
         $this->SetFont('Arial','',8);
         $this->SetX(10);
@@ -106,12 +102,6 @@ class PDF extends FPDF
 
         $logs = get_logs($userid,$date_from,$date_to);
 
-        $condition = -0;
-        $title = '';
-        $am_in = '';
-        $am_out = '';
-        $pm_in = '';
-        $pm_out = '';
         if(isset($logs) and count($logs))
         {
             for($r1 = $startday; $r1 <= $endday; $r1++)
@@ -140,61 +130,157 @@ class PDF extends FPDF
                     $pm_in = '';
                     $pm_out = '';
                     $late = '';
-                    //$ut = personal::undertime($am_out,$pm_out);
                 }
-
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
-                $am_in == '' ? ($am_in = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
-                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '') $am_out = 'DAY OFF';
+
+                $look_calendar = false;
+                $look_cdo = false;
+                $look_holiday = false;
+                if(look_calendar($datein,$userid)) {
+                    if(!$am_in)
+                        $am_in = look_calendar($datein,$userid);
+                    if(!$am_out)
+                        $am_out = look_calendar($datein,$userid);
+                    if(!$pm_in)
+                        $pm_in = look_calendar($datein,$userid);
+                    if(!$pm_out)
+                        $pm_out = look_calendar($datein,$userid);
+                    $look_calendar = true;
+                } elseif(look_cdo($datein)) {
+                    if(!$am_in)
+                        $am_in = look_cdo($datein);
+                    if(!$am_out)
+                        $am_out = look_cdo($datein);
+                    if(!$pm_in)
+                        $pm_in = look_cdo($datein);
+                    if(!$pm_out)
+                        $pm_out = look_cdo($datein);
+                    $look_cdo = true;
+                } elseif(look_holiday($datein)) {
+                    $am_out = look_holiday($datein);
+                    $look_holiday = true;
+                } elseif($day_name == 'Sat' || $day_name == 'Sun')
+                    $am_out = 'DAY OFF';
+
+                ///
+                if($look_calendar and $am_in == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $am_in == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                /// AM IN
                 $this->Cell($w[1],5,$am_in,'');
                 $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
-                $am_out == '' ? ($am_out = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
-                $text_red = false;
-                if(look_holiday($datein) and $am_in == '' and $am_out == '' and $pm_in == '' and $pm_out == '') {
-                    $am_out = look_holiday($datein);
-                    $this->SetTextColor(255,0,0);
-                    $this->SetFont('Arial', 'I', 7.5);
-                    $text_red = true;
+                if($look_calendar and $am_out == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
                 }
-                elseif($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '') $am_out = 'DAY OFF';
+                elseif($look_cdo and $am_out == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                elseif($look_holiday){
+                    $this->SetTextColor(255, 0, 0);
+                    $this->SetFont('Arial', 'I', 7.5);
+                }
+                /// AM OUT
                 $this->Cell($w[1],5,$am_out,'');
                 $this->SetTextColor(0,0,0);
                 $this->SetFont('Arial', '', 7.5);
 
-                $pm_in == '' ? ($pm_in = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
-                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '') $am_out = 'DAY OFF';
+                if($look_calendar and $pm_in == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $pm_in == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                /// PM IN
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
                 $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
-                $pm_out == '' ? ($pm_out = look_calendar($datein,$userid) AND $this->SetTextColor(0,0,255)) : $this->SetTextColor(0,0,0);
-                if($day_name == 'Sat' || $day_name == 'Sun' AND $am_in == '' AND $am_out == '' AND $pm_in == '' AND $pm_out == '') $am_out = 'DAY OFF';
+                if($look_calendar and $pm_out == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $pm_out == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                /// PM OUT
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
                 $this->Cell(30);
                 $this->Cell(5,5,$r1,'');
                 $this->Cell(7,5,$day_name,'');
 
-                look_calendar($datein,$userid) and $am_in == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
+                ///
+                if($look_calendar and $am_in == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $am_in == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                /// AM IN
                 $this->Cell($w[1],5,$am_in,'');
+                $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
-                if($text_red) {
+                if($look_calendar and $am_out == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $am_out == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                elseif($look_holiday){
                     $this->SetTextColor(255, 0, 0);
                     $this->SetFont('Arial', 'I', 7.5);
                 }
-                look_calendar($datein,$userid) and $am_out == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
+                /// AM OUT
                 $this->Cell($w[1],5,$am_out,'');
+                $this->SetTextColor(0,0,0);
                 $this->SetFont('Arial', '', 7.5);
 
-                look_calendar($datein,$userid) and $pm_in == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
+                if($look_calendar and $pm_in == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $pm_in == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                /// PM IN
                 $this->Cell($w[2],5,$pm_in,'',0,'R');
+                $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
-                look_calendar($datein,$userid) and $pm_out == look_calendar($datein,$userid) ? $this->SetTextColor(0,0,255) : $this->SetTextColor(0,0,0);
+                if($look_calendar and $pm_out == look_calendar($datein,$userid)){
+                    $this->SetFont('Arial', 'I', 6.0);
+                    $this->SetTextColor(0,0,255);
+                }
+                elseif($look_cdo and $pm_out == look_cdo($datein)){
+                    $this->SetFont('Arial', 'I', 7.5);
+                    $this->SetTextColor(0,100,0);
+                }
+                /// PM OUT
                 $this->Cell($w[3],5,$pm_out,'',0,'R');
                 $this->SetTextColor(0,0,0);
+                $this->SetFont('Arial', '', 7.5);
 
                 $this->Ln();
                 if($r1 == $endday)
@@ -511,9 +597,34 @@ function look_holiday($datein){
         if($holiday){
             $holiday_start = floor(strtotime($holiday['start']) / (60 * 60 * 24));
             $holiday_end = floor(strtotime($holiday['end']) / (60 * 60 * 24));
+            if($condition >= $holiday_start and $condition < $holiday_end and $holiday['title'] != ''){
+                return $holiday['title'];
+            }
         }
-        if($condition >= $holiday_start and $condition < $holiday_end and $holiday['title'] != ''){
-            return $holiday['title'];
+    }
+}
+
+function check_cdo()
+{
+    $db = conn();
+    $sql = 'SELECT start,end FROM cdo where approved_status = 1';
+    $pdo = $db->prepare($sql);
+    $pdo->execute();
+    $row = $pdo->fetchAll();
+    $db = null;
+
+    return $row;
+}
+
+function look_cdo($datein){
+    $condition = floor(strtotime($datein) / (60 * 60 * 24));
+    foreach(check_cdo() as $cdo) {
+        if($cdo){
+            $cdo_start = floor(strtotime($cdo['start']) / (60 * 60 * 24));
+            $cdo_end = floor(strtotime($cdo['end']) / (60 * 60 * 24));
+            if($condition >= $cdo_start and $condition < $cdo_end){
+                return 'CTO';
+            }
         }
     }
 }
@@ -530,9 +641,9 @@ function look_calendar($datein,$userid){
                     if($calendar) {
                         $calendar_start = floor(strtotime($calendar['start']) / (60 * 60 * 24));
                         $calendar_end = floor(strtotime($calendar['end']) / (60 * 60 * 24));
-                    }
-                    if($condition >= $calendar_start and $condition < $calendar_end and $calendar['title'] != ''){
-                        return 'sono.'.sprintf('%04d',so_no($details['route_no'])['id']);
+                        if($condition >= $calendar_start and $condition < $calendar_end and $calendar['title'] != ''){
+                            return 'S.O. No.'.sprintf('%04d',so_no($details['route_no'])['id']);
+                        }
                     }
                 }
             }

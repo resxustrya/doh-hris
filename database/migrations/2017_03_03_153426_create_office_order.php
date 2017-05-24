@@ -13,6 +13,7 @@ class CreateOfficeOrder extends Migration
         Schema::create('office_order', function (Blueprint $table) {
             $table->increments('id');
             $table->text('route_no');
+            $table->string('doc_type','15');
             $table->text('so_no');
             $table->text('subject');
             $table->text('header_body');

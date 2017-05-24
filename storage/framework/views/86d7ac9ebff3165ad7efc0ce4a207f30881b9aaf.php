@@ -3,6 +3,7 @@ use App\Http\Controllers\DocumentController as Doc;
 use App\User as User;
 use App\Section;
 use App\Http\Controllers\ReleaseController as Rel;
+use App\Http\Controllers\pdoController as pdo;
 ?>
 
 <?php if(count($document)): ?>
@@ -20,9 +21,9 @@ use App\Http\Controllers\ReleaseController as Rel;
         <?php $data = array(); ?>
         <?php foreach($document as $doc): ?>
             <?php
-            $user = \App\Http\Controllers\DocumentController::user_search1($doc['received_by']);
+            $user = pdo::user_search1($doc['received_by']);
             $data['received_by'][] = $user['fname'].' '.$user['lname'];
-            $data['section'][] = \App\Http\Controllers\DocumentController::search_section($user['section'])['description'];
+            $data['section'][] = pdo::search_section($user['section'])['description'];
             $data['date'][] = $doc['date_in'];
             $data['date_in'][] = date('M d, Y', strtotime($doc['date_in']));
             $data['time_in'][] = date('h:i A', strtotime($doc['date_in']));

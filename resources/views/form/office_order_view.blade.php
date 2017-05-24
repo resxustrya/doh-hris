@@ -11,6 +11,12 @@
                         <form action="{{ asset('so_update') }}" method="POST" id="form_route" class="form-submit">
                             {{ csrf_field() }}
                             <div class="table-responsive">
+                                @if(Session::get('updated'))
+                                    <div class="alert alert-info">
+                                        <i class="fa fa-check"></i> Successfully Updated!
+                                    </div>
+                                    <?php Session::forget('updated'); ?>
+                                @endif
                                 <table class="table">
                                     <tr>
                                         <td class="col-md-1"><img height="130" width="130" src="{{ asset('resources/img/doh.png') }}" /></td>
@@ -150,14 +156,6 @@
     </style>
 @endsection
 @section('js')
-    @if(Session::get('updated'))
-        <script>
-            Lobibox.notify('info',{
-                msg:'Successfully Updated!'
-            });
-        </script>
-        <?php Session::forget('updated'); ?>
-    @endif
     @parent
     <script>
         $("#textarea").wysihtml5();

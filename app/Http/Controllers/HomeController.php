@@ -32,5 +32,7 @@ class HomeController extends Controller
        if($request->user()->usertype == "0") {
            return redirect('personal/home');
        }
+
+       return view('auth.login');
     }
 }

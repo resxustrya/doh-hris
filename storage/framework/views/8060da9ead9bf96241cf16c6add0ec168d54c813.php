@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="<?php echo e(asset('so_delete')); ?>" method="post">
+                <form action="<?php if(isset($delete)) echo $delete; ?>" method="post">
                     <?php echo e(csrf_field()); ?>
 
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
@@ -124,16 +124,25 @@
             </div>
             <div class="modal-body text-center">
                 <div class="col-xs-4" style="left: 10%">
-                    <a href="#document_form" data-dismiss="modal" data-link="<?php echo e(asset('form/sov1')); ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                    <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
                         <i class="fa fa-file-pdf-o fa-5x"></i><br>
                         <i>Form V1</i>
                     </a>
                 </div>
                 <div class="col-xs-4" style="left: 25%;">
-                    <a href="so" class="text-info">
-                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                        <i>Form V2</i>
-                    </a>
+                    <?php if(isset($doc_type)): ?>
+                        <?php if($doc_type == 'CDO'): ?>
+                        <a href="#" onclick="soon()" class="text-info">
+                            <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                            <i>Form V2</i>
+                        </a>
+                        <?php else: ?>
+                        <a href="so" class="text-info">
+                            <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                            <i>Form V2</i>
+                        </a>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -187,6 +196,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 
 
 

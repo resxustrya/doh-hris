@@ -127,7 +127,7 @@ $item_no = 1;
                 <tr>
                     <td width="20%" id="border"></td>
                     <td id="border"><?php echo e($count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname']); ?></td>
-                    <td id="border"><?php echo e(\App\Http\Controllers\DocumentController::designation_search($row['designation'])['description']); ?></td>
+                    <td id="border"><?php echo e(\App\Http\Controllers\pdoController::designation_search($row['designation'])['description']); ?></td>
                     <td width="20%" id="border"></td>
                 </tr>
                 <?php endforeach; ?>

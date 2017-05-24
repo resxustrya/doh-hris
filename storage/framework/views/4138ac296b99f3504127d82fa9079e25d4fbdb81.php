@@ -11,6 +11,12 @@
                             <?php echo e(csrf_field()); ?>
 
                             <div class="table-responsive">
+                                <?php if(Session::get('updated')): ?>
+                                    <div class="alert alert-info">
+                                        <i class="fa fa-check"></i> Successfully Updated!
+                                    </div>
+                                    <?php Session::forget('updated'); ?>
+                                <?php endif; ?>
                                 <table class="table">
                                     <tr>
                                         <td class="col-md-1"><img height="130" width="130" src="<?php echo e(asset('resources/img/doh.png')); ?>" /></td>
@@ -152,14 +158,6 @@
     </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('js'); ?>
-    <?php if(Session::get('updated')): ?>
-        <script>
-            Lobibox.notify('info',{
-                msg:'Successfully Updated!'
-            });
-        </script>
-        <?php Session::forget('updated'); ?>
-    <?php endif; ?>
     @parent
     <script>
         $("#textarea").wysihtml5();

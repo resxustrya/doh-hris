@@ -121,18 +121,48 @@ Route::post('so_addv1','DocumentController@so_addv1');
 Route::post('so_update','DocumentController@so_update');
 Route::post('so_updatev1','DocumentController@so_updatev1');
 Route::post('so_delete','DocumentController@so_delete');
-Route::get('form/info/{route}', 'DocumentController@show');
+Route::get('form/info/{route}/{doc_type}', 'DocumentController@show');
 /////////CALENDAR
 Route::get('calendar','CalendarController@calendar');
 Route::get('calendar_holiday','CalendarController@calendar_holiday');
 Route::post('calendar_save','CalendarController@calendar_save');
 Route::get('calendar_delete/{event_id}','CalendarController@calendar_delete');
 Route::post('calendar_update','CalendarController@calendar_update');
-
-Route::get('example','DocumentController@check_calendar');
 Route::get('designation','DocumentController@designation_search');
+/////////CDO / CTO
+Route::match(["get","post"], "form/cdo_list","cdoController@cdo_list");
+Route::match(["get","post"], "form/cdov1","cdoController@cdov1");
+Route::post("form/cdo_addv1","cdoController@cdo_addv1");
+Route::post('cdo_delete',"cdoController@cdo_delete");
+Route::post("cdo_updatev1","cdoController@cdo_updatev1");
+Route::match(["get","post"],"cdo/pending","cdoController@cdo_pending");
+Route::match(["get","post"],"cdo/view","cdoController@cdo_view");
+Route::get('cdo/table',function(){
+    Schema::create('cdo', function(Blueprint $table) {
+        $table->increments('id');
+        $table->string('route_no','40');
+        $table->text('subject');
+        $table->string('doc_type','15');
+        $table->string('name','25');
+        $table->datetime('date');
+        $table->string('working_days','5');
+        $table->text('start');
+        $table->text('end');
+        $table->text('beginning_balance');
+        $table->text('less_applied_for');
+        $table->text('remaining_balance');
+        $table->text('recommendation');
+        $table->text('immediate_supervisor');
+        $table->text('division_chief');
+        $table->integer('approved_status');
+        $table->integer('status');
+        $table->rememberToken();
+        $table->timestamps();
+    });
+    return "Successfully added!";
+});
 
-
+/////////PDF
 Route::get('pdf/v1/{size}', function($size){
     $display = view("pdf.pdf",['size'=>$size]);
     $pdf = App::make('dompdf.wrapper');
@@ -145,7 +175,6 @@ Route::get('pdf/track', function(){
     $pdf->loadHTML($display);
     return $pdf->stream();
 });
-
 
 //TEST ROUTES
 Route::get('phpinfo', function() {

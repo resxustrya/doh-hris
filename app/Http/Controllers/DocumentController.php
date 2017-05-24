@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use App\cdo;
 use App\Leave;
 use App\Users;
 use Illuminate\Foundation\Auth\User;
@@ -15,10 +16,10 @@ use Illuminate\Support\Facades\App;
 use App\Calendar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use PDO;
 use App\inclusive_name;
 use App\office_order;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\pdoController as pdo;
 
 class DocumentController extends Controller
 {
@@ -37,11 +38,6 @@ class DocumentController extends Controller
 
 
             $leave = new Leave();
-
-
-
-
-
 
             $leave->userid = $request->user()->id;
             $leave->office_agency = $request->input('office_agency');
@@ -197,207 +193,32 @@ class DocumentController extends Controller
     }
 
     ///RUSEL
-    //PDO
-    public static function connect()
-    {
-        return new PDO("mysql:host=localhost;dbname=dtsv3.0",'root','');
-    }
-    public function users()
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM USERS ORDER BY FNAME ASC";
-        $pdo = $db->prepare($sql);
-        $pdo->execute();
-        $row = $pdo->fetchAll();
-        $db = null;
-
-        return $row;
-    }
-    public function user_search($id)
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM USERS WHERE USERNAME = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($id));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-    public static function user_search1($id)
-    {
-        $db= DocumentController::connect();
-        $sql="SELECT * FROM USERS WHERE id = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($id));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-    public static function designation_search($id)
-    {
-        $db = DocumentController::connect();
-        $sql = "select * from designation where id = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($id));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-    public function division()
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM DIVISION";
-        $pdo = $db->prepare($sql);
-        $pdo->execute();
-        $row = $pdo->fetchAll();
-        $db = null;
-
-        return $row;
-    }
-    public function division_head($head)
-    {
-        $db=$this->connect();
-        $sql="SELECT * FROM DIVISION where head = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($head));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-
-    public function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
-    {
-        $db=$this->connect();
-        $sql="INSERT INTO TRACKING_MASTER(route_no,doc_type,prepared_date,prepared_by,description,created_at,updated_at) values(?,?,?,?,?,now(),now())";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($route_no,$doc_type,$prepared_date,$prepared_by,$description));
-        $db=null;
-    }
-
-    public function delete_tracking_master($route_no)
-    {
-        try{
-            $db=$this->connect();
-            $sql="delete from tracking_master where route_no=?";
-            $pdo = $db->prepare($sql);
-            $pdo->execute(array($route_no));
-            $db = null;
-        }
-        catch(PDOException $e){
-            return $e->getMessage();
-        }
-    }
-
-    public function delete_tracking_release($route_no)
-    {
-        try{
-            $db=$this->connect();
-            $sql="delete from tracking_relese where route_no=?";
-            $pdo = $db->prepare($sql);
-            $pdo->execute(array($route_no));
-            $db = null;
-        }
-        catch(PDOException $e){
-            return $e->getMessage();
-        }
-    }
-
-    public function delete_tracking_details($route_no)
-    {
-        try{
-            $db=$this->connect();
-            $sql="delete from tracking_details where route_no=?";
-            $pdo = $db->prepare($sql);
-            $pdo->execute(array($route_no));
-            $db = null;
-        }
-        catch(PDOException $e){
-            return $e->getMessage();
-        }
-    }
-
-    public function insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action)
-    {
-        $db=$this->connect();
-        $sql="INSERT INTO TRACKING_DETAILS(route_no,date_in,received_by,delivered_by,action,created_at,updated_at) values(?,?,?,?,?,now(),now())";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($route_no,$date_in,$received_by,$delivered_by,$action));
-        $db=null;
-    }
-
-    public function insert_system_logs($user_id,$name,$activity,$route_no)
-    {
-        $db=$this->connect();
-        $sql="INSERT INTO SYSTEMLOGS(user_id,name,activity,description,created_at,updated_at) values(?,?,?,?,now(),now())";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($user_id,$name,$activity,$route_no));
-        $db=null;
-    }
-
-    public static function search_tracking_master($route_no)
-    {
-        $db=DocumentController::connect();
-        $sql="SELECT * FROM tracking_master where route_no = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($route_no));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-    public static function search_tracking_details($route_no)
-    {
-        $db=DocumentController::connect();
-        $sql="SELECT * FROM tracking_details where route_no = ? ORDER BY id ASC";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($route_no));
-        $row = $pdo->fetchAll();
-        $db = null;
-
-        return $row;
-    }
-    public static function search_section($id)
-    {
-        $db=DocumentController::connect();
-        $sql="SELECT * FROM section where id = ?";
-        $pdo = $db->prepare($sql);
-        $pdo->execute(array($id));
-        $row = $pdo->fetch();
-        $db = null;
-
-        return $row;
-    }
-
     //OFFICE ORDER
     public function so_delete(Request $request)
     {
-        $prepared_by =  $this->user_search($request->user()->userid)['id'];
+        $prepared_by =  pdo::user_search($request->user()->userid)['id'];
         $route_no = Session::get('route_no');
 
         office_order::where('route_no',$route_no)->delete();
         inclusive_name::where('route_no',$route_no)->delete();
         Calendar::where('route_no',$route_no)->delete();
 
-        $this->delete_tracking_master($route_no);
-        $this->delete_tracking_details($route_no);
+        pdo::delete_tracking_master($route_no);
+        pdo::delete_tracking_details($route_no);
         //$this->delete_tracking_release($route_no);
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
         $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
         $activity = 'Deleted';
-        $this->insert_system_logs($user_id,$name,$activity,$route_no);
+        pdo::insert_system_logs($user_id,$name,$activity,$route_no);
         Session::put('deleted',true);
 
         return redirect()->back();
     }
 
     public function track($route_no){
-        $document = $this->search_tracking_details($route_no);
+        $document = pdo::search_tracking_details($route_no);
         Session::put('route_no',$route_no);
         return view('document.track',['document' => $document]);
     }
@@ -406,7 +227,7 @@ class DocumentController extends Controller
     {
         Session::put('my_id',$request->user()->id);
         if($request->isMethod('get')){
-            $users = $this->users();
+            $users = pdo::users();
             return view('form.office_order',['users'=>$users]);
         }
         if($request->isMethod('post')){
@@ -417,7 +238,7 @@ class DocumentController extends Controller
     public function sov1()
     {
         $inclusive_name = $this->inclusive_name_page();
-        $users = $this->users();
+        $users = pdo::users();
         return view('form.office_orderv1',['users'=>$users,'inclusive_name'=>$inclusive_name]);
     }
 
@@ -425,7 +246,7 @@ class DocumentController extends Controller
     {
         Session::put('my_id',$request->user()->id);
         if($request->isMethod('get')){
-            $users = $this->users();
+            $users = pdo::users();
             $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
             $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
             return view('form.office_order_view',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
@@ -437,12 +258,12 @@ class DocumentController extends Controller
     public function so_pdf()
     {
         Session::put('my_id',Auth::user()->id);
-        $users = $this->users();
+        $users = pdo::users();
         $office_order = office_order::where('route_no',Session::get('route_no'))->get()->first();
         $inclusive_name = inclusive_name::where('route_no',Session::get('route_no'))->get();
         $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
         foreach($inclusive_name as $row){
-            $name[] = $this->user_search1($row['user_id']);
+            $name[] = pdo::user_search1($row['user_id']);
         }
         $display = view('form.office_order_pdf',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date,'name'=>$name]);
 
@@ -456,7 +277,7 @@ class DocumentController extends Controller
     }
 
     public function inclusive_name_page(){
-        $name[] = $this->user_search(Auth::user()->userid)['id'];
+        $name[] = pdo::user_search(Auth::user()->userid)['id'];
         return $name;
     }
     
@@ -471,7 +292,7 @@ class DocumentController extends Controller
     public function so_list(Request $request){
         Session::put('keyword',$request->keyword);
         $keyword = Session::get('keyword');
-        $office_order = Office_order::where('prepared_by',$this->user_search(Auth::user()->userid)['id'])
+        $office_order = Office_order::where('prepared_by',pdo::user_search(Auth::user()->userid)['id'])
             ->where(function($q) use ($keyword){
                 $q->where('route_no','like',"%$keyword%")
                     ->orwhere('subject','like',"%$keyword%");
@@ -486,15 +307,16 @@ class DocumentController extends Controller
     }
 
     public function so_addv1(Request $request){
-        $route_no = date('Y-') . $this->user_search($request->user()->userid)['id'] . date('mdHis');
+        $route_no = date('Y-') . pdo::user_search($request->user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime($request->get('prepared_date'))).' '.date('H:i:s');
-        $prepared_by =  $this->user_search($request->user()->userid)['id'];
+        $prepared_by =  pdo::user_search($request->user()->userid)['id'];
         $description = $request->get('subject');
 
         //ADD OFFICE ORDER
         $office_order = new office_order();
         $office_order->route_no = $route_no;
+        $office_order->doc_type = $doc_type;
         $office_order->subject = $request->get('subject');
         $office_order->prepared_by = $prepared_by;
         $office_order->prepared_date = $prepared_date;
@@ -542,35 +364,36 @@ class DocumentController extends Controller
         }
 
         //ADD TRACKING MASTER
-        $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+        pdo::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
 
         //ADD TRACKING DETAILS
         $date_in = $prepared_date;
         $received_by = $prepared_by;
         $delivered_by = $prepared_by;
         $action = $description;
-        $this->insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+        pdo::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
         $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
         $activity = 'Created';
-        $this->insert_system_logs($user_id,$name,$activity,'.');
+        pdo::insert_system_logs($user_id,$name,$activity,$route_no);
         Session::put('added',true);
 
         return redirect()->back();
     }
 
     public function so_add(Request $request){
-        $route_no = date('Y-') . $this->user_search($request->user()->userid)['id'] . date('mdHis');
+        $route_no = date('Y-') . pdo::user_search($request->user()->userid)['id'] . date('mdHis');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime($request->get('prepared_date'))).' '.date('H:i:s');
-        $prepared_by =  $this->user_search($request->user()->userid)['id'];
+        $prepared_by =  pdo::user_search($request->user()->userid)['id'];
         $description = $request->get('subject');
 
         //ADD OFFICE ORDER
         $office_order = new office_order();
         $office_order->route_no = $route_no;
+        $office_order->doc_type = $doc_type;
         $office_order->subject = $request->get('subject');
         $office_order->header_body = $request->get('header_body');
         $office_order->footer_body = $request->get('footer_body');
@@ -620,20 +443,20 @@ class DocumentController extends Controller
             $count++;
         }
         //ADD TRACKING MASTER
-        $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+        pdo::insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
 
         //ADD TRACKING DETAILS
         $date_in = $prepared_date;
         $received_by = $prepared_by;
         $delivered_by = $prepared_by;
         $action = $description;
-        $this->insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
+        pdo::insert_tracking_details($route_no,$date_in,$received_by,$delivered_by,$action);
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
         $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
         $activity = 'Created';
-        $this->insert_system_logs($user_id,$name,$activity,'');
+        pdo::insert_system_logs($user_id,$name,$activity,$route_no);
         Session::put('added',true);
 
         return redirect('form/so_list');
@@ -643,7 +466,7 @@ class DocumentController extends Controller
         $route_no = Session::get('route_no');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime($request->get('prepared_date'))).' '.date('H:i:s');
-        $prepared_by =  $this->user_search($request->user()->userid)['id'];
+        $prepared_by =  pdo::user_search($request->user()->userid)['id'];
         $description = $request->get('subject');
 
         //update office order
@@ -702,16 +525,16 @@ class DocumentController extends Controller
             $so->save();
             $count++;
         }
-        //ADD TRACKING MASTER
-        $this->delete_tracking_master($route_no);
-        $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
-
+        //UPDATE TRACKING MASTER
+        pdo::update_tracking_master($prepared_date,$description,$route_no);
+        //UPDATE TRACKING DETAILS
+        pdo::update_tracking_details($description,$route_no);
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
         $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
         $activity = 'Updated';
-        $this->insert_system_logs($user_id,$name,$activity,'');
+        pdo::insert_system_logs($user_id,$name,$activity,$route_no);
         Session::put('updated',true);
 
 
@@ -722,7 +545,7 @@ class DocumentController extends Controller
         $route_no = Session::get('route_no');
         $doc_type = 'OFFICE_ORDER';
         $prepared_date = date('Y-m-d',strtotime($request->get('prepared_date'))).' '.date('H:i:s');
-        $prepared_by =  $this->user_search($request->user()->userid)['id'];
+        $prepared_by =  pdo::user_search($request->user()->userid)['id'];
         $description = $request->get('subject');
 
         //update office order
@@ -774,15 +597,16 @@ class DocumentController extends Controller
             $count++;
         }
 
-        //ADD TRACKING MASTER
-        $this->delete_tracking_master($route_no);
-        $this->insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description);
+        //UPDATE TRACKING MASTER
+        pdo::update_tracking_master($prepared_date,$description,$route_no);
+        //UPDATE TRACKING DETAILS
+        pdo::update_tracking_details($description,$route_no);
 
         //ADD SYSTEM LOGS
         $user_id = $prepared_by;
         $name = $request->user()->fname.' '.$request->user()->mname.' '.$request->user()->lname;
-        $activity = 'Created';
-        $this->insert_system_logs($user_id,$name,$activity,'');
+        $activity = 'Updated';
+        pdo::insert_system_logs($user_id,$name,$activity,$route_no);
         Session::put('updated',true);
 
         return redirect()->back();
@@ -793,25 +617,23 @@ class DocumentController extends Controller
         return inclusive_name::where('user_id',Auth::user()->userid)->get();
     }
 
-    public function show($route_no){
+    public function show($route_no,$doc_type=null){
         Session::put('route_no',$route_no);
-        $users = $this->users();
-        $office_order = office_order::where('route_no',$route_no)->get()->first();
-        $inclusive_date = Calendar::where('route_no',$route_no)->get();
-        return view('document.info',['users'=>$users,'office_order'=>$office_order,'inclusive_date'=>$inclusive_date]);
+        if($doc_type == 'office_order'){
+            $users = pdo::users();
+            $info = office_order::where('route_no',$route_no)->get()->first();
+            $inclusive_date = Calendar::where('route_no',$route_no)->get();
+            return view('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date]);
+        } else {
+            $info = cdo::where('route_no',$route_no)->get()->first();
+            return view('document.info',['info' => $info]);
+        }
     }
 
     public function getTest()
     {
-        /*$test = new Test();
-        $test->setConnection('mysql1');
-        $connection = $test->find('users');
-
-        return $connection;*/
-
-        /*$db_ext = DB::connection('mysql1');
+        $db_ext = DB::connection('dtsv3.0');
         $user = $db_ext->table('tracking_master')->get();
-        return $user;*/
-        return $inclusive_date = Calendar::where('route_no',Session::get('route_no'))->get();
+        return $user;
     }
 }

@@ -5,8 +5,8 @@ use App\User as User;
 use App\Http\Controllers\DocumentController as Doc;
 use App\Section;*/
 $route_no = Session::get('route_no');
-$document = \App\Http\Controllers\DocumentController::search_tracking_master($route_no);
-$tracking = \App\Http\Controllers\DocumentController::search_tracking_details($route_no);
+$document = \App\Http\Controllers\pdoController::search_tracking_master($route_no);
+$tracking = \App\Http\Controllers\pdoController::search_tracking_details($route_no);
 
 ?>
 <html>
@@ -77,14 +77,14 @@ $tracking = \App\Http\Controllers\DocumentController::search_tracking_details($r
     <tr>
         <td width="30%">
             <strong>PREPARED BY:</strong><br>
-            <?php $user = \App\Http\Controllers\DocumentController::user_search1($document['prepared_by']) ?>
+            <?php $user = \App\Http\Controllers\pdoController::user_search1($document['prepared_by']) ?>
             <?php echo e($user['fname'].' '.$user['lname']); ?>
 
             <br><br>
         </td>
         <td>
             <strong>SECTION:</strong><br>
-            <?php echo e(\App\Http\Controllers\DocumentController::search_section($user['section'])['description']); ?>
+            <?php echo e(\App\Http\Controllers\pdoController::search_section($user['section'])['description']); ?>
 
             <br><br>
         </td>
@@ -130,7 +130,7 @@ $tracking = \App\Http\Controllers\DocumentController::search_tracking_details($r
                     <?php echo e($user['fname'].' '.$user['mname'].' '.$user['lname']); ?>
 
                     <br>
-                    <em>(<?php echo e(\App\Http\Controllers\DocumentController::search_section($user['section'])['description']); ?>)</em>
+                    <em>(<?php echo e(\App\Http\Controllers\pdoController::search_section($user['section'])['description']); ?>)</em>
                 </td>
                 <td><?php echo e($doc['action']); ?></td>
                 <td></td>

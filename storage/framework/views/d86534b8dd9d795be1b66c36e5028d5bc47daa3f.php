@@ -6,7 +6,7 @@
 </style>
 <span id="so_append" data-link="<?php echo e(asset('so_append')); ?>"></span>
 <span id="inclusive_name" data-link="<?php echo e(asset('inclusive_name_view')); ?>"></span>
-<form action="<?php echo e(asset('so_updatev1')); ?>" method="post" class="form-submit">
+<form action="<?php if($info->doc_type == 'OFFICE_ORDER'): ?> <?php echo e(asset('so_updatev1')); ?> <?php else: ?> <?php echo e(asset('cdo_updatev1')); ?> <?php endif; ?>" method="post" class="form-submit">
     <?php echo e(csrf_field()); ?>
 
     <table>
@@ -22,28 +22,66 @@
             <td class="col-md-10"><img height="130" width="130" src="<?php echo e(asset('resources/img/ro7.png')); ?>" /> </td>
         </tr>
     </table>
+    <?php if($info->doc_type == "TIME_OFF"): ?>
+    <table class="table table-hover table-striped table-info">
+        <tr>
+            <td class="col-sm-3"><label>Name</label></td>
+            <td class="col-sm-1"><strong>:</strong></td>
+            <td class="col-sm-8"><input type="text" class="form-control" value="<?php echo e(Auth::user()->fname); ?> <?php echo e(Auth::user()->lname); ?>" required readonly></td>
+        </tr>
+        <tr>
+            <td class="col-sm-3"><label>Date</label></td>
+            <td class="col-sm-1"><strong>:</strong></td>
+            <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo e(date('m/d/Y',strtotime($info->date))); ?>" name="date" required></td>
+        </tr>
+        <tr>
+            <td class="col-sm-3"><label>Subject</label></td>
+            <td class="col-sm-1"><strong>:</strong></td>
+            <td class="col-sm-8"><textarea class="form-control" name="subject" rows="3" style="resize:none;" required><?php echo e($info->subject); ?></textarea></td>
+        </tr>
+        <tr>
+            <td class="col-sm-3"><label>Inclusive Dates:</label></td>
+            <td class="col-sm-1"><strong>:</strong></td>
+            <td class="col-sm-8">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control" id="inclusive1" value="<?php echo e(date('m/d/Y',strtotime($info->start)).' - '.date('m/d/Y',strtotime('-1 day',strtotime($info->end)))); ?>" name="inclusive_dates" placeholder="Input date range here..." required>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument" style="color:white"><i class="fa fa-trash"></i> Remove</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
+        <a target="_blank" href="<?php echo e(asset('pdf/track')); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
+        <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
+    </div>
+    <?php else: ?>
     <table class="table table-hover table-striped table-info">
         <tr>
             <td class="col-sm-3"><label>Document Type </label></td>
-            <td class="col-sm-1">:</td>
+            <td class="col-sm-1"><strong>:</strong></td>
             <td class="col-sm-8">Office Order</td>
         </tr>
         <tr>
             <td class="col-sm-3"><label>Prepared date </label></td>
-            <td class="col-sm-1">:</td>
-            <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo e(date('m/d/Y',strtotime($office_order->prepared_date))); ?>" name="prepared_date" <?php if($office_order->version == 1)echo 'required';else echo'disabled';?>></td>
+            <td class="col-sm-1"><strong>:</strong></td>
+            <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo e(date('m/d/Y',strtotime($info->prepared_date))); ?>" name="prepared_date" <?php if($info->version == 1)echo 'required';else echo'disabled';?>></td>
         </tr>
         <tr>
             <td class="col-sm-3"><label>Subject </label></td>
-            <td class="col-sm-1">:</td>
+            <td class="col-sm-1"><strong>:</strong></td>
             <td class="col-sm-8">
-                <textarea class="form-control" name="subject" rows="3" style="resize:none;" <?php if($office_order->version == 1)echo 'required';else echo'disabled';?>><?php echo e($office_order->subject); ?></textarea>
+                <textarea class="form-control" name="subject" rows="3" style="resize:none;" <?php if($info->version == 1)echo 'required';else echo'disabled';?>><?php echo e($info->subject); ?></textarea>
             </td>
         </tr>
-    <?php if($office_order->version == 1): ?>
+    <?php if($info->version == 1): ?>
         <tr>
             <td class="col-sm-3"><label>Inclusive Name </label></td>
-            <td class="col-sm-1">:</td>
+            <td class="col-sm-1"><strong>:</strong></td>
             <td class="col-sm-8">
                 <select class="form-control select2" name="inclusive_name[]" multiple="multiple" data-placeholder="Select a name" required>
                     <?php foreach($users as $row): ?>
@@ -59,7 +97,7 @@
         ?>
         <tr id="<?php echo e($count); ?>">
             <td class="col-sm-3"><label>Inclusive Dates </label></td>
-            <td class="col-sm-1">:</td>
+            <td class="col-sm-1"><strong>:</strong></td>
             <td class="col-sm-8">
                 <div class="input-group">
                     <div class="input-group-addon">
@@ -87,7 +125,7 @@
         </tr>
     <?php endif; ?>
     </table>
-    <?php if($office_order->version == 1): ?>
+    <?php if($info->version == 1): ?>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
         <button type="submit" class="btn btn-primary btn-submit" style="color:white"><i class="fa fa-pencil"></i> Update</button>
@@ -95,7 +133,7 @@
         <button type="button" class="btn btn-success" data-dismiss="modal" style="color:white" data-toggle="modal" data-target="#paperSize"><i class="fa fa-barcode"></i> Barcode v1</button>
         <a target="_blank" href="<?php echo e(asset('pdf/track')); ?>" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v2</a>
         <a onclick="warning()" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
-        <button type="button" data-route="<?php echo e($office_order->route_no); ?>" data-link="<?php echo e(asset('/form/info/'.$office_order->route_no)); ?>" style="color:white" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
+        <button type="button" data-route="<?php echo e($info->route_no); ?>" data-link="<?php echo e(asset('/form/info/'.$info->route_no)); ?>" style="color:white" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteDocument"><i class="fa fa-trash"></i> Remove</button>
     </div>
     <?php else: ?>
         <div class="modal-footer">
@@ -107,6 +145,7 @@
             <a href="<?php echo e(asset('/form/so_pdf')); ?>" target="_blank" class="btn btn-success" style="color:white"><i class="fa fa-barcode"></i> Barcode v3</a>
         </div>
     <?php endif; ?>
+    <?php endif; ?>
 </form>
 <script>
     $('.datepickercalendar').datepicker({
@@ -114,6 +153,7 @@
     });
 
     $(".select2").select2();
+    $("#inclusive1").daterangepicker();
     for(var i = 1; i <= $("#date_count").val();i++){
         $('#inclusive'+i).daterangepicker();
     }

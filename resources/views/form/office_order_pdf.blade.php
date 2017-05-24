@@ -88,7 +88,7 @@ $item_no = 1;
                     <td width="90%" id="border">
                         <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
                             Republic of the Philippines<br>
-                            <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE NO. VII</strong><br>
+                            <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE VII</strong><br>
                             Osmeña Boulevard, Cebu City, 6000 Philippines<br>
                             Regional Director’s Office Tel. No. (032) 253-6355 Fax No. (032) 254-0109<br>
                             Official Website: http://www.ro7.doh.gov.ph Email Address: dohro7@gmail.com<br>
@@ -127,7 +127,7 @@ $item_no = 1;
                 <tr>
                     <td width="20%" id="border"></td>
                     <td id="border">{{ $count.'. '.$row['fname'].' '.$row['mname'].' '.$row['lname'] }}</td>
-                    <td id="border">{{ \App\Http\Controllers\DocumentController::designation_search($row['designation'])['description'] }}</td>
+                    <td id="border">{{ \App\Http\Controllers\pdoController::designation_search($row['designation'])['description'] }}</td>
                     <td width="20%" id="border"></td>
                 </tr>
                 @endforeach

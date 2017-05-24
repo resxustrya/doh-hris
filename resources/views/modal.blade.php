@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form action="{{ asset('so_delete') }}" method="post">
+                <form action="<?php if(isset($delete)) echo $delete; ?>" method="post">
                     {{ csrf_field() }}
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> No</button>
                     <button type="submit" name="delete" class="btn btn-danger" ><i class="fa fa-trash"></i> Yes</button>
@@ -122,16 +122,25 @@
             </div>
             <div class="modal-body text-center">
                 <div class="col-xs-4" style="left: 10%">
-                    <a href="#document_form" data-dismiss="modal" data-link="{{ asset('form/sov1') }}" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
+                    <a href="#document_form" data-dismiss="modal" data-link="<?php if(isset($asset)) echo $asset; ?>" data-backdrop="static" data-toggle="modal" data-target="#document_form" class="text-success">
                         <i class="fa fa-file-pdf-o fa-5x"></i><br>
                         <i>Form V1</i>
                     </a>
                 </div>
                 <div class="col-xs-4" style="left: 25%;">
-                    <a href="so" class="text-info">
-                        <i class="fa fa-file-pdf-o fa-5x"></i><br>
-                        <i>Form V2</i>
-                    </a>
+                    @if(isset($doc_type))
+                        @if($doc_type == 'CDO')
+                        <a href="#" onclick="soon()" class="text-info">
+                            <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                            <i>Form V2</i>
+                        </a>
+                        @else
+                        <a href="so" class="text-info">
+                            <i class="fa fa-file-pdf-o fa-5x"></i><br>
+                            <i>Form V2</i>
+                        </a>
+                        @endif
+                    @endif
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -185,6 +194,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 
 
 

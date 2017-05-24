@@ -36,9 +36,9 @@
                 <td class="col-sm-8"><input class="form-control datepickercalendar" value="<?php echo e(date('m/d/Y')); ?>" name="prepared_date" required></td>
             </tr>
             <tr>
-                <td class=""><label>Subject</label></td>
-                <td>:</td>
-                <td><textarea class="form-control" name="subject" rows="3" style="resize:none;" required></textarea></td>
+                <td class="col-sm-3"><label>Subject</label></td>
+                <td class="col-sm-1">:</td>
+                <td class="col-sm-8"><textarea class="form-control" name="subject" rows="3" style="resize:none;" required></textarea></td>
             </tr>
             <tr>
                 <td class="col-sm-3"><label>Inclusive Name</label></td>

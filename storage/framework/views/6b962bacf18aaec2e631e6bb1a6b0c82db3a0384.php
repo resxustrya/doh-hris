@@ -24,7 +24,7 @@
                     <li class="divider"></li>
                     <li><a href="<?php echo e(asset('form/so_list')); ?>">Office Order</a></li>
                     <li class="divider"></li>
-                    <li><a href="#document_form" data-backdrop="static" data-toggle="modal" data-link="<?php echo e(asset('form/cdo')); ?>">CDO</a></li>
+                    <li><a href="<?php echo e(asset("form/cdo_list")); ?>">CDO</a></li>
                 </ul>
             </li>
             <li class="divider"></li>
