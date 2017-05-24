@@ -81,6 +81,29 @@ class pdoController extends Controller
         return $row;
     }
 
+    public static function section()
+    {
+        $db=pdoController::connect();
+        $sql="SELECT * FROM DIVISION";
+        $pdo = $db->prepare($sql);
+        $pdo->execute();
+        $row = $pdo->fetchAll();
+        $db = null;
+
+        return $row;
+    }
+    public static function section_head($head)
+    {
+        $db=pdoController::connect();
+        $sql="SELECT * FROM DIVISION where head = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($head));
+        $row = $pdo->fetch();
+        $db = null;
+
+        return $row;
+    }
+
     public static function insert_tracking_master($route_no,$doc_type,$prepared_date,$prepared_by,$description)
     {
         $db=pdoController::connect();
@@ -172,6 +195,7 @@ class pdoController extends Controller
 
         return $row;
     }
+
     public static function search_section($id)
     {
         $db=pdoController::connect();
@@ -183,6 +207,19 @@ class pdoController extends Controller
 
         return $row;
     }
+
+    public static function search_division($id)
+    {
+        $db=pdoController::connect();
+        $sql="SELECT * FROM division where id = ?";
+        $pdo = $db->prepare($sql);
+        $pdo->execute(array($id));
+        $row = $pdo->fetch();
+        $db = null;
+
+        return $row;
+    }
+
 
     public static function update_tracking_master($prepared_date,$subject,$route_no){
         $db = pdoController::connect();

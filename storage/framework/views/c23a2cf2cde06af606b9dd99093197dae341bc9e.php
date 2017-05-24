@@ -9,7 +9,8 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search here.." name="keyword" value="<?php echo e(Session::get('keyword')); ?>" autofocus>
                     <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
-                    <a class="btn btn-success" data-dismiss="modal" data-role="cdo" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                    <?php /*<a class="btn btn-success" data-dismiss="modal" data-role="cdo" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>*/ ?>
+                    <a href="#document_form" data-link="<?php echo e(asset('form/cdov1')); ?>" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                 </div>
             </form>
             <div class="clearfix"></div>
@@ -50,7 +51,7 @@
                                 <?php foreach($cdo as $row): ?>
                                     <tr>
                                         <td><a href="#track" data-link="<?php echo e(asset('form/track/'.$row->route_no)); ?>" data-route="<?php echo e($row->route_no); ?>" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
-                                        <td><a class="title-info" data-route="<?php echo e($row->route_no); ?>" data-link="<?php echo e(asset('/form/info/'.$row->route_no.'/cdo')); ?>" href="#document_info" data-toggle="modal"><?php echo e($row->route_no); ?></a></td>
+                                        <td><a class="title-info" data-backdrop="static" data-route="<?php echo e($row->route_no); ?>" data-link="<?php echo e(asset('/form/info/'.$row->route_no.'/cdo')); ?>" href="#document_info" data-toggle="modal"><?php echo e($row->route_no); ?></a></td>
                                         <td><?php echo e(date('M d, Y',strtotime($row->date))); ?><br><?php echo e(date('h:i:s A',strtotime($row->date))); ?></td>
                                         <td>CTO</td>
                                         <td><?php echo e($row->subject); ?></td>
@@ -124,6 +125,7 @@
         function soon(){
             alert("Form version 2 is not available, currently develop");
         }
+
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

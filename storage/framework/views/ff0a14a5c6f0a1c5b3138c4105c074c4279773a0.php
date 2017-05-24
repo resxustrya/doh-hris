@@ -24,7 +24,6 @@
     <!-- bootstrap datepicker -->
     <!--DATE RANGE-->
     <link href="<?php echo e(asset('resources/plugin/daterangepicker/daterangepicker-bs3.css')); ?>" rel="stylesheet">
-
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/jquery-clockpicker.min.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/clockpicker/dist/bootstrap-clockpicker.min.css')); ?>" />
     <script src="<?php echo e(asset('resources/angular/angular.js')); ?>"></script>
@@ -32,10 +31,10 @@
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/assets/datepicer/css/bootstrap-datepicker3.standalone.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/Lobibox old/lobibox.css')); ?>" />
     <script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
-
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/select2/select2.min.css')); ?>" />
-    <script src="<?php echo e(asset('resources/plugin/select2/select2.full.min.js')); ?>"></script>
+    <!--CHOSEN SELECT -->
+    <link href="<?php echo e(asset('resources/plugin/chosen/chosen.css')); ?>" rel="stylesheet">
     <title>
         <?php echo $__env->yieldContent('title','Home'); ?>
     </title>
@@ -144,13 +143,11 @@
 <script src="<?php echo e(asset('resources/assets/js/form-justification.js')); ?>"></script>
 <script src="<?php echo e(asset('resources/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')); ?>"></script>
 <?php echo $__env->yieldContent('plugin'); ?>
-
-<!-- SELECT CHOOSEN -->
+<!-- SELECT 2 -->
+<script src="<?php echo e(asset('resources/plugin/select2/select2.full.min.js')); ?>"></script>
+<!-- CHOSEN SELECT -->
 <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
-<script>
 
-
-</script>
 <?php $__env->startSection('js'); ?>
 
 <?php echo $__env->yieldSection(); ?>

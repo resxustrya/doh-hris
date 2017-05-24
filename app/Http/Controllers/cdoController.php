@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\cdo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\pdoController as pdo;
 
@@ -28,7 +29,17 @@ class cdoController extends Controller
     }
 
     public function cdov1(){
-        return view("cdo.cdo_v1");
+        $name = pdo::user_search(Auth::user()->userid);
+        $position = pdo::designation_search($name['designation'])['description'];
+        $section = pdo::search_section($name['section'])['description'];
+        $division = pdo::search_division($name['division'])['description'];
+        $data = array(
+            "name" => $name['fname'].' '.$name['mname'].' '.$name['lname'],
+            "position" => $position,
+            "section" => $section,
+            "division" => $division
+        );
+        return view("cdo.cdo_view",["data" => $data]);
     }
 
     public function cdo_addv1(Request $request){

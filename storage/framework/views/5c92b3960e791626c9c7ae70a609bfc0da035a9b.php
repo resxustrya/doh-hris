@@ -63,15 +63,7 @@
     });
     $(function(){
         $("body").delegate("#inclusive1","focusin",function(){
-            $(this).daterangepicker({
-                isInvalidDate: function(date) {
-                    if (date.format('YYYY-MM-DD') == '2017-05-25') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
+            $(this).daterangepicker();
         });
     });
     $('.form-submit').on('submit',function(){

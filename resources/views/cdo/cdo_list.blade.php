@@ -9,7 +9,8 @@
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search here.." name="keyword" value="{{ Session::get('keyword') }}" autofocus>
                     <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
-                    <a class="btn btn-success" data-dismiss="modal" data-role="cdo" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                    {{--<a class="btn btn-success" data-dismiss="modal" data-role="cdo" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>--}}
+                    <a href="#document_form" data-link="{{ asset('form/cdov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
                 </div>
             </form>
             <div class="clearfix"></div>
@@ -123,5 +124,6 @@
         function soon(){
             alert("Form version 2 is not available, currently develop");
         }
+
     </script>
 @endsection

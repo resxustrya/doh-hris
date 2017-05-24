@@ -113,6 +113,15 @@
                     </div>
                 </div>
             </div>
+            <!--CHOSEN SELECT -->
+            <link href="<?php echo e(asset('resources/plugin/chosen/chosen.css')); ?>" rel="stylesheet">
+            <select  class="chosen-select-static form-control" name="requested_by" required>
+                <option value="">Select Name 1</option>
+                <option value="">Select Name 2</option>
+                <option value="">Select Name 3</option>
+            </select>
+            <!-- SELECT CHOSEN -->
+            <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
         </div>
     </div>
 <?php $__env->stopSection(); ?>
@@ -128,6 +137,7 @@
 <?php $__env->startSection('js'); ?>
     @parent
     <script>
+        $('.chosen-select-static').chosen();
         $("#textarea").wysihtml5();
         $("#textarea1").wysihtml5();
         $(".select2").select2();

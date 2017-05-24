@@ -11,17 +11,22 @@
         }
         #border{
             border-collapse: collapse;
-            border: none;
+            border: 1px solid black;
+        }
+        .table-info tr td{
+            font-weight:bold;
+            color: #2b542c;
         }
     </style>
 </head>
 <body>
+    <form action="" method="post">
     <div class="new-times-roman table-responsive">
         <table class="table" cellpadding="0" cellspacing="0">
             <tr>
-                <td id="border" class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
-                <td width="90%" id="border">
-                    <div class="align small-text" style="margin-top:-10px;font-size: 10.5pt">
+                <td class="align"><img src="{{ asset('resources/img/doh.png') }}" width="100"></td>
+                <td width="90%" >
+                    <div class="align small-text">
                         Republic of the Philippines<br>
                         <strong>DEPARTMENT OF HEALTH REGIONAL OFFICE VII</strong><br>
                         Osmeña Boulevard, Cebu City, 6000 Philippines<br>
@@ -30,34 +35,68 @@
                         <strong>APPLICATION FOR COMPENSATORY TIME OFF</strong>
                     </div>
                 </td>
-                <td id="border" class="align"><img src="{{ asset('resources/img/ro7.png') }}" width="100"></td>
+                <td class="align"><img src="{{ asset('resources/img/ro7.png') }}" width="100"></td>
             </tr>
         </table>
-        <table class="table">
+        <table class="table table-hover table-striped">
             <tr>
-                <td id="border">SECTION_______</td>
-                <td id="border" width="40%">CLUSTER_______</td>
-                <td id="border">PREPARED DATE______</td>
+                <td class="col-sm-1">SECTION: </td>
+                <td>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-universal-access"></i>
+                        </div>
+                        <input type="text" value="{{ $data['section'] }}" class="form-control" readonly>
+                    </div>
+                </td>
+                <td class="col-sm-1">CLUSTER: </td>
+                <td >
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-universal-access"></i>
+                        </div>
+                        <input type="text" value="{{ $data['division'] }}" class="form-control" readonly>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-sm-1">Prepared Date: </td>
+                <td>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar-o"></i>
+                        </div>
+                        <input class="form-control datepickercalendar" value="{{ date('m/d/Y') }}" name="prepared_date" required>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
-        <table class="table">
+        <table class="table table-hover table-striped">
             <tr>
                 <td class="col-sm-7">
-                    <table class="table table-list table-hover table-striped">
+                    <table class="table table-list table-hover table-striped table-info">
                         <tr>
-                            <th colspan="2">Name</th>
+                            <th>Name</th>
                             <th>Position</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <i class="fa fa-user"></i>
+                                {{ $data['name'] }}
+                            </td>
+                            <td>
+                                <i class="fa fa-user-secret"></i>
+                                {{ $data['position'] }}
+                            </td>
                         </tr>
                     </table>
                 </td>
-                <td>
+                <td class="col-sm-7">
                     <table class="table table-list table-hover table-striped">
                         <tr>
                             <td colspan="2">NUMBER OF WORKING DAY/S APPLIED FOR:</td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-4"><input type="text" class="form-control" readonly></td>
-                            <td>day/s</td>
                         </tr>
                         <tr>
                             <td class="col-sm-4">Inlusive Dates:</td>
@@ -74,7 +113,7 @@
                 </td>
             </tr>
         </table>
-        <table class="table">
+        <table class="table table-hover table-striped">
             <tr>
                 <td class="col-sm-7">
                     <table class="table table-list table-hover table-striped">
@@ -99,7 +138,9 @@
                             <th colspan="2">RECOMENDATION:</th>
                         </tr>
                         <tr>
-                            <td class="col-sm-6"><input type="checkbox" class="form-control input-sm"></td>
+                            <td class="col-sm-6">
+                                <input type="checkbox" class="form-control input-sm">
+                            </td>
                             <td>Approval</td>
                         </tr>
                         <tr>
@@ -110,18 +151,55 @@
                 </td>
             </tr>
         </table>
+        <table class="table">
+            <tr>
+                <td class="col-sm-7">
+                    <table width="100%">
+                        <tr><td class="align"><strong>THERESA Q. TRAGICO</strong></td></tr>
+                        <tr><td class="align">Administrative Officer V</td></tr>
+                        <tr><td class="align">Personel Section</td></tr>
+                    </table>
+                </td>
+                <td>
+                    <table width="100%">
+                        <tr>
+                            <td class="align">
+                                <select  class="chosen-select-static form-control" name="requested_by" required>
+                                    <option value="">Select name</option>
+                                    <option value="haha">Select Name 1</option>
+                                    <option value="haha">Select Name 2</option>
+                                    <option value="haha">Select Name 3</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr><td class="align">Immediate Supervisor</td></tr>
+                        <tr><td class="align"><input type="text" class="form-control"></td></tr>
+                        <tr><td class="align">Division/Cluster Chief</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
         <hr>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+            <button type="submit" class="btn btn-success btn-submit" style="color:white;"><i class="fa fa-send"></i> Submit</button>
+        </div>
     </div>
+    </form>
 </body>
 <script>
+    $('.chosen-select-static').chosen();
+
     $('.datepickercalendar').datepicker({
         autoclose: true
     });
+
     $(function(){
         $("body").delegate("#inclusive1","focusin",function(){
             $(this).daterangepicker();
         });
     });
+
     $('.form-submit').on('submit',function(){
         $('.btn-submit').attr("disabled", true);
     });
