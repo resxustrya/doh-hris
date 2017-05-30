@@ -625,8 +625,35 @@ class DocumentController extends Controller
             $inclusive_date = Calendar::where('route_no',$route_no)->get();
             return view('document.info',['users'=>$users,'info'=>$info,'inclusive_date'=>$inclusive_date]);
         } else {
-            $info = cdo::where('route_no',$route_no)->get()->first();
-            return view('document.info',['info' => $info]);
+            $cdo = cdo::where('route_no',$route_no)->get()->first();
+            if(Auth::user()->usertype)
+                $name = pdo::user_search1($cdo->prepared_name);
+            else
+                $name = pdo::user_search(Auth::user()->userid);
+
+            $position = pdo::designation_search($name['designation'])['description'];
+            $section = pdo::search_section($name['section'])['description'];
+            $division = pdo::search_division($name['division'])['description'];
+            $section_head[] = pdo::user_search1($cdo['immediate_supervisor']);
+            $division_head[] = pdo::user_search1($cdo['division_chief']);
+            foreach(pdo::section() as $row){
+                $section_head[] = pdo::user_search1($row['head']);
+            }
+            foreach(pdo::division() as $row){
+                $division_head[] = pdo::user_search1($row['head']);
+            }
+            $data = array(
+                "cdo" => $cdo,
+                "type" => "update",
+                "asset" => asset('cdo_updatev1'),
+                "name" => $name['fname'].' '.$name['mname'].' '.$name['lname'],
+                "position" => $position,
+                "section" => $section,
+                "division" => $division,
+                "section_head" => $section_head,
+                "division_head" => $division_head
+            );
+            return view('cdo.cdo_view',['data' => $data]);
         }
     }
 

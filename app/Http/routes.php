@@ -131,8 +131,8 @@ Route::post('calendar_update','CalendarController@calendar_update');
 Route::get('designation','DocumentController@designation_search');
 /////////CDO / CTO
 Route::match(["get","post"], "form/cdo_list","cdoController@cdo_list");
-Route::match(["get","post"], "form/cdov1","cdoController@cdov1");
-Route::post("form/cdo_addv1","cdoController@cdo_addv1");
+Route::match(["get","post"], "form/cdov1/{pdf}","cdoController@cdov1");
+Route::post("cdo_addv1","cdoController@cdo_addv1");
 Route::post('cdo_delete',"cdoController@cdo_delete");
 Route::post("cdo_updatev1","cdoController@cdo_updatev1");
 Route::match(["get","post"],"cdo/pending","cdoController@cdo_pending");
@@ -143,8 +143,8 @@ Route::get('cdo/table',function(){
         $table->string('route_no','40');
         $table->text('subject');
         $table->string('doc_type','15');
-        $table->string('name','25');
-        $table->datetime('date');
+        $table->integer('prepared_name');
+        $table->datetime('prepared_date');
         $table->string('working_days','5');
         $table->text('start');
         $table->text('end');
@@ -152,8 +152,8 @@ Route::get('cdo/table',function(){
         $table->text('less_applied_for');
         $table->text('remaining_balance');
         $table->text('recommendation');
-        $table->text('immediate_supervisor');
-        $table->text('division_chief');
+        $table->integer('immediate_supervisor');
+        $table->integer('division_chief');
         $table->integer('approved_status');
         $table->integer('status');
         $table->rememberToken();

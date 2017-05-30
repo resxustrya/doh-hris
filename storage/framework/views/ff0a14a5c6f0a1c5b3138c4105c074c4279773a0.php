@@ -15,6 +15,8 @@
     <link href="<?php echo e(asset('resources/assets/css/bootstrap.min.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('resources/assets/css/bootstrap-theme.min.css')); ?>" rel="stylesheet">
     <link href="<?php echo e(asset('resources/assets/css/font-awesome.min.css')); ?>" rel="stylesheet">
+    <!--CHOSEN SELECT -->
+    <link href="<?php echo e(asset('resources/plugin/chosen/chosen.css')); ?>" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="<?php echo e(asset('resources/assets/css/ie10-viewport-bug-workaround.css')); ?>" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -33,8 +35,6 @@
     <script src="<?php echo e(asset('resources/assets/js/jquery.min.js')); ?>"></script>
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="<?php echo e(asset('resources/plugin/select2/select2.min.css')); ?>" />
-    <!--CHOSEN SELECT -->
-    <link href="<?php echo e(asset('resources/plugin/chosen/chosen.css')); ?>" rel="stylesheet">
     <title>
         <?php echo $__env->yieldContent('title','Home'); ?>
     </title>
@@ -57,7 +57,6 @@
         }
 
     </style>
-
 </head>
 <?php $__env->startSection('head-js'); ?>
         <!--DATE RANGE-->

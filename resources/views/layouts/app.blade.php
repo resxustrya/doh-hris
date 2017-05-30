@@ -15,6 +15,8 @@
     <link href="{{ asset('resources/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('resources/assets/css/bootstrap-theme.min.css') }}" rel="stylesheet">
     <link href="{{ asset('resources/assets/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!--CHOSEN SELECT -->
+    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="{{ asset('resources/assets/css/ie10-viewport-bug-workaround.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -33,8 +35,6 @@
     <script src="{{ asset('resources/assets/js/jquery.min.js') }}"></script>
     <!-- SELECT 2 -->
     <link rel="stylesheet" type="text/css" href="{{ asset('resources/plugin/select2/select2.min.css') }}" />
-    <!--CHOSEN SELECT -->
-    <link href="{{ asset('resources/plugin/chosen/chosen.css') }}" rel="stylesheet">
     <title>
         @yield('title','Home')
     </title>
@@ -57,7 +57,6 @@
         }
 
     </style>
-
 </head>
 @section('head-js')
         <!--DATE RANGE-->

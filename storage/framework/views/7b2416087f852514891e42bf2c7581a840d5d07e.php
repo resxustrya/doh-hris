@@ -1,7 +1,7 @@
 <ul class="nav navbar-nav">
     <li><a href="<?php echo e(url('admin/dashboard')); ?>"><i class="fa fa-home"></i> Dashboard</a></li>
     <li><a href="<?php echo e(URL::to('admin/upload')); ?>"><i class="fa fa-plus"></i> Upload File</a></li>
-    <li><a href="<?php echo e(url::to('cdo/pending')); ?>"><i class="fa fa-file-text"></i> Pending CTO</a></li>
+    <li><a href="<?php echo e(url::to('form/cdo_list')); ?>"><i class="fa fa-file-text"></i> Pending CTO</a></li>
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file"></i> Manage DTR<span class="caret"></span></a>
         <ul class="dropdown-menu">

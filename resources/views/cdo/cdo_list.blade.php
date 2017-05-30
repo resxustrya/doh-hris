@@ -10,7 +10,9 @@
                     <input type="text" class="form-control" placeholder="Search here.." name="keyword" value="{{ Session::get('keyword') }}" autofocus>
                     <button  type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
                     {{--<a class="btn btn-success" data-dismiss="modal" data-role="cdo" data-backdrop="static" data-toggle="modal" data-target="#form_type" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>--}}
-                    <a href="#document_form" data-link="{{ asset('form/cdov1') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                    @if($type == "list")
+                        <a href="#document_form" data-link="{{ asset('form/cdov1/form') }}" class="btn btn-success" data-dismiss="modal" data-backdrop="static" data-toggle="modal" data-target="#document_form" style="background-color: darkmagenta;color: white;"><i class="fa fa-plus"></i> Create new</a>
+                    @endif
                 </div>
             </form>
             <div class="clearfix"></div>
@@ -42,8 +44,9 @@
                                 <tr>
                                     <th width="8%"></th>
                                     <th width="20%">Route #</th>
+                                    <th width="20%">Prepared Name</th>
                                     <th width="15%">Prepared Date</th>
-                                    <th width="20%">Document Type</th>
+                                    <th width="15%">Document Type</th>
                                     <th>Subject</th>
                                 </tr>
                                 </thead>
@@ -52,7 +55,8 @@
                                     <tr>
                                         <td><a href="#track" data-link="{{ asset('form/track/'.$row->route_no) }}" data-route="{{ $row->route_no }}" data-toggle="modal" class="btn btn-sm btn-success col-sm-12" style="background-color: darkmagenta;color:white;"><i class="fa fa-line-chart"></i> Track</a></td>
                                         <td><a class="title-info" data-backdrop="static" data-route="{{ $row->route_no }}" data-link="{{ asset('/form/info/'.$row->route_no.'/cdo') }}" href="#document_info" data-toggle="modal">{{ $row->route_no }}</a></td>
-                                        <td>{{ date('M d, Y',strtotime($row->date)) }}<br>{{ date('h:i:s A',strtotime($row->date)) }}</td>
+                                        <td>{{ \App\Http\Controllers\pdoController::user_search1($row->prepared_name)['fname'].' '.\App\Http\Controllers\pdoController::user_search1($row->prepared_name)['mname'].' '.\App\Http\Controllers\pdoController::user_search1($row->prepared_name)['lname'] }}</td>
+                                        <td>{{ date('M d, Y',strtotime($row->prepared_date)) }}<br>{{ date('h:i:s A',strtotime($row->prepared_date)) }}</td>
                                         <td>CTO</td>
                                         <td>{{ $row->subject }}</td>
                                     </tr>

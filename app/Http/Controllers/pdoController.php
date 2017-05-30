@@ -84,7 +84,7 @@ class pdoController extends Controller
     public static function section()
     {
         $db=pdoController::connect();
-        $sql="SELECT * FROM DIVISION";
+        $sql="SELECT * FROM SECTION";
         $pdo = $db->prepare($sql);
         $pdo->execute();
         $row = $pdo->fetchAll();

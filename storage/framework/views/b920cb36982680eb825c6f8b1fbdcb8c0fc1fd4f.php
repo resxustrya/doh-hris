@@ -66,7 +66,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" readonly>
+                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" required>
                                                     <textarea name="area[]" id="area1" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
                                                 </div>
                                             </td>
@@ -113,15 +113,6 @@
                     </div>
                 </div>
             </div>
-            <!--CHOSEN SELECT -->
-            <link href="<?php echo e(asset('resources/plugin/chosen/chosen.css')); ?>" rel="stylesheet">
-            <select  class="chosen-select-static form-control" name="requested_by" required>
-                <option value="">Select Name 1</option>
-                <option value="">Select Name 2</option>
-                <option value="">Select Name 3</option>
-            </select>
-            <!-- SELECT CHOSEN -->
-            <script src="<?php echo e(asset('resources/plugin/chosen/chosen.jquery.js')); ?>"></script>
         </div>
     </div>
 <?php $__env->stopSection(); ?>
@@ -189,6 +180,7 @@
                 }
             }
         }
+
     </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

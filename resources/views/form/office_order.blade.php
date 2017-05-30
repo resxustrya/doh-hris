@@ -66,7 +66,7 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" readonly>
+                                                    <input type="text" class="form-control" id="inclusive1" name="inclusive[]" placeholder="Input date range here..." style="width: 40%;" required>
                                                     <textarea name="area[]" id="area1" class="form-control" rows="1" placeholder="Input your area here..." style="resize: none;width: 40%;margin-left:2%" required></textarea>
                                                 </div>
                                             </td>
@@ -128,6 +128,7 @@
 @section('js')
     @parent
     <script>
+        $('.chosen-select-static').chosen();
         $("#textarea").wysihtml5();
         $("#textarea1").wysihtml5();
         $(".select2").select2();
@@ -179,5 +180,6 @@
                 }
             }
         }
+
     </script>
 @endsection
